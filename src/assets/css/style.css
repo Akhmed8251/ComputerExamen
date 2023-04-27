@@ -817,7 +817,8 @@ main {
 }
 
 .examen-teacher__container,
-.answers-check__container {
+.answers-check__container,
+.examen-results__container {
     display: flex;
     gap: 120px;
 }
@@ -841,7 +842,8 @@ main {
 }
 
 .examen-teacher__item-link,
-.answers-check__student {
+.answers-check__student,
+.result-item__score {
     width: 116px;
     height: 116px;
     background-color: #d9d9d9;
@@ -855,11 +857,19 @@ main {
     pointer-events: none;
 }
 
-.examen-teacher__item--success .examen-teacher__item-link {
+.result-item__score {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+}
+
+.examen-teacher__item--success .examen-teacher__item-link,
+.result-item__score--success {
     background-color: #20ac7a;
 }
 
-.examen-teacher__item--failed .examen-teacher__item-link {
+.examen-teacher__item--failed .examen-teacher__item-link,
+.result-item__score--failed {
     background-color: #dc4e67;
 }
 
@@ -907,4 +917,31 @@ main {
 
 .answers-check__btn {
     margin-left: 170px;
+}
+
+.examen-results__title {
+    margin-bottom: 16px;
+}
+
+.examen-results__data {
+    margin-bottom: 62px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    height: 56px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.result-item__fio {
+    font-weight: 500;
+    font-size: 24px;    
+}
+
+.result-item__score--missing {
+    font-size: 14px;
+    color: #074ab4;
 }
