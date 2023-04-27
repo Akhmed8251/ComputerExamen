@@ -29,7 +29,7 @@ const CreateExamenForm = () => {
                         <span className='form__text'>Дисциплина</span>
                         <Input className='form__input' />
                     </label>
-                    <label className='form__label' onClick={(evt) => {evt.preventDefault();}}>
+                    <label className='form__label' onClick={(evt) => evt.preventDefault()}>
                         <span className='form__text'>Дата</span>
                         <DatePicker />
                     </label>

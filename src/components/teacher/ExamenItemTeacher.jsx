@@ -20,9 +20,9 @@ const ExamenItemTeacher = ({ examen }) => {
   return (
     <li className={`examens__item${dateExamen != 'Сегодня' ? ' examens__item--disable' : ''}`}>
       <span className='examens__date'>{dateExamen}</span>
-      <div className='examens__data'>
-        <span className='examens__data-stage'>{`${examen.course} курс ${examen.nGroup} группа`}</span>
-        <span className='examens__data-department'>{examen.department}</span>
+      <div className='examens__data data'>
+        <span className='data__stage'>{`${examen.course} курс ${examen.nGroup} группа`}</span>
+        <span className='data__department'>{examen.department}</span>
       </div>
       <button className='discipline-btn'>{examen.discipline}</button>
     </li>

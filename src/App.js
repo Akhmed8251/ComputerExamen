@@ -12,6 +12,7 @@ import LoginTeacher from './pages/teacher/LoginTeacher';
 import ListExamensTeacher from './pages/teacher/ListExamensTeacher';
 import CreateExamenForm from './pages/teacher/CreateExamenForm';
 import ExamenTeacher from './pages/teacher/ExamenTeacher';
+import AnswersCheckTeacher from './pages/teacher/AnswersCheckTeacher';
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -33,7 +34,7 @@ const App = () => {
       <div className="site-wrapper">
         <Header />
         <main>
-          <ExamenTeacher />
+          <AnswersCheckTeacher />
         </main>
         <Footer />
       </div>

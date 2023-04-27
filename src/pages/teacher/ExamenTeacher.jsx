@@ -17,9 +17,9 @@ const ExamenTeacher = () => {
                 </a>
                 <div className="examen-teacher__body">
                     <h1 className='examen-teacher__title title'>Дополнительные главы математического анализа</h1>
-                    <div className="examen-teacher__data">
-                        <span className='examens__data-stage'>1 курс 3 группа</span>
-                        <span className='examens__data-department'>Фундаментальная физика</span>
+                    <div className="examen-teacher__data data">
+                        <span className='data__stage'>1 курс 3 группа</span>
+                        <span className='data__department'>Фундаментальная физика</span>
                     </div>
                     <ExamenStudentListTeacher />
                     <Button onClick={() => setModalActive(true)}>Закончить экзамен</Button>

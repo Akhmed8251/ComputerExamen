@@ -553,18 +553,18 @@ main {
     color: #4b4b4b;
 }
 
-.examens__data {
+.data {
     margin-bottom: 11px;
 }
 
-.examens__data-stage {
+.data__stage {
     font-weight: 500;
     font-size: 20px;
     color: #0500fe;
     margin-right: 16px;
 }
 
-.examens__data-department {
+.data__department {
     font-size: 20px;
     color: #000;
 }
@@ -632,32 +632,44 @@ main {
     margin-bottom: 100px;
 }
 
-.questions-item {
+.questions-item,
+.answers-item__wrapper {
     display: flex;
     justify-content: space-between;
 }
 
-.questions-item:not(:last-child) {
+.answers-item__wrapper:not(:last-child) {
+    margin-bottom: 30px;
+}
+
+.questions-item:not(:last-child),
+.answers-item:not(:last-child) {
     margin-bottom: 82px;
 }
 
-.questions-item__inner {
+.questions-item__inner
+.answers-item__inner {
     margin-bottom: 10px;
 }
 
-.questions-item__number {
-    width: 100%;
-    max-width: 140px;
+.questions-item__number,
+.answers-item__number {
+    flex: 1 0 140px;
     font-weight: 700;
     font-size: 24px;
     color: #0500fe;
     margin-right: 38px;
 }
 
-.questions-item__text {
+.questions-item__text,
+.answers-item__text {
     font-size: 24px;
     color: #212931;
     margin-bottom: 21px;
+}
+
+.answers-item__number-answer {
+    color: #9c9c9c;
 }
 
 .questions-item__btn {
@@ -804,7 +816,8 @@ main {
     color: #fff;
 }
 
-.examen-teacher__container {
+.examen-teacher__container,
+.answers-check__container {
     display: flex;
     gap: 120px;
 }
@@ -827,7 +840,8 @@ main {
     max-width: 962px;
 }
 
-.examen-teacher__item-link {
+.examen-teacher__item-link,
+.answers-check__student {
     width: 116px;
     height: 116px;
     background-color: #d9d9d9;
@@ -849,7 +863,22 @@ main {
     background-color: #dc4e67;
 }
 
-.examen-teacher__item--no-checking .examen-teacher__item-link {
+.examen-teacher__item--no-checking .examen-teacher__item-link,
+.answers-check__student--no-checking  {
     background-color: #0500fe;
     pointer-events: all;
+}
+
+.answers-check__data {
+    margin-bottom: 73px;
+}
+
+.answers-check__list {
+    border-bottom: 1px solid #0500fe;
+    padding-bottom: 72px;
+}
+
+.answers-check__student--no-checking {
+    margin-left: auto;
+    margin-top: 64px;
 }
