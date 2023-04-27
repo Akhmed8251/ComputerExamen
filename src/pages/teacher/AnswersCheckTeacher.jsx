@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Popup from '../../components/ui/Popup'
 import Button from '../../components/ui/Button'
 import AnswerList from '../../components/teacher/AnswerList'
+import Input from '../../components/ui/Input'
 
 const AnswersCheckTeacher = () => {
   const [modalActive, setModalActive] = useState(false)
@@ -25,16 +26,24 @@ const AnswersCheckTeacher = () => {
             <span className='data__department'>Фундаментальная физика</span>
           </div>
           <AnswerList />
-          <Button onClick={() => setModalActive(true)}>Закончить проверку</Button>
-          <Popup active={modalActive} setActive={setModalActive}>
-            <h2 className="popup__title title">Вы действительно хотите закончить проверку?</h2>
-            <div className="confirm-buttons">
-              <Button className="confirm-button confirm-button--yes"><span>Да</span></Button>
-              <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
+
+          <div className='answers-check__bottom'>
+            <div className='answers-check__score'>
+              <p className='answers-check__score-label'>Выставить баллы</p>
+              <Input className='answers-check__score-input' />
             </div>
-          </Popup>
+            <Button className='answers-check__btn' onClick={() => setModalActive(true)}>Закончить проверку</Button>
+          </div>
+          
         </div>
       </div>
+      <Popup active={modalActive} setActive={setModalActive}>
+        <h2 className="popup__title title">Вы действительно хотите закончить проверку?</h2>
+        <div className="confirm-buttons">
+          <Button className="confirm-button confirm-button--yes"><span>Да</span></Button>
+          <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
+        </div>
+      </Popup>
     </section>
   )
 }

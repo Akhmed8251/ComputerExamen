@@ -869,6 +869,10 @@ main {
     pointer-events: all;
 }
 
+.answers-check__title {
+    margin-bottom: 16px;
+}
+
 .answers-check__data {
     margin-bottom: 73px;
 }
@@ -881,4 +885,26 @@ main {
 .answers-check__student--no-checking {
     margin-left: auto;
     margin-top: 64px;
+}
+
+.answers-check__score {
+    display: flex;
+    gap: 45px;
+    margin-top: 45px;
+    margin-bottom: 60px;
+}
+
+.answers-check__score-label {
+    flex-basis: 128px;
+    font-size: 24px;
+    color: #0500fe;
+}
+
+.answers-check__score-input {
+    flex-basis: 78px;
+    padding: 15px 20px;
+}
+
+.answers-check__btn {
+    margin-left: 170px;
 }
