@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ExamenList from '../../components/ExamenList'
+import ExamenList from '../../components/student/ExamenList'
 
 const Examens = () => {
   const examens = [

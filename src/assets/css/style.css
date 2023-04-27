@@ -772,3 +772,84 @@ main {
 .cancel__btn:hover {
     background-color: #dbdbdf;
 }
+
+.back-link {
+    width: 205px;
+    display: inline-block;
+    border-left: 0;
+    border-radius: 10px;
+    line-height: 1.28;
+    color: #074ab4;
+    position: relative;
+    transition: .3s;
+}
+
+.back-link svg {
+    fill: transparent;
+    transition: .3s;
+}
+
+.back-link:hover svg {
+    fill: #0050cf;
+}
+
+.back-link__text {
+    position: absolute;
+    left: 57px;
+    top: 17px;
+    font-size: 14px;
+}
+
+.back-link:hover .back-link__text {
+    color: #fff;
+}
+
+.examen-teacher__container {
+    display: flex;
+    gap: 120px;
+}
+
+.examen-teacher__title {
+    font-weight: 500;
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+.examen-teacher__data {
+    margin-bottom: 70px;
+}
+
+.examen-teacher__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 110px;
+    max-width: 962px;
+}
+
+.examen-teacher__item-link {
+    width: 116px;
+    height: 116px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    font-weight: 500;
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    pointer-events: none;
+}
+
+.examen-teacher__item--success .examen-teacher__item-link {
+    background-color: #20ac7a;
+}
+
+.examen-teacher__item--failed .examen-teacher__item-link {
+    background-color: #dc4e67;
+}
+
+.examen-teacher__item--no-checking .examen-teacher__item-link {
+    background-color: #0500fe;
+    pointer-events: all;
+}

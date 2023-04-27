@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import ExamenItem from './ExamenItem'
-import Popup from './ui/Popup'
-import Button from './ui/Button'
-import ExamenListTeacher from './ExamenListTeacher'
+import Popup from '../ui/Popup'
+import Button from '../ui/Button'
+import ExamenListTeacher from '../teacher/ExamenListTeacher'
 
 const ExamenList = ({ examens }) => {
   const [modalActive, setModalActive] = useState(false)

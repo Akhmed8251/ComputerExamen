@@ -1,7 +1,7 @@
 import React from 'react'
-import { formatDate } from '../utils/date'
+import { formatDate } from '../../utils/date'
 
-const ExamenItem = ({ examen, onClick }) => {
+const ExamenItemTeacher = ({ examen }) => {
   const dateToFormat = formatDate(new Date(examen.examDate))
   const dateNowToFormat = formatDate(new Date())
   let dateExamen = ""
@@ -20,9 +20,13 @@ const ExamenItem = ({ examen, onClick }) => {
   return (
     <li className={`examens__item${dateExamen != 'Сегодня' ? ' examens__item--disable' : ''}`}>
       <span className='examens__date'>{dateExamen}</span>
-      <button onClick={() => onClick()} className='discipline-btn'>{examen.discipline}</button>
+      <div className='examens__data'>
+        <span className='examens__data-stage'>{`${examen.course} курс ${examen.nGroup} группа`}</span>
+        <span className='examens__data-department'>{examen.department}</span>
+      </div>
+      <button className='discipline-btn'>{examen.discipline}</button>
     </li>
   )
 }
 
-export default ExamenItem
+export default ExamenItemTeacher

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Countdown from '../../components/ui/Countdown'
-import QuestionList from '../../components/QuestionList'
+import QuestionList from '../../components/student/QuestionList'
 import Button from '../../components/ui/Button'
 import Popup from '../../components/ui/Popup'
 

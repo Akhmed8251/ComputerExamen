@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../components/ui/Button'
-import ExamenList from '../../components/ExamenList'
-import ExamenListTeacher from '../../components/ExamenListTeacher'
+import ExamenList from '../../components/student/ExamenList'
+import ExamenListTeacher from '../../components/teacher/ExamenListTeacher'
 
 const ListExamensTeacher = () => {
     const examens = [
