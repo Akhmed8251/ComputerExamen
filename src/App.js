@@ -1,44 +1,47 @@
 import { useState, useEffect } from 'react';
-import './assets/css/style.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ExamenList from './components/student/ExamenList';
-import LoginStudent from './pages/student/LoginStudent';
 import {AuthContext} from "./context";
-import Examens from './pages/student/Examens';
-import Countdown from './components/ui/Countdown';
-import Examen from './pages/student/Examen';
-import LoginTeacher from './pages/teacher/LoginTeacher';
-import ListExamensTeacher from './pages/teacher/ListExamensTeacher';
-import CreateExamenForm from './pages/teacher/CreateExamenForm';
-import ExamenTeacher from './pages/teacher/ExamenTeacher';
-import AnswersCheckTeacher from './pages/teacher/AnswersCheckTeacher';
-import ExamenResults from './pages/teacher/ExamenResults';
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './components/AppRouter';
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(false);
-  const [isLoading, setLoading] = useState(true);
+  const [isAuthStudent, setIsAuthStudent] = useState(false);
+  const [isAuthTeacher, setIsAuthTeacher] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (localStorage.getItem('auth')) {
-      setIsAuth(true)
+    if (localStorage.getItem('isAuthStudent')) {
+      setIsAuthStudent(true)
+      setUserName(localStorage.getItem('userName'))
+    } else if (localStorage.getItem('isAuthTeacher')) {
+      setIsAuthTeacher(true)
+      setUserName(localStorage.getItem('userName'))
     }
+
     setLoading(false);
   }, [])
 
   return (
     <AuthContext.Provider value={{
-      isAuth,
-      setIsAuth,
-      isLoading
+      isAuthStudent,
+      setIsAuthStudent,
+      isAuthTeacher,
+      setIsAuthTeacher,
+      userName,
+      setUserName,
+      isLoading  
     }}>
-      <div className="site-wrapper">
-        <Header />
-        <main>
-          <ExamenResults />
-        </main>
-        <Footer />
-      </div>
+      <BrowserRouter>
+        <div className="site-wrapper">
+          <Header />
+          <main>
+            <AppRouter />
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
     </AuthContext.Provider>
   )
 }

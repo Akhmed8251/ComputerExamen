@@ -4,14 +4,15 @@ import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 
-
 const LoginStudent = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext);
+    const {setIsAuthStudent, setUserName} = useContext(AuthContext);
 
-    const login = event => {
-        event.preventDefault();
-        setIsAuth(true);
-        localStorage.setItem('isAuth', 'true')
+    const login = () => {
+        setIsAuthStudent(true);
+        localStorage.setItem('isAuthStudent', 'true')
+
+        setUserName('Носова Елена Андреевна')
+        localStorage.setItem('userName', 'Носова Елена Андреевна')
     }
 
     return (
@@ -19,7 +20,7 @@ const LoginStudent = () => {
             <div className='container'>
                 <div className='login__inner'>
                     <h1 className='login__title title'>Введите ваши данные</h1>
-                    <form onSubmit={login} className='form'>
+                    <form className='form'>
                         <label className='form__label'>
                             <span className='form__text'>Факультет</span>
                             <Select placeholder='Выберите факультет' />
@@ -46,7 +47,7 @@ const LoginStudent = () => {
                             <span className='form__text'>ФИО</span>
                             <Select placeholder='Выберите ФИО' />
                         </label>
-                        <Button className='form__btn'>
+                        <Button type="button" onClick={() => login()} className='form__btn'>
                             Войти
                         </Button>
                     </form>

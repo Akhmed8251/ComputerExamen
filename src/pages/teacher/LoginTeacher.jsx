@@ -6,12 +6,14 @@ import Button from '../../components/ui/Button';
 
 
 const LoginTeacher = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext);
+    const {setIsAuthTeacher, setUserName} = useContext(AuthContext);
 
-    const login = event => {
-        event.preventDefault();
-        setIsAuth(true);
-        localStorage.setItem('isAuth', 'true')
+    const login = () => {
+        setIsAuthTeacher(true);
+        localStorage.setItem('isAuthStudent', 'true')
+
+        setUserName('Магомедов Магомед Магомедович')
+        localStorage.setItem('userName', 'Магомедов Магомед Магомедович')
     }
 
     return (
@@ -28,7 +30,7 @@ const LoginTeacher = () => {
                             <span className='form__text'>Пароль</span>
                             <Input type="password" className='form__input' />
                         </label>
-                        <Button className='form__btn'>
+                        <Button onClick={() => login()} className='form__btn'>
                             Войти
                         </Button>
                     </form>
