@@ -1,10 +1,11 @@
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 import React, { useEffect, useRef, useState } from 'react'
 import ReactSelect from 'react-select'
 import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
-const Select = ({isMulti = false, placeholder = ''}) => {
+const Select = ({ options, isDisabled = true, isLoading = false, isMulti = false, placeholder = ''}) => {
     const [optionsForDb, setOptionsForDb] = useState([
         {
             "depId": 5,
@@ -2018,24 +2019,24 @@ const Select = ({isMulti = false, placeholder = ''}) => {
         }
     ])
 
-    const [options, setOptions] = useState([])
+    // const [options, setOptions] = useState([])
 
-    const kafedras = useRef()
-    const fillData = () => {
-        const filterOptions = []
-        optionsForDb.forEach(option => {    
-            filterOptions.push({
-                value: option.depId,
-                label: option.depName
-            }) 
-        })
+    // const kafedras = useRef()
+    // const fillData = () => {
+    //     const filterOptions = []
+    //     optionsForDb.forEach(option => {    
+    //         filterOptions.push({
+    //             value: option.depId,
+    //             label: option.depName
+    //         }) 
+    //     })
 
-        setOptions(filterOptions)
-    }
+    //     setOptions(filterOptions)
+    // }
 
-    useEffect(() => {
-        fillData()
-    }, [])
+    // useEffect(() => {
+    //     fillData()
+    // }, [])
 
     const printValue = (newValue) => {
         console.log(newValue)
@@ -2048,10 +2049,12 @@ const Select = ({isMulti = false, placeholder = ''}) => {
             classNamePrefix={'custom-select'}
             isMulti={isMulti}
             placeholder={placeholder}
-            ref={kafedras}
+            //ref={kafedras}
             options={options}
             maxMenuHeight={280}
             components={animatedComponents}
+            isDisabled={isDisabled}
+            isLoading={isLoading}
         />
     )
 }

@@ -12,6 +12,7 @@ const App = () => {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
+    document.title = "Компьютерный экзамен ДГУ"
     if (localStorage.getItem('isAuthStudent')) {
       setIsAuthStudent(true)
       setUserName(localStorage.getItem('userName'))

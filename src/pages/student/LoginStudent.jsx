@@ -1,11 +1,36 @@
-import React, {useContext} from 'react';
+import { useEffect, useContext, useState } from 'react';
 import {AuthContext} from "../../context";
 import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
+import DsuService from '../../api/DsuService'
+import {useFetching} from '../../hooks/useFetching'
 
 const LoginStudent = () => {
     const {setIsAuthStudent, setUserName} = useContext(AuthContext);
+
+    const [faculties, setFaculties] = useState([])
+    const [facultyId, setFacultyId] = useState(null)
+    const [getFaculties, isFacultiesLoading, facError] = useFetching(async () => {
+        const response = await DsuService.getFaculties()
+        setFaculties(response.data)
+    })
+    useEffect(() => {
+        getFaculties()
+    }, [])
+
+
+    const [departments, setDepartments] = useState([])
+    const [departmentId, setDepartmentId] = useState(null)
+    const [getDepartments, isDepartmentsLoading, depError] = useFetching(async (id) => {
+        const response = await DsuService.getCaseSDepartmentByFacultyId(id)
+        setDepartments(response.data)
+    })
+    useEffect(() => {
+        if (facultyId) {
+            getDepartments(facultyId)
+        }
+    }, [facultyId])
 
     const login = () => {
         setIsAuthStudent(true);
@@ -23,11 +48,11 @@ const LoginStudent = () => {
                     <form className='form'>
                         <label className='form__label'>
                             <span className='form__text'>Факультет</span>
-                            <Select placeholder='Выберите факультет' />
+                            <Select placeholder='Выберите факультет' options={faculties} isLoading={isFacultiesLoading} isDisabled={isFacultiesLoading} />
                         </label>
                         <label className='form__label'>
                             <span className='form__text'>Направление</span>
-                            <Select placeholder='Выберите направление' />
+                            <Select placeholder='Выберите направление' options={departments} isLoading={isDepartmentsLoading} isDisabled={isDepartmentsLoading} />
                         </label>
                         <div className='form__row'>
                             <label className='form__label form__label--small'>

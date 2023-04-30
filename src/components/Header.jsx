@@ -18,7 +18,6 @@ const Header = () => {
     }
 
     const isTeacherPage = () => {
-        console.log(hrefPage)
         if (hrefPage.includes("teacher")) {
             return true
         } else {

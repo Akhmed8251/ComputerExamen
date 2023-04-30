@@ -3,12 +3,17 @@ import { API_URL } from "./config";
 
 export default class DsuService {
     static async getFaculties() {
-        const response = await axios.get(`${API_URL}/`)
+        const response = await axios.get(`${API_URL}/Dsu/GetFaculties`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true
+        })
         return response;
     }
 
     static async getCaseSDepartmentByFacultyId(id) {
-        const response = await axios.get(`${API_URL}/GetCaseSDepartmentByFacultyId`, {
+        const response = await axios.get(`${API_URL}/Dsu/GetCaseSDepartmentByFacultyId`, {
             params: {
                 facultyId: id
             }
