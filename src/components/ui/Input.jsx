@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef } from 'react';
 
 const Input = ({ className , ...props}) => {
     const defaultClassName = 'input'

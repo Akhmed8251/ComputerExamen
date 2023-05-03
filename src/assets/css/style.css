@@ -537,6 +537,11 @@ main {
     max-width: 112px;
 }
 
+.form__label .error {
+    border: 1px solid red;
+    border-radius: 8px;
+}
+
 .form__row {
     display: flex;
     justify-content: space-between;
@@ -763,7 +768,7 @@ main {
 }
 
 .examens-teacher__btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     margin-bottom: 57px;
     padding: 20px 28px;
@@ -854,6 +859,8 @@ main {
 .examen-teacher__data {
     margin-bottom: 70px;
 }
+
+
 
 .examen-teacher__list {
     display: flex;

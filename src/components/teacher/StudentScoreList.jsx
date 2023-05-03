@@ -1,5 +1,3 @@
-import React from 'react'
-
 const StudentScoreList = () => {
   return (
     <ul className='examen-results__list'>

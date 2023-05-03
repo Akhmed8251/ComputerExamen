@@ -1,5 +1,3 @@
-import React from 'react'
-
 const AnswerList = () => {
   return (
     <ul className='answers-check__list'>

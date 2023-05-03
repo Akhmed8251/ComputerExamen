@@ -1,6 +1,6 @@
-import React from 'react'
 import Button from '../../components/ui/Button'
 import ExamenList from '../../components/student/ExamenList'
+import { Link } from 'react-router-dom'
 import ExamenListTeacher from '../../components/teacher/ExamenListTeacher'
 
 const ListExamensTeacher = () => {
@@ -35,7 +35,7 @@ const ListExamensTeacher = () => {
     <section className='examens examens-teacher'>
         <div className="container container--smaller">
             <h1 className='title'>Экзамены</h1>
-            <Button className='examens-teacher__btn'>Создать экзамен</Button>
+            <Link to={`/teacher/examen/1`} className='examens-teacher__btn btn'>Создать экзамен</Link>
             <ExamenListTeacher examens={examens}/>
             <div className="examens-teacher__passed">
                 <h2 className='title'>Пройденные</h2>

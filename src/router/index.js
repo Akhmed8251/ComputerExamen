@@ -4,6 +4,7 @@ import LoginStudent from "../pages/student/LoginStudent";
 import CreateExamenForm from "../pages/teacher/CreateExamenForm";
 import ListExamensTeacher from "../pages/teacher/ListExamensTeacher";
 import LoginTeacher from "../pages/teacher/LoginTeacher";
+import ExamenTeacher from "../pages/teacher/ExamenTeacher";
 
 export const privateStudentRoutes = [
     {path: '/examens', element: <Examens />, exact: true},
@@ -13,7 +14,8 @@ export const privateStudentRoutes = [
 
 export const privateTeacherRoutes = [
     {path: '/teacher/examens', element: <ListExamensTeacher />, exact: true},
-    {path: '/teacher/create-examen', element: <CreateExamenForm />, exact: true}
+    {path: '/teacher/create-examen', element: <CreateExamenForm />, exact: true},
+    {path: '/teacher/examen/:id', element: <ExamenTeacher />, exact: true}
 ]
 
 export const publicRoutes = [

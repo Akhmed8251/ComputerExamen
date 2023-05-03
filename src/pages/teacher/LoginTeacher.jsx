@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {AuthContext} from "../../context";
 import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
@@ -10,7 +10,7 @@ const LoginTeacher = () => {
 
     const login = () => {
         setIsAuthTeacher(true);
-        localStorage.setItem('isAuthStudent', 'true')
+        localStorage.setItem('isAuthTeacher', 'true')
 
         setUserName('Магомедов Магомед Магомедович')
         localStorage.setItem('userName', 'Магомедов Магомед Магомедович')

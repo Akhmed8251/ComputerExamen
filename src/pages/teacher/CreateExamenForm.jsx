@@ -1,8 +1,8 @@
-import React from 'react'
 import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input'
 import Button from '../../components/ui/Button'
 import DatePicker from '../../components/ui/DatePicker'
+import { Link } from 'react-router-dom'
 
 const CreateExamenForm = () => {
   return (
@@ -38,7 +38,7 @@ const CreateExamenForm = () => {
                     </label>
                     <div className='form__btns'>
                         <Button>Создать экзамен</Button>
-                        <Button className='cancel__btn'>Отмена</Button>
+                        <Link to='/teacher/examens' className='cancel__btn btn'>Отмена</Link>
                     </div>
                 </form>
             </div>

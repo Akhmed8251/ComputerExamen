@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Countdown from '../../components/ui/Countdown'
 import QuestionList from '../../components/student/QuestionList'
 import Button from '../../components/ui/Button'

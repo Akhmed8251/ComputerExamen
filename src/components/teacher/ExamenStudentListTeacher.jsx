@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ExamenStudentListTeacher = () => {
   return (
     <ul className='examen-teacher__list'>

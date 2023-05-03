@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ExamenList from '../../components/student/ExamenList'
 
 const Examens = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ExamenItemTeacher from './ExamenItemTeacher'
 import Popup from '../ui/Popup'
 import Button from '../ui/Button'
