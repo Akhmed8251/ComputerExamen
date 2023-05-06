@@ -24,7 +24,7 @@ const AppRouter = () => {
                     />
                 )}
                 <Route
-                    element={<Navigate to='/examens' />}
+                    element={<Navigate to='/' />}
                     path='*'
                     exact={true}
                 />

@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button';
 import DsuService from '../../api/DsuService'
 import {useFetching} from '../../hooks/useFetching'
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const LoginStudent = () => {
     const {setIsAuthStudent, setUserName} = useContext(AuthContext);
@@ -115,24 +116,24 @@ const LoginStudent = () => {
         mode: "onSubmit"
     })
 
+    const redirect = useNavigate()
+
     const [loginStudent, isSignLoading, signError] = useFetching(async (studentId, nzachkn) => {
         const response = await DsuService.signInStudent(studentId, nzachkn)
 
         if (response.status == 200) {
             setIsAuthStudent(true)
+            localStorage.setItem("isAuthStudent", "true")
 
             let studentFio = students.find(s => s.value === studentId).label
             setUserName(studentFio)
+            localStorage.setItem("userName", studentFio)
+            
+            redirect(`/examens/${studentId}`)
         }
     })
 
     const login = (data) => {
-        // setIsAuthStudent(true);
-        // localStorage.setItem('isAuthStudent', 'true')
-
-        // setUserName('Носова Елена Андреевна')
-        // localStorage.setItem('userName', 'Носова Елена Андреевна')
-        console.log(data)
         loginStudent(data.studentId, data.nzachkn)
     }
 
@@ -264,8 +265,8 @@ const LoginStudent = () => {
                             />
                             
                         </label>
-                        <Button className='form__btn'>
-                            Войти
+                        <Button className={`form__btn${isSignLoading ? ' loading' : ''}`} disabled={isSignLoading}>
+                            <span>Войти</span>
                         </Button>
                     </form>
                 </div>

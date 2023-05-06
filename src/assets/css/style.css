@@ -162,6 +162,23 @@ body {
     background-color: #0500e4;
 }
 
+.loading::before {
+    content: '';
+    background: url('../img/loading.svg') no-repeat center/cover;
+    width: 24px;
+    height: 24px;
+    display: block;
+    animation: .75s linear infinite loading;
+}
+
+.btn.loading {
+    display: flex;
+}
+
+.btn.loading span {
+    margin: 0 auto;
+}
+
 .input,
 .datepicker {
     width: 100%;
@@ -729,10 +746,11 @@ main {
     background-color: #248d13;
 }
 
-.loading::before {
+
+
+/* .loading::before {
     background: url("../img/loading.svg") no-repeat center/cover;
-    animation: .75s linear infinite loading;
-}
+} */
 
 @keyframes loading {
     from {

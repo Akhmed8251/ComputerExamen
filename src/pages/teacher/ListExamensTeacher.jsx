@@ -16,7 +16,7 @@ const ListExamensTeacher = () => {
         {
           id: 2,
           discipline: "Основы программирования",
-          examDate: "2023-04-27T18:20:51.129Z",
+          examDate: "2023-05-04T18:20:51.129Z",
           course: 2,
           nGroup: 2,
           department: "Фундаментальная физика"   
@@ -35,7 +35,7 @@ const ListExamensTeacher = () => {
     <section className='examens examens-teacher'>
         <div className="container container--smaller">
             <h1 className='title'>Экзамены</h1>
-            <Link to={`/teacher/examen/1`} className='examens-teacher__btn btn'>Создать экзамен</Link>
+            <Link to={`/teacher/create-examen`} className='examens-teacher__btn btn'>Создать экзамен</Link>
             <ExamenListTeacher examens={examens}/>
             <div className="examens-teacher__passed">
                 <h2 className='title'>Пройденные</h2>

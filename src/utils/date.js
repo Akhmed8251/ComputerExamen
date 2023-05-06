@@ -11,3 +11,9 @@ export const formatDate = (date) => {
   
     return dd + '.' + mm + '.' + yy;
 }
+
+export const diffBetweenDatesInSeconds = (date1, date2) => {
+    const diffTime = Math.abs(date2 - date1);
+    const diffSeconds = Math.ceil(diffTime / (1000 * 60)); 
+    return diffSeconds
+}

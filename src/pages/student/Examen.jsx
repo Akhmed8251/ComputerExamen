@@ -3,9 +3,16 @@ import Countdown from '../../components/ui/Countdown'
 import QuestionList from '../../components/student/QuestionList'
 import Button from '../../components/ui/Button'
 import Popup from '../../components/ui/Popup'
+import { useFetching } from '../../hooks/useFetching'
+import { useParams } from 'react-router-dom'
+import ExamenService from '../../api/ExamenService'
 
 const Examen = () => {
     const [modalActive, setModalActive] = useState(false)
+    const examenId = useParams()
+    const [startExamen, isExamenLoading, startError] = useFetching(async (studentId, examId) => {
+        const response = await ExamenService.st
+    })
     const questions = [
         {
             id: 1,

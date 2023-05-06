@@ -16,6 +16,7 @@ const App = () => {
     if (localStorage.getItem('isAuthStudent')) {
       setIsAuthStudent(true)
       setUserName(localStorage.getItem('userName'))
+      
     } else if (localStorage.getItem('isAuthTeacher')) {
       setIsAuthTeacher(true)
       setUserName(localStorage.getItem('userName'))
@@ -32,7 +33,7 @@ const App = () => {
       setIsAuthTeacher,
       userName,
       setUserName,
-      isLoading  
+      isLoading
     }}>
       <BrowserRouter>
         <div className="site-wrapper">

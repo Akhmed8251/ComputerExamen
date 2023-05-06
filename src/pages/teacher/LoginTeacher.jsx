@@ -1,19 +1,37 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {AuthContext} from "../../context";
 import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
+import { useFetcher } from 'react-router-dom';
+import { useFetching } from '../../hooks/useFetching';
+import AuthService from '../../api/AuthService';
+import { Controller, useForm } from 'react-hook-form';
 
 
 const LoginTeacher = () => {
     const {setIsAuthTeacher, setUserName} = useContext(AuthContext);
 
-    const login = () => {
-        setIsAuthTeacher(true);
-        localStorage.setItem('isAuthTeacher', 'true')
+    const [loginUser, setLoginUser] = useState(null)
+    const [passwordUser, setPasswordUser] = useState(null)
+    const [authUser, isLoginLoading, loginError] = useFetching(async (loginUser, passwordUser) => {
+        const response = await AuthService.login(loginUser, passwordUser)
+        console.log(response)
+        if (response.status == 200) {
+            setIsAuthTeacher(true)
+            localStorage.setItem("isAuthTeacher", "true")
 
-        setUserName('Магомедов Магомед Магомедович')
-        localStorage.setItem('userName', 'Магомедов Магомед Магомедович')
+            localStorage.setItem("userName", 'Магомедов Магомед Магомедович')
+            setUserName('Магомедов Магомед Магомедович')
+        }
+    })
+
+    const { control, handleSubmit } = useForm({
+        mode: "onSubmit"
+    })
+
+    const login = (data) => {
+        authUser(data.loginUser, data.passwordUser)
     }
 
     return (
@@ -21,17 +39,42 @@ const LoginTeacher = () => {
             <div className='container'>
                 <div className='login__inner'>
                     <h1 className='login__title title'>Введите ваши данные</h1>
-                    <form onSubmit={login} className='form'>
+                    <form onSubmit={handleSubmit(login)} className='form'>
                         <label className='form__label'>
                             <span className='form__text'>Логин</span>
-                            <Input className='form__input' />
+                            <Controller
+                                control={control}
+                                name='loginUser'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field: {onChange}, fieldState: { error }}) => (
+                                    <Input 
+                                        className={`form__input${error ? ' error' : ''}`}
+                                        onChange={(newValue) => {setLoginUser(newValue); onChange(newValue)}}
+                                    />
+                                )}
+                            />    
                         </label>
                         <label className='form__label'>
                             <span className='form__text'>Пароль</span>
-                            <Input type="password" className='form__input' />
+                            <Controller
+                                control={control}
+                                name='passwordUser'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field: {onChange}, fieldState: { error }}) => (
+                                    <Input
+                                        type="password" 
+                                        className={`form__input${error ? ' error' : ''}`}
+                                        onChange={(newValue) => {setPasswordUser(newValue); onChange(newValue)}}
+                                    />
+                                )}
+                            />    
                         </label>
-                        <Button onClick={() => login()} className='form__btn'>
-                            Войти
+                        <Button className={`form__btn${isLoginLoading ? ' loading' : ''}`} disabled={isLoginLoading} >
+                            <span>Войти</span>
                         </Button>
                     </form>
                 </div>
