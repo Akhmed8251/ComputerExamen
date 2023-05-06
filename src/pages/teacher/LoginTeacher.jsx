@@ -3,7 +3,7 @@ import {AuthContext} from "../../context";
 import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
-import { useFetcher } from 'react-router-dom';
+import { useFetcher, useNavigate } from 'react-router-dom';
 import { useFetching } from '../../hooks/useFetching';
 import AuthService from '../../api/AuthService';
 import { Controller, useForm } from 'react-hook-form';
@@ -14,15 +14,20 @@ const LoginTeacher = () => {
 
     const [loginUser, setLoginUser] = useState(null)
     const [passwordUser, setPasswordUser] = useState(null)
+
+    const redirect = useNavigate()
+
     const [authUser, isLoginLoading, loginError] = useFetching(async (loginUser, passwordUser) => {
         const response = await AuthService.login(loginUser, passwordUser)
-        console.log(response)
+
         if (response.status == 200) {
             setIsAuthTeacher(true)
             localStorage.setItem("isAuthTeacher", "true")
 
             localStorage.setItem("userName", 'Магомедов Магомед Магомедович')
             setUserName('Магомедов Магомед Магомедович')
+
+            redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')
         }
     })
 
