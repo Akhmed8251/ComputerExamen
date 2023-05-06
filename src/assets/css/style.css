@@ -646,6 +646,13 @@ main {
     color: #fff;
 }
 
+.form__btn-questions.disabled,
+.form__btn-questions.disabled:hover {
+    border-color: #9c9c9c;
+    color: #9c9c9c;
+    pointer-events: none;
+}
+
 .countdown {
     display: flex;
     align-items: center;

@@ -1,5 +1,5 @@
 import { isDisabled } from '@testing-library/user-event/dist/utils';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import ReactSelect from 'react-select'
 import makeAnimated from 'react-select/animated';
 
@@ -13,7 +13,6 @@ const Select = ({ options, onChange, getValue, isDisabled = true, isLoading = fa
             classNamePrefix={'custom-select'}
             isMulti={isMulti}
             placeholder={placeholder}
-            //ref={kafedras}
             options={options}
             value={getValue}
             maxMenuHeight={280}

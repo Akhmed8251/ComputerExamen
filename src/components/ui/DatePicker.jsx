@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import { useState, forwardRef } from 'react'
 import ReactDatePicker from 'react-datepicker' 
 import 'react-datepicker/dist/react-datepicker.css'
-import Input from './Input'
 
-const DatePicker = () => {
+const DatePicker = ({ onChange }) => {
   const [date, setDate] = useState(new Date())
   const [isOpen, setIsOpen] = useState(false)
-
 
   return (
     <div className={`datepicker-wrapper${isOpen ? ' open' : ''}`}>
@@ -15,7 +13,8 @@ const DatePicker = () => {
             selected={date}
             className='datepicker'
             dateFormat='dd.MM.yyyy'
-            onSelect={(newDate) => setDate(newDate)}
+            onChange={onChange}
+            onSelect={(date) => setDate(date)}
             onCalendarOpen={() => setIsOpen(true)}
             onCalendarClose={() => setIsOpen(false)}
         />
