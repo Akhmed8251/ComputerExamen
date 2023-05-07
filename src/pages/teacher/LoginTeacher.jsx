@@ -24,8 +24,8 @@ const LoginTeacher = () => {
             setIsAuthTeacher(true)
             localStorage.setItem("isAuthTeacher", "true")
 
-            localStorage.setItem("userName", 'Магомедов Магомед Магомедович')
-            setUserName('Магомедов Магомед Магомедович')
+            localStorage.setItem("userName", loginUser)
+            setUserName(loginUser)
 
             redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')
         }

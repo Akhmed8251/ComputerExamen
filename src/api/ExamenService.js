@@ -12,7 +12,7 @@ export default class ExamenService {
     }
 
     static async getExamensByEmployeeId(id) {
-        const response = await axios.get(`${API_URL}/Examen/GetExamensByEmployeeId`, {
+        const response = await axios.get(`${API_URL}/Examen/GetExamensByTeacherId`, {
             params: {
                 employeeId: id,
             }
@@ -27,6 +27,11 @@ export default class ExamenService {
                 examId: examenId
             }
         })
+        return response;
+    }
+
+    static async createExamen(examenData) {
+        const response = await axios.post(`${API_URL}/Examen/CreateExamen`, examenData)
         return response;
     }
 }

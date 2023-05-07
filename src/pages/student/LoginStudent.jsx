@@ -1,15 +1,15 @@
 import { useEffect, useContext, useState } from 'react';
-import {AuthContext} from "../../context";
+import { AuthContext } from "../../context";
 import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import DsuService from '../../api/DsuService'
-import {useFetching} from '../../hooks/useFetching'
+import { useFetching } from '../../hooks/useFetching'
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 const LoginStudent = () => {
-    const {setIsAuthStudent, setUserName} = useContext(AuthContext);
+    const { setIsAuthStudent, setUserName } = useContext(AuthContext);
 
     const [faculties, setFaculties] = useState([])
     const [facultyId, setFacultyId] = useState(null)
@@ -128,7 +128,7 @@ const LoginStudent = () => {
             let studentFio = students.find(s => s.value === studentId).label
             setUserName(studentFio)
             localStorage.setItem("userName", studentFio)
-            
+
             redirect(`/examens/${studentId}`)
         }
     })
@@ -151,18 +151,18 @@ const LoginStudent = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <div className={error ? 'error': ''}>
-                                        <Select 
-                                            onChange={(newValue) => {setFacultyId(newValue.value); onChange(newValue.value)}} 
-                                            placeholder='Выберите факультет' 
-                                            options={faculties} 
-                                            isLoading={isFacultiesLoading} 
-                                            isDisabled={isFacultiesLoading} 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setFacultyId(newValue.value); onChange(newValue.value) }}
+                                            placeholder='Выберите факультет'
+                                            options={faculties}
+                                            isLoading={isFacultiesLoading}
+                                            isDisabled={isFacultiesLoading}
                                         />
                                     </div>
                                 )}
-                            />                           
+                            />
                         </label>
                         <label className='form__label'>
                             <span className='form__text'>Направление</span>
@@ -172,61 +172,59 @@ const LoginStudent = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <div className={error ? 'error': ''}>
-                                        <Select 
-                                            onChange={(newValue) => {setDepartmentId(newValue.value); onChange(newValue.value)}} 
-                                            placeholder='Выберите направление' 
-                                            options={departments} 
-                                            isLoading={isDepartmentsLoading} 
-                                            isDisabled={isDepartmentsLoading} 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setDepartmentId(newValue.value); onChange(newValue.value) }}
+                                            placeholder='Выберите направление'
+                                            options={departments}
+                                            isLoading={isDepartmentsLoading}
+                                            isDisabled={isDepartmentsLoading}
                                         />
                                     </div>
                                 )}
-                            />                           
+                            />
                         </label>
-                        <div className='form__row'>
-                            <label className='form__label form__label--small'>
-                                <span className='form__text'>Курс</span>
-                                <Controller
-                                    control={control}
-                                    name='course'
-                                    rules={{
-                                        required: true
-                                    }}
-                                    render={({field: {onChange}, fieldState: { error }}) => (
-                                        <div className={error ? 'error': ''}>
-                                            <Select 
-                                                onChange={(newValue) => {setCourse(newValue.value); onChange(newValue.value)}} 
-                                                options={courses} 
-                                                isLoading={isCoursesLoading} 
-                                                isDisabled={isCoursesLoading} 
-                                            />
-                                        </div>
-                                    )}
-                                />                                
-                            </label>
-                            <label className='form__label form__label--small'>
-                                <span className='form__text'>Группа</span>
-                                <Controller
-                                    control={control}
-                                    name='group'
-                                    rules={{
-                                        required: true
-                                    }}
-                                    render={({field: {onChange}, fieldState: { error }}) => (
-                                        <div className={error ? 'error': ''}>
-                                            <Select
-                                                onChange={(newValue) => {setGroup(newValue.value); onChange(newValue.value)}} 
-                                                options={groups} 
-                                                isLoading={isGroupsLoading} 
-                                                isDisabled={isGroupsLoading} 
-                                            />
-                                        </div>
-                                    )}
-                                />                              
-                            </label>
-                        </div>
+                        <label className='form__label'>
+                            <span className='form__text'>Курс</span>
+                            <Controller
+                                control={control}
+                                name='course'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setCourse(newValue.value); onChange(newValue.value) }}
+                                            options={courses}
+                                            isLoading={isCoursesLoading}
+                                            isDisabled={isCoursesLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
+                        <label className='form__label'>
+                            <span className='form__text'>Группа</span>
+                            <Controller
+                                control={control}
+                                name='group'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setGroup(newValue.value); onChange(newValue.value) }}
+                                            options={groups}
+                                            isLoading={isGroupsLoading}
+                                            isDisabled={isGroupsLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
                         <label className='form__label'>
                             <span className='form__text'>Номер зачетки</span>
                             <Controller
@@ -235,13 +233,13 @@ const LoginStudent = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <Input 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <Input
                                         className={`form__input form__input--small${error ? ' error' : ''}`}
-                                        onChange={(newValue) => {setNzachkn(newValue); onChange(newValue)}}
+                                        onChange={(newValue) => { setNzachkn(newValue); onChange(newValue) }}
                                     />
                                 )}
-                            />    
+                            />
                         </label>
                         <label className='form__label'>
                             <span className='form__text'>ФИО</span>
@@ -251,19 +249,19 @@ const LoginStudent = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <div className={error ? 'error': ''}>
-                                        <Select 
-                                            onChange={(newValue) => {setStudentId(newValue.value); onChange(newValue.value)}} 
-                                            options={students} 
-                                            isLoading={isStudentsLoading} 
-                                            isDisabled={isStudentsLoading} 
-                                            placeholder='Выберите ФИО' 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setStudentId(newValue.value); onChange(newValue.value) }}
+                                            options={students}
+                                            isLoading={isStudentsLoading}
+                                            isDisabled={isStudentsLoading}
+                                            placeholder='Выберите ФИО'
                                         />
                                     </div>
                                 )}
                             />
-                            
+
                         </label>
                         <Button className={`form__btn${isSignLoading ? ' loading' : ''}`} disabled={isSignLoading}>
                             <span>Войти</span>

@@ -87,7 +87,7 @@ const CreateExamenForm = () => {
         if (departmentId && course) {
             getGroups(departmentId, course)
         }
-    }, [course])
+    }, [departmentId, course])
 
     const [disciplineName, setDisciplineName] = useState(null)
 
@@ -98,9 +98,10 @@ const CreateExamenForm = () => {
     const redirect = useNavigate()
 
     const onSubmit = (data) => {
-        if (!data.dateExamen) {
-            data.dateExamen = new Date()
+        if (!data.examDate) {
+            data.examDate = new Date()
         }
+        data.isDeleted = false
 
         redirect(`/teacher/create-tickets`, {
             state: data
@@ -118,21 +119,18 @@ const CreateExamenForm = () => {
                             <Controller
                                 control={control}
                                 name='facultyId'
-                                rules={{
-                                    required: true
-                                }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <div className={error ? 'error': ''}>
-                                        <Select 
-                                            onChange={(newValue) => {setFacultyId(newValue.value); onChange(newValue.value)}} 
-                                            placeholder='Выберите факультет' 
-                                            options={faculties} 
-                                            isLoading={isFacultiesLoading} 
-                                            isDisabled={isFacultiesLoading} 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setFacultyId(newValue.value); onChange(newValue.value) }}
+                                            placeholder='Выберите факультет'
+                                            options={faculties}
+                                            isLoading={isFacultiesLoading}
+                                            isDisabled={isFacultiesLoading}
                                         />
                                     </div>
                                 )}
-                            />   
+                            />
                         </label>
                         <label className='form__label'>
                             <span className='form__text'>Направление</span>
@@ -142,91 +140,107 @@ const CreateExamenForm = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <div className={error ? 'error': ''}>
-                                        <Select 
-                                            onChange={(newValue) => {setDepartmentId(newValue.value); onChange(newValue.value)}} 
-                                            placeholder='Выберите направление' 
-                                            options={departments} 
-                                            isLoading={isDepartmentsLoading} 
-                                            isDisabled={isDepartmentsLoading} 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setDepartmentId(newValue.value); onChange(newValue.value) }}
+                                            placeholder='Выберите направление'
+                                            options={departments}
+                                            isLoading={isDepartmentsLoading}
+                                            isDisabled={isDepartmentsLoading}
                                         />
                                     </div>
                                 )}
-                            />     
+                            />
                         </label>
-                        <div className='form__row'>
-                            <label className='form__label form__label--small'>
-                                <span className='form__text'>Курс</span>
-                                <Controller
-                                    control={control}
-                                    name='course'
-                                    rules={{
-                                        required: true
-                                    }}
-                                    render={({field: {onChange}, fieldState: { error }}) => (
-                                        <div className={error ? 'error': ''}>
-                                            <Select 
-                                                onChange={(newValue) => {setCourse(newValue.value); onChange(newValue.value)}} 
-                                                options={courses} 
-                                                isLoading={isCoursesLoading} 
-                                                isDisabled={isCoursesLoading} 
-                                            />
-                                        </div>
-                                    )}
-                                />                                
-                            </label>
-                            <label className='form__label form__label--small'>
-                                <span className='form__text'>Группа</span>
-                                <Controller
-                                    control={control}
-                                    name='group'
-                                    rules={{
-                                        required: true
-                                    }}
-                                    render={({field: {onChange}, fieldState: { error }}) => (
-                                        <div className={error ? 'error': ''}>
-                                            <Select
-                                                onChange={(newValue) => {setGroup(newValue.value); onChange(newValue.value)}} 
-                                                options={groups} 
-                                                isLoading={isGroupsLoading} 
-                                                isDisabled={isGroupsLoading} 
-                                            />
-                                        </div>
-                                    )}
-                                />                              
-                            </label>
-                        </div>
+                        <label className='form__label'>
+                            <span className='form__text'>Курс</span>
+                            <Controller
+                                control={control}
+                                name='course'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setCourse(newValue.value); onChange(newValue.value) }}
+                                            options={courses}
+                                            isLoading={isCoursesLoading}
+                                            isDisabled={isCoursesLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
+                        <label className='form__label'>
+                            <span className='form__text'>Группа</span>
+                            <Controller
+                                control={control}
+                                name='nGroup'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { setGroup(newValue.value); onChange(newValue.value) }}
+                                            options={groups}
+                                            isLoading={isGroupsLoading}
+                                            isDisabled={isGroupsLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
                         <label className='form__label'>
                             <span className='form__text'>Дисциплина</span>
                             <Controller
                                 control={control}
-                                name='disciplineName'
+                                name='discipline'
                                 rules={{
                                     required: true
                                 }}
-                                render={({field: {onChange}, fieldState: { error }}) => (
-                                    <Input 
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <Input
                                         className={`form__input${error ? ' error' : ''}`}
-                                        onChange={(newValue) => {setDisciplineName(newValue); onChange(newValue)}}
+                                        onChange={(newValue) => { setDisciplineName(newValue); onChange(newValue) }}
                                     />
                                 )}
-                            />    
+                            />
                         </label>
                         <label className='form__label' onClick={(evt) => evt.preventDefault()}>
                             <span className='form__text'>Дата</span>
-                           
+
                             <Controller
                                 control={control}
-                                name='dateExamen'
-                                render={({field: {onChange}}) => (
+                                name='examDate'
+                                render={({ field: { onChange } }) => (
                                     <div>
-                                    <DatePicker 
-                                        onChange={(newDate) => onChange(newDate)} 
-                                    />
+                                        <DatePicker
+                                            onChange={(newDate) => onChange(newDate)}
+                                        />
                                     </div>
                                 )}
-                            />    
+                            />
+                        </label>
+                        <label className='form__label' onClick={(evt) => evt.preventDefault()}>
+                            <span className='form__text'>Длительность</span>
+
+                            <Controller
+                                control={control}
+                                name='examDurationInMitutes'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <Input
+                                        type="number"
+                                        className={`form__input${error ? ' error' : ''}`}
+                                        onChange={(newValue) => { onChange(newValue) }}
+                                    />
+                                )}
+                            />
                         </label>
                         <label className="form__label">
                             <Button className='form__btn-questions btn'>Загрузить вопросы</Button>
