@@ -582,18 +582,36 @@ main {
     margin-bottom: 38px;
 }
 
-.examens__item--disable button {
+.examens-item .discipline-btn {
+    font-weight: 500;
+    color: #000;
+}
+
+.examens__item--disable .discipline-btn {
     background-color: #f1f1f1;
     border-color: #bcbcbc;
     color: #b7b7b7;
+}
+
+.examens__item--active .discipline-btn {
+    border-color: #259812;
+    background-color: #f2fff0;
+}
+
+.examens__item--disable .discipline-btn,
+.examens__item--active .discipline-btn {
     pointer-events: none;
+}
+
+.examens-teacher .examens__item--active .discipline-btn {
+    pointer-events: all;
 }
 
 .examens__item:not(:last-child) {
     margin-bottom: 27px;
 }
 
-.examens__date {
+.examens-item__date {
     display: block;
     margin-bottom: 11px;
     color: #4b4b4b;
@@ -615,12 +633,63 @@ main {
     color: #000;
 }
 
+.examens-item__btns {
+    display: flex;
+    gap: 20px;
+}
+
 .discipline-btn {
     font-size: 20px;
     background-color: #f1f1ff;
     border: 1px solid #0500fe;
     border-radius: 5px;
     padding: 16px 34px;
+}
+
+.examens-item__btns .edit-examen {
+    background-color: #10cf50;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.examens-item__btns .edit-examen::before {
+    content: '';
+    background: url('../img/edit.svg') no-repeat center/cover;
+    background-size: 28px;
+    width: 34px;
+    height: 36px;
+    display: block;
+}
+
+.examens-item__btns .edit-examen:hover {
+    background-color: #0ebe49;
+}
+
+.examens-item__btns .delete-examen {
+    background-color: #ec071e;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.examens-item__btns .delete-examen::before {
+    content: '';
+    background: url('../img/delete.svg') no-repeat center/cover;
+    background-size: 28px;
+    width: 34px;
+    height: 36px;
+    display: block;
+}
+
+.examens-item__btns .delete-examen:hover {
+    background-color: #e70a20;
 }
 
 .confirm-buttons {
@@ -646,6 +715,19 @@ main {
 .confirm-button:hover,
 .form__btn-questions:hover {
     color: #fff;
+}
+
+.confirm-button--yes.loading {
+    background-color: #0500ff;
+    justify-content: center;
+}
+
+.confirm-button--yes.loading span {
+    display: none;
+}
+
+.confirm-button--yes.loading::before {
+    margin: 0;
 }
 
 .form__btn-questions.disabled,
@@ -755,11 +837,6 @@ main {
     background-color: #248d13;
 }
 
-
-
-/* .loading::before {
-    background: url("../img/loading.svg") no-repeat center/cover;
-} */
 
 @keyframes loading {
     from {

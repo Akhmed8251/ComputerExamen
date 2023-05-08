@@ -18,12 +18,7 @@ const ExamenList = ({ examens, studentId }) => {
           )
         }
       </ul>
-      <Popup active={modalActive} setActive={setModalActive} hiddenData={[
-        {
-          name: 'examenId',
-          value: examenId
-        }
-      ]}>
+      <Popup active={modalActive} setActive={setModalActive}>
         <h2 className="popup__title title">Вы действительно хотите начать экзамен?</h2>
         <div className="confirm-buttons">
           <Link to={`/examen/${studentId}/${examenId}`} className="confirm-button confirm-button--yes btn"><span>Да</span></Link>
