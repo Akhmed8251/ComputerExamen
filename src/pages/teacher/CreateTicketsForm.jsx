@@ -12,32 +12,9 @@ const CreateTicketsForm = () => {
   const redirect = useNavigate()
 
   const { control, handleSubmit } = useForm({
-    defaultValues: {
-      tickets: [
-        {
-          id: 0,
-          number: 0,
-          examenId: 0,
-          questions: [
-            {
-              id: 0,
-              examTicketId: 0,
-              number: 0,
-              text: '',
-              isDeleted: false
-            }
-          ],
-          isDeleted: false
-        }
-      ]
-    }
+    mode: "onSubmit"
   });
 
-  const { fields, append, remove
-  } = useFieldArray({
-    control,
-    name: "tickets"
-  });
 
   const [createExamen, isExamenLoading, examError] = useFetching(async (examData) => {
     const response = await ExamenService.createExamen(examData)
@@ -49,17 +26,45 @@ const CreateTicketsForm = () => {
   })
 
   const onSubmit = (data) => {
-    let numberCount = 1;
-    data.tickets.forEach(ticket => {
-      ticket.number = numberCount
-      ticket.questions[0].number = numberCount
-      ticket.questions[0].text = ticket.question
-      delete ticket.question
-      numberCount++
+    examData.employeeId = 'ca38f6e6-e893-4151-9d7c-ea21ab532047'
+    // examData.tickets = data.tickets
+    let ticketsFromInput = data.tickets.split("\n\n")
+    let tickets = []
+
+    ticketsFromInput.forEach(ticket => {
+      const ticketData = ticket.split("\n")
+      const ticketNumber = parseInt(ticketData[0].split("№")[1])
+      const ticketQuestions = ticketData.splice(1, ticketData.length - 1)
+      
+      let questionsItems = []
+      ticketQuestions.forEach(question => {
+        const questionData = question.split(" - ")
+        const numberQuestion = parseInt(questionData[0].substring(1))
+        const questionText = questionData[1]
+        
+        let questionObj = {
+            id: 0,
+            examTicketId: 0,
+            number: numberQuestion,
+            text: questionText,
+            isDeleted: false
+        }
+
+        questionsItems.push(questionObj)
+      })
+
+      let ticketObj = {
+        id: 0,
+        number: ticketNumber,
+        examenId: 0,
+        questions: questionsItems,
+        isDeleted: false
+      }
+
+      tickets.push(ticketObj)
     })
 
-    examData.employeeId = 'ca38f6e6-e893-4151-9d7c-ea21ab532047'
-    examData.tickets = data.tickets
+    examData.tickets = tickets
     console.log(examData)
     createExamen(examData)
   }
@@ -70,59 +75,26 @@ const CreateTicketsForm = () => {
         <div className="create-tickets__inner">
           <h1 className='create-tickets__title title'>Создание билетов</h1>
           <form className='create-tickets__form' onSubmit={handleSubmit(onSubmit)}>
-            <ul className="create-tickets__list">
-              {
-                fields.map((_, index, tickets) =>
-                  <li key={index} className='create-tickets__item ticket-item'>
-                    <div className="ticket-item__body">
-                      <div className='ticket-item__number'>Билет №{index + 1}</div>
-                      <div className='ticket-item__question'>
-                        <Controller
-                          control={control}
-                          name={`tickets.${index}.question`}
-                          rules={{
-                            required: true
-                          }}
-                          render={({ field: { onChange }, fieldState: { error } }) => (
-                            //<TextArea onChange={(e) => changeTicket(ticket.number, e.target.value)} placeholder='Введите вопросы' width={400} />
-                            <TextArea className={error ? 'error' : ''} onChange={(newValue) => onChange(newValue)} placeholder='Введите вопросы' width={400} />
-                          )}
-                        />
-                      </div>
-                    </div>
-                    <div className='btns'>
-                      {
-                        tickets.length - 1 === index && <Button onClick={() =>
-                          append({
-                            id: 0,
-                            number: 0,
-                            examenId: 0,
-                            questions: [
-                              {
-                                id: 0,
-                                examTicketId: 0,
-                                number: 0,
-                                text: '',
-                                isDeleted: false
-                              }
-                            ],
-                            isDeleted: false
-                          })
-                        } className='ticket-item__add'>Добавить билет</Button>
-                      }
-                      {
-                        tickets.length !== 1 && <Button type="button" className='ticket-item__remove' onClick={() => remove(index)}>Удалить билет</Button>
-                      }
-                    </div>
-                  </li>
-                )
-              }
-            </ul>
+            <Controller
+              control={control}
+              name='tickets'
+              rules={{
+                required: true,
+                pattern: {
+                  value: /(Билет №\d\n(№\d - .+\n?){1,}\n?){1,}/gmi,
+                  message: "12321332"
+                }
+              }}
+              render={({ field: { onChange }, fieldState: { error } }) => (
+                //<TextArea onChange={(e) => changeTicket(ticket.number, e.target.value)} placeholder='Введите вопросы' width={400} />
+                <TextArea className={error ? 'error' : ''} onChange={(newValue) => onChange(newValue)} placeholder='Введите вопросы' />
+              )}
+            />
             <div className='btns'>
               <Button className={`${isExamenLoading ? 'loading' : ''}`} disabled={isExamenLoading}>
                 <span>Создать экзамен</span>
               </Button>
-              <Button onClick={() => redirect(-1)} className='cancel__btn btn'>Отмена</Button>
+              <Button onClick={() => redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')} className='cancel__btn btn'>Отмена</Button>
             </div>
           </form>
         </div>

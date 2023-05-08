@@ -1044,30 +1044,13 @@ main {
     margin-bottom: 40px;
 }
 
-.create-tickets__list {
+.create-tickets__form {
     margin-bottom: 48px;
 }
 
-.ticket-item:not(:last-child) {
-    margin-bottom: 32px;
-}
-
-.ticket-item__body {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-}
-
-.ticket-item__number {
-    flex: 0 0 160px;
-}
-
-.ticket-item__question {
-    width: 100%;
-}
-
-.ticket-item__question textarea {
+.create-tickets__form .textarea {
     max-width: 100%;
+    height: 500px;
 }
 
 .btns {
@@ -1076,15 +1059,4 @@ main {
     align-items: center;
     gap: 20px;
     margin-top: 10px;
-}
-
-.ticket-item__add {
-    width: 100%;
-    max-width: 300px;
-}
-
-.ticket-item__remove {
-    background-color: red;
-    width: 100%;
-    max-width: 250px;
 }
