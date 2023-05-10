@@ -2,15 +2,18 @@ import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input'
 import Button from '../../components/ui/Button'
 import DatePicker from '../../components/ui/DatePicker'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useFetching } from '../../hooks/useFetching'
 import DsuService from '../../api/DsuService'
 import { Controller, useForm } from 'react-hook-form';
 
 const EditExamenForm = () => {
+    const data = useLocation()
+    const examData = data.state
+
     const [faculties, setFaculties] = useState([])
-    const [facultyId, setFacultyId] = useState(null)
+    const [facultyId, setFacultyId] = useState(examData.department.facId)
     const [getFaculties, isFacultiesLoading, facError] = useFetching(async () => {
         const response = await DsuService.getFaculties()
         const dataArr = []
@@ -29,7 +32,7 @@ const EditExamenForm = () => {
 
 
     const [departments, setDepartments] = useState([])
-    const [departmentId, setDepartmentId] = useState(null)
+    const [departmentId, setDepartmentId] = useState(examData.department.departmentId)
     const [getDepartments, isDepartmentsLoading, depError] = useFetching(async (id) => {
         const response = await DsuService.getCaseSDepartmentByFacultyId(id)
         const dataArr = []
@@ -49,7 +52,7 @@ const EditExamenForm = () => {
     }, [facultyId])
 
     const [courses, setCourses] = useState([])
-    const [course, setCourse] = useState(null)
+    const [course, setCourse] = useState(examData.course)
     const [getCourses, isCoursesLoading, coursesError] = useFetching(async (id) => {
         const response = await DsuService.getCourseByDepartmentId(id)
         const dataArr = []
@@ -69,7 +72,7 @@ const EditExamenForm = () => {
     }, [departmentId])
 
     const [groups, setGroups] = useState([])
-    const [group, setGroup] = useState(null)
+    const [group, setGroup] = useState(examData.group)
     const [getGroups, isGroupsLoading, groupsError] = useFetching(async (id, nCourse) => {
         const response = await DsuService.getGroupsByDepartmentIdAndCourse(id, nCourse)
         const dataArr = []
@@ -88,10 +91,16 @@ const EditExamenForm = () => {
         }
     }, [departmentId, course])
 
-    const [disciplineName, setDisciplineName] = useState(null)
-
     const { control, handleSubmit } = useForm({
-        mode: "onSubmit"
+        mode: "onSubmit",
+        defaultValues: {
+            facultyId: examData.department.facId,
+            departmentId: examData.department.departmentId,
+            course: examData.course,
+            nGroup: examData.group,
+            discipline: examData.discipline,
+            examDate: examData.examDate
+        }
     })
 
     const redirect = useNavigate()
@@ -102,7 +111,7 @@ const EditExamenForm = () => {
         }
         data.isDeleted = false
 
-        redirect(`/teacher/create-tickets`, {
+        redirect(`/teacher/edit-tickets`, {
             state: data
         })
     }
@@ -111,7 +120,7 @@ const EditExamenForm = () => {
         <section className='create-examen'>
             <div className="container container--smaller">
                 <div className="create-examen__inner">
-                    <h1 className="create-examen__title title">Создать экзамен</h1>
+                    <h1 className="create-examen__title title">Редактирование экзамена</h1>
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <label className='form__label'>
                             <span className='form__text'>Факультет</span>
@@ -121,6 +130,12 @@ const EditExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
+                                            value={
+                                                {
+                                                    label: faculties[faculties.map(x => x.value).indexOf(facultyId)]?.label,
+                                                    value: facultyId
+                                                }
+                                            }
                                             onChange={(newValue) => { setFacultyId(newValue.value); onChange(newValue.value) }}
                                             placeholder='Выберите факультет'
                                             options={faculties}
@@ -142,6 +157,12 @@ const EditExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
+                                            value={
+                                                {
+                                                    label: examData.department.deptName,
+                                                    value: departmentId
+                                                }
+                                            }
                                             onChange={(newValue) => { setDepartmentId(newValue.value); onChange(newValue.value) }}
                                             placeholder='Выберите направление'
                                             options={departments}
@@ -163,6 +184,12 @@ const EditExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
+                                            value={
+                                                {
+                                                    label: course,
+                                                    value: course
+                                                }
+                                            }
                                             onChange={(newValue) => { setCourse(newValue.value); onChange(newValue.value) }}
                                             options={courses}
                                             isLoading={isCoursesLoading}
@@ -183,6 +210,12 @@ const EditExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
+                                            value={
+                                                {
+                                                    label: group,
+                                                    value: group
+                                                }
+                                            }
                                             onChange={(newValue) => { setGroup(newValue.value); onChange(newValue.value) }}
                                             options={groups}
                                             isLoading={isGroupsLoading}
@@ -202,8 +235,9 @@ const EditExamenForm = () => {
                                 }}
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <Input
+                                        value={examData.discipline}
                                         className={`form__input${error ? ' error' : ''}`}
-                                        onChange={(newValue) => { setDisciplineName(newValue); onChange(newValue) }}
+                                        onChange={(newValue) => onChange(newValue)}
                                     />
                                 )}
                             />
@@ -217,6 +251,7 @@ const EditExamenForm = () => {
                                 render={({ field: { onChange } }) => (
                                     <div>
                                         <DatePicker
+                                            selected={new Date(examData.examDate)}
                                             onChange={(newDate) => onChange(newDate)}
                                         />
                                     </div>

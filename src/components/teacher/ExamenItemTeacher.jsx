@@ -27,7 +27,7 @@ const ExamenItemTeacher = ({ examen, onDelete, isEditable }) => {
             ? <Link to={`/teacher/examen/${examen.examenId}`} className='discipline-btn'>{examen.discipline}</Link>
             : <Link to={`/teacher/examen-results/${examen.examenId}`} className='discipline-btn btn'>{examen.discipline}</Link>
         }
-        {isEditable && <Link to={`/teacher/edit-examen/${examen.examenId}`} className='edit-examen btn'></Link>}
+        {isEditable && <Link to={`/teacher/edit-examen`} state={examen} className='edit-examen btn'></Link>}
         <Button onClick={() => onDelete()} className='delete-examen'></Button>   
       </div>
     </li>

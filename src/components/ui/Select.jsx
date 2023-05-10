@@ -5,7 +5,7 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
-const Select = ({ options, onChange, getValue, isDisabled = true, isLoading = false, isMulti = false, placeholder = ''}) => {
+const Select = ({ options, onChange, value, isDisabled = true, isLoading = false, isMulti = false, placeholder = ''}) => {
     return (
         <ReactSelect
             noOptionsMessage={() => 'Ничего не найдено'}              
@@ -14,7 +14,7 @@ const Select = ({ options, onChange, getValue, isDisabled = true, isLoading = fa
             isMulti={isMulti}
             placeholder={placeholder}
             options={options}
-            value={getValue}
+            value={value}
             maxMenuHeight={280}
             components={animatedComponents}
             isDisabled={isDisabled}

@@ -740,7 +740,7 @@ main {
 .countdown {
     display: flex;
     align-items: center;
-    width: 270px;
+    width: 360px;
 }
 
 .countdown__message {
@@ -770,7 +770,7 @@ main {
 .questions-item,
 .answers-item__wrapper {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .answers-item__wrapper:not(:last-child) {
@@ -782,14 +782,13 @@ main {
     margin-bottom: 82px;
 }
 
-.questions-item__inner
+.questions-item__inner,
 .answers-item__inner {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .questions-item__number,
 .answers-item__number {
-    flex: 1 0 140px;
     font-weight: 700;
     font-size: 24px;
     color: #0500fe;
@@ -830,7 +829,7 @@ main {
 }
 
 .questions-item__btn--edit::before {
-    background: url('../img/edit.svg') no-repeat;
+    background: url('../img/edit.svg') no-repeat center/cover;
 }
 
 .questions-item__btn--edit:hover {

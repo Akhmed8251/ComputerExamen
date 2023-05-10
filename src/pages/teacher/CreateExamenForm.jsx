@@ -112,7 +112,7 @@ const CreateExamenForm = () => {
         <section className='create-examen'>
             <div className="container container--smaller">
                 <div className="create-examen__inner">
-                    <h1 className="create-examen__title title">Создать экзамен</h1>
+                    <h1 className="create-examen__title title">Создание экзамена</h1>
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <label className='form__label'>
                             <span className='form__text'>Факультет</span>

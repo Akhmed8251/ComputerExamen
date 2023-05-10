@@ -6,7 +6,7 @@ import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import { parsingExamTicket } from '../../utils/tickets'
 
-const CreateTicketsForm = () => {
+const EditTicketsForm = () => {
   const data = useLocation()
   const examData = data.state
 
@@ -21,14 +21,14 @@ const CreateTicketsForm = () => {
     const response = await ExamenService.createExamen(examData)
 
     if (response.status == 200) {
-      alert("Экзамен успешно создан!")
+      alert("Экзамен успешно обновлен!")
       redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')
     }
   })
 
   const onSubmit = (data) => {
     examData.employeeId = 'ca38f6e6-e893-4151-9d7c-ea21ab532047'
-
+    
     examData.tickets = parsingExamTicket(data.tickets)
     console.log(examData)
     createExamen(examData)
@@ -38,7 +38,8 @@ const CreateTicketsForm = () => {
     <section className='create-tickets'>
       <div className="container container--smaller">
         <div className="create-tickets__inner">
-          <h1 className='create-tickets__title title'>Создание билетов</h1>
+          <h1 className='create-tickets__title title'>Редактирование билетов</h1>
+          <div>{JSON.stringify(examData)}</div>
           <form className='create-tickets__form' onSubmit={handleSubmit(onSubmit)}>
             <Controller
               control={control}
@@ -68,4 +69,4 @@ const CreateTicketsForm = () => {
   )
 }
 
-export default CreateTicketsForm
+export default EditTicketsForm

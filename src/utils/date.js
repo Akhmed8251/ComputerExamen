@@ -14,7 +14,7 @@ export const formatDate = (date) => {
 
 export const diffBetweenDatesInSeconds = (date1, date2) => {
     const diffTime = Math.abs(date2 - date1);
-    const diffSeconds = Math.ceil(diffTime / (1000 * 60)); 
+    const diffSeconds = Math.ceil(diffTime / 1000); 
     return diffSeconds
 }
 

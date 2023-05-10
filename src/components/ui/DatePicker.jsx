@@ -2,8 +2,8 @@ import { useState, forwardRef } from 'react'
 import ReactDatePicker from 'react-datepicker' 
 import 'react-datepicker/dist/react-datepicker.css'
 
-const DatePicker = ({ onChange }) => {
-  const [date, setDate] = useState(new Date())
+const DatePicker = ({ onChange, selected = new Date() }) => {
+  const [date, setDate] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
 
   return (

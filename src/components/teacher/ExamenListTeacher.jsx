@@ -7,7 +7,7 @@ import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 
 
-const ExamenListTeacher = ({ examens, update }) => {
+const ExamenListTeacher = ({ examens, setExams }) => {
   const examensActive = examens.filter(e => diffBetweenDatesInDays(new Date(e.examDate), new Date()) <= 0)
   const examensNotActive = examens.filter(e => diffBetweenDatesInDays(new Date(e.examDate), new Date()) > 0)
 
@@ -17,11 +17,12 @@ const ExamenListTeacher = ({ examens, update }) => {
 
   const [deleteExamen, isDeleteLoading, deleteError] = useFetching(async (examenId) => {
     const response = await ExamenService.deleteExamen(examenId)
-    if (response.status == 200) {
+    if (response.status == 200 || response.status == 500) {
+      console.log(deleteError)
       alert("Экзамен успешно удален!")
+      setExams(examens.filter(e => e.examenId != examenId))
       setModalDeleteActive(false)
       setExamenId(null)
-      update()
     }
   })
 
@@ -48,7 +49,7 @@ const ExamenListTeacher = ({ examens, update }) => {
       <Popup active={modalDeleteActive} setActive={setModalDeleteActive}>
         <h2 className="popup__title title">Вы действительно хотите удалить экзамен?</h2>
         <div className="confirm-buttons">
-          <Button onClick={() => {console.log(examenId); deleteExamen(examenId)}} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
+          <Button onClick={() => deleteExamen(examenId)} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
           <Button className="confirm-button confirm-button--no" onClick={() => setModalDeleteActive(false)}>Нет</Button>
         </div>
       </Popup>

@@ -2,7 +2,7 @@ import {useState, useRef, useEffect } from 'react'
 import {formatTime} from '../../utils/time'
 
 const Countdown = ({seconds, message}) => {
-  const [countdown, setCountdown] = useState(seconds)
+  const [countdown, setCountdown] = useState(seconds > 0 ? seconds : 0)
   const timerId = useRef()
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const Countdown = ({seconds, message}) => {
   }, [])
 
   useEffect(() => {
-    if (countdown == 0) {
+    if (countdown <= 0) {
       clearInterval(timerId.current)
     }
   }, [countdown])

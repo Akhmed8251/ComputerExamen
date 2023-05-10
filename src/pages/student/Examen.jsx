@@ -1,54 +1,57 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Countdown from '../../components/ui/Countdown'
 import QuestionList from '../../components/student/QuestionList'
 import Button from '../../components/ui/Button'
 import Popup from '../../components/ui/Popup'
 import { useFetching } from '../../hooks/useFetching'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import ExamenService from '../../api/ExamenService'
+import AnswerBlankService from '../../api/AnswerBlankService'
+import { convertMinutesToSeconds } from '../../utils/time'
+import { diffBetweenDatesInSeconds } from '../../utils/date'
 
 const Examen = () => {
     const [modalActive, setModalActive] = useState(false)
+    const [examenAnswers, setExamenAnswers] = useState([])
     const examenId = useParams()
-    const [startExamen, isExamenLoading, startError] = useFetching(async (studentId, examId) => {
-        const response = await ExamenService.st
-    })
-    const questions = [
-        {
-            id: 1,
-            number: 1,
-            text: "Равномощные множества. Теорема о неравномощности множестванатуральных чисел и множества действительных чисел"
-        },
-        {
-            id: 2,
-            number: 2,
-            text: "Равномощные множества. Теорема о неравномощности множестванатуральных чисел и множества действительных чисел"
-        },
-        {
-            id: 3,
-            number: 3,
-            text: "Равномощные множества. Теорема о неравномощности множестванатуральных чисел и множества действительных чисел"
+   
+    const startExamenData = useLocation()
+    const examenData = startExamenData.state
+
+    const [getAnswers, isAnswersLoading, answersError] = useFetching(async (examenId, studentId) => {
+        const response = await AnswerBlankService.getAnswerBlankByExamenIdAndStudentId(examenId, studentId)
+
+        if (response.status >= 200 && response.status < 300) {
+            setExamenAnswers(response.data.answers)
         }
-    ]
+    })
+
+    useEffect(() => {
+        getAnswers(examenData.examTicket.examenId, examenData.answerBlank.studentId)
+        
+    }, [])
+
+   
+
   return (
     <>
         <section className='examen'>
             <div className='container container--smaller'>
                 <div className="examen__head">
-                    <h1 className="examen__title title">Дополнительные главы математического ана-лиз</h1>
-                    <Countdown seconds={300} />
+                    <h1 className="examen__title title">{examenData.discipline}</h1>
+                    <Countdown seconds={convertMinutesToSeconds(examenData.examenDuration) - diffBetweenDatesInSeconds(new Date(examenData.answerBlank.createDateTime), new Date())} />
                 </div>
                 <div className="examen__questions questions">
-                    <QuestionList questions={questions} />
+                    <QuestionList studentId={examenData.answerBlank.studentId} answerBlankId={examenData.answerBlank.id} examenAnswers={examenAnswers} questions={examenData.examTicket.questions} />
                 </div>
                 <div className="examen__bottom">
                     <Button className='examen__btn' onClick={() => setModalActive(true)}>Завершить экзамен</Button>
-                    <Countdown seconds={300} />
+                    <Countdown seconds={convertMinutesToSeconds(examenData.examenDuration) - diffBetweenDatesInSeconds(new Date(examenData.answerBlank.createDateTime), new Date())}  />
                 </div>
             </div>
         </section>
         <Popup active={modalActive} setActive={setModalActive}>
-            <Countdown seconds={300} />
+            <Countdown seconds={convertMinutesToSeconds(examenData.examenDuration) - diffBetweenDatesInSeconds(new Date(examenData.answerBlank.createDateTime), new Date())}  />
             <h2 className="popup__title title">Вы действительно хотите Завершить экзамен?</h2>
             <div className="confirm-buttons">
                 <Button className="confirm-button confirm-button--yes"><span>Да</span></Button>

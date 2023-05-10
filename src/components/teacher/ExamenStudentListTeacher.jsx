@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom"
+
+
 const ExamenStudentListTeacher = () => {
   return (
     <ul className='examen-teacher__list'>
@@ -8,7 +11,7 @@ const ExamenStudentListTeacher = () => {
         <a href='' className='examen-teacher__item-link'>2</a>
       </li>
       <li className='examen-teacher__item examen-teacher__item--no-checking'>
-        <a href='' className='examen-teacher__item-link'>3</a>
+        <Link to='/teacher/' className='examen-teacher__item-link'>3</Link>
       </li>
       <li className='examen-teacher__item'>
         <a href='' className='examen-teacher__item-link'>4</a>
