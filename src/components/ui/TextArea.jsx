@@ -1,9 +1,9 @@
-const TextArea = ({ className, value, ...props}) => {
+const TextArea = ({ className, ...props}) => {
     const defaultClassName = 'textarea'
     const classNames = className ? className + ` ${defaultClassName}` : defaultClassName
 
     return (
-        <textarea className={classNames} {...props} />
+        <textarea className={classNames} {...props} /> 
     );
 };
 

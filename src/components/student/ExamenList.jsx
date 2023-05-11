@@ -19,6 +19,7 @@ const ExamenList = ({ examens, studentId }) => {
       let startExamenData = response.data
 
       let discipline = examens.find(e => e.examenId == examenId)?.discipline
+    
       redirect(`/examen/${examenId}`, {
         state: {...startExamenData, discipline}
       })

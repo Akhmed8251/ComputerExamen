@@ -770,7 +770,6 @@ main {
 .questions-item,
 .answers-item__wrapper {
     display: flex;
-    /* justify-content: space-between; */
 }
 
 .answers-item__wrapper:not(:last-child) {
@@ -780,6 +779,15 @@ main {
 .questions-item:not(:last-child),
 .answers-item:not(:last-child) {
     margin-bottom: 82px;
+}
+
+.questions-item__body {
+    width: 100%;
+}
+
+.questions-item__answer-text {
+    max-width: 100%;
+    min-height: 300px;
 }
 
 .questions-item__inner,

@@ -8,7 +8,7 @@ export default class AnswerService {
     }
 
     static async editAnswer(answer) {
-        const response = await axios.put(`${API_URL}/Answer/EditAnswer`, answer)
+        const response = await axios.put(`${API_URL}/Answer/UpdateAnswer`, answer)
         return response;
     }
 }

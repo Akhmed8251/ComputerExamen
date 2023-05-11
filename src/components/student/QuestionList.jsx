@@ -4,7 +4,7 @@ import QuestionItem from './QuestionItem'
 import AnswerService from '../../api/AnswerService'
 
 const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) => {
-  const [currentAnswerText, setCurrentAnswerText] = useState(null)
+  const [questionIdLoading, setQuestionLoadingId] = useState(null)
 
   const [createAnswer, isAnswerLoading, ansError] = useFetching(async (answer) => {
     const response = await AnswerService.createAnswer(answer)
@@ -27,14 +27,37 @@ const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) =>
   })
 
   const getAnswerQuestionById = (id) => {
-    if (examenAnswers != null) {
+    if (examenAnswers) {
       console.log(examenAnswers)
       let textAnswer = examenAnswers.find(ans => ans.questionId == id)?.textAnswer
-      return textAnswer
+      if (textAnswer != null) {
+        return textAnswer
+      } else {
+        return ''
+      } 
     } else {
       return ''
     }
   } 
+
+  const onSaveAnswer = (questionId, textAnswer) => {
+    createAnswer({
+      id: 0,
+      studentId: studentId,
+      questionId: questionId,
+      answerBlankId: answerBlankId,
+      textAnswer: textAnswer,
+      createAnswerDate: new Date(),
+      updateAnswerDate: null,
+      isDeleted: false
+    })
+  }
+
+  const onEditAnswer = (questionId, textAnswer) => {
+    const answer = examenAnswers.find(e => e.questionId == questionId)
+    answer.textAnswer = textAnswer
+    editAnswer(answer)
+  }
     
     
   return (
@@ -43,26 +66,15 @@ const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) =>
         questions.map(question =>
           <QuestionItem 
               onSave={(textAnswer) => {
-                console.log(textAnswer)
-                createAnswer({
-                  id: 0,
-                  studentId: studentId,
-                  questionId: question.id,
-                  answerBlankId: answerBlankId,
-                  textAnswer: textAnswer,
-                  createAnswerDate: new Date(),
-                  updateAnswerDate: null,
-                  isDeleted: false
-                })
+                onSaveAnswer(question.id, textAnswer)
               }} 
               onEdit={(textAns) => {
-                console.log("Текст ответа: " + textAns)
+                onEditAnswer(question.id, textAns)
               }}
               key={question.id} 
               question={question} 
               answer={getAnswerQuestionById(question.id)} 
               isLoading={isAnswerLoading} 
-              setAnswer={setCurrentAnswerText} 
             />
         )
       }

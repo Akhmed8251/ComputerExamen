@@ -12,14 +12,14 @@ import { diffBetweenDatesInSeconds } from '../../utils/date'
 
 const Examen = () => {
     const [modalActive, setModalActive] = useState(false)
-    const [examenAnswers, setExamenAnswers] = useState([])
+    const [examenAnswers, setExamenAnswers] = useState(null)
     const examenId = useParams()
    
     const startExamenData = useLocation()
     const examenData = startExamenData.state
 
-    const [getAnswers, isAnswersLoading, answersError] = useFetching(async (examenId, studentId) => {
-        const response = await AnswerBlankService.getAnswerBlankByExamenIdAndStudentId(examenId, studentId)
+    const [getAnswers, isAnswersLoading, answersError] = useFetching(async (answerBlankId) => {
+        const response = await AnswerBlankService.getAnswerBlankById(answerBlankId)
 
         if (response.status >= 200 && response.status < 300) {
             setExamenAnswers(response.data.answers)
@@ -27,11 +27,9 @@ const Examen = () => {
     })
 
     useEffect(() => {
-        getAnswers(examenData.examTicket.examenId, examenData.answerBlank.studentId)
-        
+        getAnswers(examenData.answerBlank.id)    
     }, [])
-
-   
+    console.log(examenData)
 
   return (
     <>
@@ -42,7 +40,7 @@ const Examen = () => {
                     <Countdown seconds={convertMinutesToSeconds(examenData.examenDuration) - diffBetweenDatesInSeconds(new Date(examenData.answerBlank.createDateTime), new Date())} />
                 </div>
                 <div className="examen__questions questions">
-                    <QuestionList studentId={examenData.answerBlank.studentId} answerBlankId={examenData.answerBlank.id} examenAnswers={examenAnswers} questions={examenData.examTicket.questions} />
+                    { !isAnswersLoading && <QuestionList studentId={examenData.answerBlank.studentId} answerBlankId={examenData.answerBlank.id} examenAnswers={examenAnswers} questions={examenData.examTicket.questions} />}
                 </div>
                 <div className="examen__bottom">
                     <Button className='examen__btn' onClick={() => setModalActive(true)}>Завершить экзамен</Button>

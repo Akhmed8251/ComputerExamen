@@ -17,7 +17,7 @@ const ExamenListTeacher = ({ examens, setExams }) => {
 
   const [deleteExamen, isDeleteLoading, deleteError] = useFetching(async (examenId) => {
     const response = await ExamenService.deleteExamen(examenId)
-    if (response.status == 200 || response.status == 500) {
+    if (response.status == 200 || deleteError) {
       console.log(deleteError)
       alert("Экзамен успешно удален!")
       setExams(examens.filter(e => e.examenId != examenId))
