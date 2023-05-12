@@ -259,7 +259,7 @@ const EditExamenForm = () => {
                             />
                         </label>
                         <label className='form__label' onClick={(evt) => evt.preventDefault()}>
-                            <span className='form__text'>Длительность</span>
+                            <span className='form__text'>Длительность в минутах</span>
 
                             <Controller
                                 control={control}
@@ -270,6 +270,7 @@ const EditExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <Input
                                         type="number"
+                                        value={examData.examDurationInMitutes}
                                         className={`form__input${error ? ' error' : ''}`}
                                         onChange={(newValue) => { onChange(newValue) }}
                                     />

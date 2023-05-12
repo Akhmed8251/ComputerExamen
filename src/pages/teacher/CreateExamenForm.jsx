@@ -225,7 +225,7 @@ const CreateExamenForm = () => {
                             />
                         </label>
                         <label className='form__label' onClick={(evt) => evt.preventDefault()}>
-                            <span className='form__text'>Длительность</span>
+                            <span className='form__text'>Длительность в минутах</span>
 
                             <Controller
                                 control={control}
