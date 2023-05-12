@@ -1,19 +1,21 @@
 import {useState, useRef, useEffect } from 'react'
 import {formatTime} from '../../utils/time'
 
-const Countdown = ({seconds, message}) => {
+const Countdown = ({seconds, onTimeOver}) => {
   const [countdown, setCountdown] = useState(seconds > 0 ? seconds : 0)
   const timerId = useRef()
 
   useEffect(() => {
+    
     timerId.current = setInterval(() => {
-     setCountdown(prev => prev - 1)
+      setCountdown(prev => prev - 1)
     }, 1000)
   }, [])
 
   useEffect(() => {
     if (countdown <= 0) {
       clearInterval(timerId.current)
+      onTimeOver && onTimeOver()
     }
   }, [countdown])
 

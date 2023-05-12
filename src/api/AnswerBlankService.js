@@ -20,4 +20,9 @@ export default class AnswerBlankService {
         })
         return response;
     }
+
+    static async endExamenForStudent(examen) {
+        const response = await axios.put(`${API_URL}/AnswerBlank/EndExamenForStudent`, examen)
+        return response;
+    }
 }

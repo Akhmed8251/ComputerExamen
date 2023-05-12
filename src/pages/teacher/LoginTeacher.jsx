@@ -10,7 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 
 const LoginTeacher = () => {
-    const {setIsAuthTeacher, setUserName} = useContext(AuthContext);
+    const {setIsAuthTeacher, setUserName, setEmployeeId} = useContext(AuthContext);
 
     const [loginUser, setLoginUser] = useState(null)
     const [passwordUser, setPasswordUser] = useState(null)
@@ -21,13 +21,17 @@ const LoginTeacher = () => {
         const response = await AuthService.login(loginUser, passwordUser)
 
         if (response.status == 200) {
+            let userData = response.data
             setIsAuthTeacher(true)
             localStorage.setItem("isAuthTeacher", "true")
 
-            localStorage.setItem("userName", loginUser)
+            localStorage.setItem("userName", userData.userName)
             setUserName(loginUser)
 
-            redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')
+            localStorage.setItem("employeeId", userData.id)
+            setEmployeeId(userData.id)
+
+            redirect(`/teacher/examens/${userData.id}`)
         }
     })
 

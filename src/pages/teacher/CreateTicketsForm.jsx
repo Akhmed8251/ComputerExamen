@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import { parsingExamTicket } from '../../utils/tickets'
+import { useContext } from 'react'
+import { AuthContext } from '../../context'
 
 const CreateTicketsForm = () => {
   const data = useLocation()
@@ -16,21 +18,23 @@ const CreateTicketsForm = () => {
     mode: "onSubmit"
   });
 
+  const { employeeId } = useContext(AuthContext)
+
 
   const [createExamen, isExamenLoading, examError] = useFetching(async (examData) => {
     const response = await ExamenService.createExamen(examData)
 
     if (response.status == 200) {
       alert("Экзамен успешно создан!")
-      redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')
+      redirect(`/teacher/examens/${employeeId}`)
     }
   })
 
   const onSubmit = (data) => {
-    examData.employeeId = 'ca38f6e6-e893-4151-9d7c-ea21ab532047'
+    examData.employeeId = employeeId
 
     examData.tickets = parsingExamTicket(data.tickets)
-    console.log(examData)
+
     createExamen(examData)
   }
 

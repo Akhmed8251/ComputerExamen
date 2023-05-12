@@ -4,7 +4,7 @@ import { AuthContext } from '../context'
 import { Link, useHref } from 'react-router-dom'
 
 const Header = () => {
-    const {userName, setUserName, isAuthStudent, setIsAuthStudent, isAuthTeacher, setIsAuthTeacher} = useContext(AuthContext)
+    const {userName, setUserName, isAuthStudent, setIsAuthStudent, setEmployeeId, setIsAuthTeacher} = useContext(AuthContext)
     const hrefPage = useHref()
 
     const logout = () => {
@@ -12,6 +12,7 @@ const Header = () => {
             setIsAuthStudent(false)
         } else {
             setIsAuthTeacher(false)
+            setEmployeeId(null)
         }
         setUserName('')
         localStorage.clear()

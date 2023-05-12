@@ -3,14 +3,16 @@ import { useFetching } from '../../hooks/useFetching'
 import QuestionItem from './QuestionItem'
 import AnswerService from '../../api/AnswerService'
 
-const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) => {
+const QuestionList = ({onUpdate, examenAnswers, questions, studentId, answerBlankId, isStop }) => {
   const [questionIdLoading, setQuestionLoadingId] = useState(null)
 
   const [createAnswer, isAnswerLoading, ansError] = useFetching(async (answer) => {
     const response = await AnswerService.createAnswer(answer)
 
     if (response.status == 200) {
+      setQuestionLoadingId(null)
       alert("Ответ принят!")
+      onUpdate()
     } else {
       console.log(ansError)
     }
@@ -20,7 +22,9 @@ const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) =>
     const response = await AnswerService.editAnswer(answer)
 
     if (response.status == 200) {
+      setQuestionLoadingId(null)
       alert("Ответ принят!")
+      onUpdate()
     } else {
       console.log(ansError)
     }
@@ -28,7 +32,6 @@ const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) =>
 
   const getAnswerQuestionById = (id) => {
     if (examenAnswers) {
-      console.log(examenAnswers)
       let textAnswer = examenAnswers.find(ans => ans.questionId == id)?.textAnswer
       if (textAnswer != null) {
         return textAnswer
@@ -56,6 +59,7 @@ const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) =>
   const onEditAnswer = (questionId, textAnswer) => {
     const answer = examenAnswers.find(e => e.questionId == questionId)
     answer.textAnswer = textAnswer
+    answer.updateAnswerDate = new Date()
     editAnswer(answer)
   }
     
@@ -66,15 +70,18 @@ const QuestionList = ({ examenAnswers, questions, studentId, answerBlankId }) =>
         questions.map(question =>
           <QuestionItem 
               onSave={(textAnswer) => {
+                setQuestionLoadingId(question.id)
                 onSaveAnswer(question.id, textAnswer)
               }} 
               onEdit={(textAns) => {
+                setQuestionLoadingId(question.id)
                 onEditAnswer(question.id, textAns)
               }}
               key={question.id} 
               question={question} 
               answer={getAnswerQuestionById(question.id)} 
-              isLoading={isAnswerLoading} 
+              isLoading={isAnswerLoading && questionIdLoading == question.id} 
+              isDisabledButtons={isStop}
             />
         )
       }

@@ -1,4 +1,4 @@
-export const parsingExamTicket = (ticketsFromTextArea) => {
+export const parsingExamTicket = (ticketsFromTextArea, ticketsEdit = null) => {
     let ticketsArr = ticketsFromTextArea.split("\n\n")
     let tickets = []
 
@@ -39,5 +39,20 @@ export const parsingExamTicket = (ticketsFromTextArea) => {
 }
 
 export const getTicketsForInput = (tickets) => {
+  let ticketsRes = []
 
+  tickets.forEach(ticket => {
+    let ticketStr = `Билет №${ticket.number}\n`
+    let questions = []
+
+    ticket.questions.forEach(question => {
+      let questionStr = `№${question.number} - ${question.text}`
+      questions.push(questionStr)
+    })
+
+    ticketStr += questions.join("\n")
+    ticketsRes.push(ticketStr)
+  })
+
+  return ticketsRes.join("\n\n")
 }

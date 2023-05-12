@@ -35,6 +35,11 @@ export default class ExamenService {
         return response;
     }
 
+    static async editExamen(examenData) {
+        const response = await axios.put(`${API_URL}/Examen/UpdateExamen`, examenData)
+        return response;
+    }
+
     static async deleteExamen(examenId) {
         const response = await axios.delete(`${API_URL}/Examen/DeleteExamen`, {
             params: {

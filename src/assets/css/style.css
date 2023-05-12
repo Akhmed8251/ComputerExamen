@@ -164,7 +164,7 @@ body {
 
 .loading::before {
     content: '';
-    background: url('../img/loading.svg') no-repeat center/cover;
+    background: url('../img/loading.svg') no-repeat center/cover !important;
     width: 24px;
     height: 24px;
     display: block;
@@ -174,6 +174,7 @@ body {
 
 .btn.loading {
     display: flex;
+    pointer-events: none;
 }
 
 .btn.loading span {
@@ -593,17 +594,17 @@ main {
     color: #b7b7b7;
 }
 
-.examens__item--active .discipline-btn {
+.examens__item--passed .discipline-btn {
     border-color: #259812;
     background-color: #f2fff0;
 }
 
 .examens__item--disable .discipline-btn,
-.examens__item--active .discipline-btn {
+.examens__item--passed .discipline-btn {
     pointer-events: none;
 }
 
-.examens-teacher .examens__item--active .discipline-btn {
+.examens-teacher .examens__item--passed .discipline-btn {
     pointer-events: all;
 }
 
@@ -740,7 +741,6 @@ main {
 .countdown {
     display: flex;
     align-items: center;
-    width: 360px;
 }
 
 .countdown__message {
@@ -754,6 +754,7 @@ main {
     font-size: 40px;
     display: block;
     color: #0050cf;
+    width: 220px;
 }
 
 .examen__head {
@@ -761,6 +762,7 @@ main {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 47px;
+    gap: 25px;
 }
 
 .questions {
@@ -818,6 +820,8 @@ main {
     display: flex;
     align-items: center;
     margin-left: auto;
+    padding: 14px;
+    font-size: 18px;
 }
 
 .questions-item__btn::before {
@@ -844,6 +848,10 @@ main {
     background-color: #248d13;
 }
 
+.questions-item__btn.disabled {
+    pointer-events: none;
+}
+
 
 @keyframes loading {
     from {
@@ -865,7 +873,7 @@ main {
 }
 
 .popup .countdown {
-    margin: 0 auto;
+    justify-content: center;
     margin-bottom: 47px;
 }
 

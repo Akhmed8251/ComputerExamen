@@ -23,6 +23,8 @@ const ExamenList = ({ examens, studentId }) => {
       redirect(`/examen/${examenId}`, {
         state: {...startExamenData, discipline}
       })
+    } else {
+      console.log(response.statusText)
     }
   })
 

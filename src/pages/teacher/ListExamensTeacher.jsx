@@ -7,6 +7,7 @@ import ExamenItemTeacher from '../../components/teacher/ExamenItemTeacher'
 import Examens from '../student/Examens'
 import ExamenService from '../../api/ExamenService'
 import { useEffect, useState } from 'react'
+import Countdown from '../../components/ui/Countdown'
 
 const ListExamensTeacher = () => {
     const urlParams = useParams()
@@ -29,7 +30,7 @@ const ListExamensTeacher = () => {
     <section className='examens examens-teacher'>
         <div className="container container--smaller">
             <Link to={`/teacher/create-examen`} className='examens-teacher__btn btn'>Создать экзамен</Link>
-            {isExamensLoading ? <div className='loader'>Идет загрузка экзаменовю...</div> : <ExamenListTeacher setExams={setExamens} examens={examens} />}
+            {isExamensLoading ? <div className='loader'>Идет загрузка экзаменов...</div> : <ExamenListTeacher setExams={setExamens} examens={examens} />}
         </div>
     </section>
   )

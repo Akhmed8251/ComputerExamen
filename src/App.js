@@ -9,6 +9,7 @@ const App = () => {
   const [isAuthStudent, setIsAuthStudent] = useState(false);
   const [isAuthTeacher, setIsAuthTeacher] = useState(false);
   const [userName, setUserName] = useState('');
+  const [employeeId, setEmployeeId] = useState(null)
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const App = () => {
     } else if (localStorage.getItem('isAuthTeacher')) {
       setIsAuthTeacher(true)
       setUserName(localStorage.getItem('userName'))
+      setEmployeeId(localStorage.getItem('employeeId'))
     }
 
     setLoading(false);
@@ -33,7 +35,9 @@ const App = () => {
       setIsAuthTeacher,
       userName,
       setUserName,
-      isLoading
+      isLoading,
+      employeeId,
+      setEmployeeId
     }}>
       <BrowserRouter>
         <div className="site-wrapper">

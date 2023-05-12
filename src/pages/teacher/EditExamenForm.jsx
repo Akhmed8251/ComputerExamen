@@ -99,7 +99,8 @@ const EditExamenForm = () => {
             course: examData.course,
             nGroup: examData.group,
             discipline: examData.discipline,
-            examDate: examData.examDate
+            examDate: examData.examDate,
+            examDurationInMitutes: examData.examDurationInMitutes
         }
     })
 
@@ -110,11 +111,14 @@ const EditExamenForm = () => {
             data.examDate = new Date()
         }
         data.isDeleted = false
-
+        data.examTickets = examData.examTickets
+        
         redirect(`/teacher/edit-tickets`, {
             state: data
         })
     }
+
+
 
     return (
         <section className='create-examen'>
