@@ -48,4 +48,13 @@ export default class ExamenService {
         })
         return response;
     }
+
+    static async getStudentsByExamenIdForChecking(examenId) {
+        const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenIdForChecking`, {
+            params: {
+                examenId: examenId
+            }
+        })
+        return response;
+    }
 }

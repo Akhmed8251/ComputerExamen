@@ -110,9 +110,11 @@ const EditExamenForm = () => {
         if (!data.examDate) {
             data.examDate = new Date()
         }
+
+        data.id = examData.examenId
         data.isDeleted = false
         data.examTickets = examData.examTickets
-        
+
         redirect(`/teacher/edit-tickets`, {
             state: data
         })
@@ -237,9 +239,9 @@ const EditExamenForm = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                render={({ field: { value, onChange }, fieldState: { error } }) => (
                                     <Input
-                                        value={examData.discipline}
+                                        value={value}
                                         className={`form__input${error ? ' error' : ''}`}
                                         onChange={(newValue) => onChange(newValue)}
                                     />
@@ -271,10 +273,10 @@ const EditExamenForm = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                render={({ field: { value, onChange }, fieldState: { error } }) => (
                                     <Input
                                         type="number"
-                                        value={examData.examDurationInMitutes}
+                                        value={value}
                                         className={`form__input${error ? ' error' : ''}`}
                                         onChange={(newValue) => { onChange(newValue) }}
                                     />

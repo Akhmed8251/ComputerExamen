@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom"
 
 
-const ExamenStudentListTeacher = () => {
+const ExamenStudentListTeacher = (students) => {
   return (
     <ul className='examen-teacher__list'>
-      <li className='examen-teacher__item examen-teacher__item--success'>
-        <a href='' className='examen-teacher__item-link'>1</a>
-      </li>
+      {/* {
+        students.map(student => 
+          <li className='examen-teacher__item examen-teacher__item--success'>
+            <a href='' className='examen-teacher__item-link'>1</a>
+          </li>
+        )
+      } */}
+      
       <li className='examen-teacher__item examen-teacher__item--failed'>
         <a href='' className='examen-teacher__item-link'>2</a>
       </li>

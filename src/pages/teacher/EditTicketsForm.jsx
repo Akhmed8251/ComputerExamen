@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
-import { editTextQuestions, getTicketsForInput, parsingExamTicket } from '../../utils/tickets'
+import { editTextQuestions, editTickets, getTicketsForInput, parsingExamTicket } from '../../utils/tickets'
 import { useContext } from 'react'
 import { AuthContext } from '../../context'
 
@@ -21,10 +21,7 @@ const EditTicketsForm = () => {
     }
   });
 
-  console.log(examData)
-
   const { employeeId } = useContext(AuthContext)
-
 
   const [editExamen, isExamenLoading, examError] = useFetching(async (examData) => {
     const response = await ExamenService.editExamen(examData)
@@ -37,7 +34,8 @@ const EditTicketsForm = () => {
 
   const onSubmit = (data) => {
     examData.employeeId = employeeId
-    examData.tickets = parsingExamTicket(data.tickets, examData.examTickets)
+    examData.tickets = editTickets(data.tickets, examData.examTickets)
+
     editExamen(examData)
   }
 

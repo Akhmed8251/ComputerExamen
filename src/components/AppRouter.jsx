@@ -5,7 +5,7 @@ import {AuthContext} from '../context';
 import NoFound from './NoFound';
 
 const AppRouter = () => {
-    const {isAuthStudent, isAuthTeacher, isLoading} = useContext(AuthContext);
+    const {isAuthStudent, isAuthTeacher, isLoading, employeeId } = useContext(AuthContext);
 
     if (isLoading) {
         return <div className='loading'>13233</div>
@@ -42,7 +42,7 @@ const AppRouter = () => {
                     />
                 )}
                 <Route
-                    element={<Navigate to='/teacher/examens' />}
+                    element={<Navigate to={`/teacher/examens/${employeeId}`} />}
                     path='*'
                     exact={true}
                 />

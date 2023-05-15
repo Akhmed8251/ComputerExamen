@@ -2,10 +2,22 @@ import { useState } from 'react'
 import ExamenStudentListTeacher from '../../components/teacher/ExamenStudentListTeacher'
 import Button from '../../components/ui/Button'
 import Popup from '../../components/ui/Popup'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useFetching } from '../../hooks/useFetching'
+import ExamenService from '../../api/ExamenService'
 
 const ExamenTeacher = () => {
     const [modalActive, setModalActive] = useState(false)
+    const [students, setStudents] = useState([])
+    const { id } = useParams()
+
+    const [getStudents, isStudentLoading, studentErr] = useFetching(async (examenId) => {
+        const response = await ExamenService.getStudentsByExamenIdForChecking(examenId)
+
+        if (response.status == 200) {
+            setStudents(response.data)
+        }
+    })
 
     return (
         <section className='examen-teacher'>
@@ -22,7 +34,7 @@ const ExamenTeacher = () => {
                         <span className='data__stage'>1 курс 3 группа</span>
                         <span className='data__department'>Фундаментальная физика</span>
                     </div>
-                    <ExamenStudentListTeacher />
+                    {isStudentLoading ? <div>Загрузка студентов...</div> : <ExamenStudentListTeacher students={students} />}
                     <Button onClick={() => setModalActive(true)}>Закончить экзамен</Button>
                     <Popup active={modalActive} setActive={setModalActive}>
                         <h2 className="popup__title title">Вы действительно хотите завершить экзамен?</h2>
