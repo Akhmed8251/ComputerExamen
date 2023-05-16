@@ -36,6 +36,7 @@ const EditTicketsForm = () => {
     examData.employeeId = employeeId
     examData.tickets = editTickets(data.tickets, examData.examTickets)
 
+    console.log(examData)
     editExamen(examData)
   }
 

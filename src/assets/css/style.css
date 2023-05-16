@@ -931,7 +931,7 @@ main {
     background-color: #dbdbdf;
 }
 
-.back-link {
+.back-link a {
     width: 205px;
     display: inline-block;
     border-left: 0;
@@ -942,12 +942,12 @@ main {
     transition: .3s;
 }
 
-.back-link svg {
+.back-link a svg {
     fill: transparent;
     transition: .3s;
 }
 
-.back-link:hover svg {
+.back-link a:hover svg {
     fill: #0050cf;
 }
 
@@ -958,7 +958,7 @@ main {
     font-size: 14px;
 }
 
-.back-link:hover .back-link__text {
+.back-link a:hover .back-link__text {
     color: #fff;
 }
 
@@ -989,6 +989,7 @@ main {
     max-width: 962px;
 }
 
+
 .examen-teacher__item-link,
 .answers-check__student,
 .result-item__score {
@@ -997,12 +998,17 @@ main {
     background-color: #d9d9d9;
     border-radius: 50%;
     font-weight: 500;
-    font-size: 48px;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
     pointer-events: none;
+}
+
+.examen-teacher__item--success .examen-teacher__item-link,
+.examen-teacher__item--failed .examen-teacher__item-link {
+    font-size: 48px;
 }
 
 .result-item__score {

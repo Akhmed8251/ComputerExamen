@@ -63,6 +63,7 @@ export const getTicketsForInput = (tickets) => {
 
 export const editTickets = (ticketsFromTextArea, ticketsFromExamen) => {
   let ticketsArr = ticketsFromTextArea.split("\n\n")
+  let examenId = ticketsFromExamen[0]?.examenId
   let tickets = []
 
   ticketsArr.forEach((ticket, index) => {
@@ -90,7 +91,7 @@ export const editTickets = (ticketsFromTextArea, ticketsFromExamen) => {
     let ticketObj = {
       id: ticketsFromExamen[index]?.id ?? 0,
       number: ticketNumber,
-      examenId: ticketsFromExamen[index]?.examenId ?? 0,
+      examenId: examenId ?? 0,
       questions: questionsItems,
       isDeleted: false
     }

@@ -21,8 +21,18 @@ export default class AnswerBlankService {
         return response;
     }
 
+    static async updateAnswerBlank(answerBlank) {
+        const response = await axios.put(`${API_URL}/AnswerBlank/UpdateAnswerBlank`, answerBlank)
+        return response;
+    }
+
     static async endExamenForStudent(examen) {
         const response = await axios.put(`${API_URL}/AnswerBlank/EndExamenForStudent`, examen)
+        return response;
+    }
+
+    static async endExamenForTeacher(answerBlank) {
+        const response = await axios.put(`${API_URL}/AnswerBlank/UpdateAnswerBlank`, answerBlank)
         return response;
     }
 }

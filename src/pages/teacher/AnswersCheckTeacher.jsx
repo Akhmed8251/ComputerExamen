@@ -3,9 +3,28 @@ import Popup from '../../components/ui/Popup'
 import Button from '../../components/ui/Button'
 import AnswerList from '../../components/teacher/AnswerList'
 import Input from '../../components/ui/Input'
+import { redirect, useLocation } from 'react-router-dom'
+import { useFetching } from '../../hooks/useFetching'
+import AnswerBlankService from '../../api/AnswerBlankService'
 
 const AnswersCheckTeacher = () => {
+  const [totalScore, setTotalScore] = useState(null)
   const [modalActive, setModalActive] = useState(false)
+  const data = useLocation()
+  const studentData = data.state
+
+  const [updateAnswerBlank, isUpdateLoading, updateError] = useFetching(async (answerBlank) => {
+    const response = await AnswerBlankService.updateAnswerBlank(answerBlank)
+
+    if (response.status == 200) {
+      alert("Баллы успешно выставлены!")
+    }
+  })
+
+  const onSubmit = () => {
+    studentData.answerBlank.totalScore = totalScore
+    updateAnswerBlank(studentData.answerBlank)
+  }
 
   return (
     <section className='answers-check'>
@@ -17,20 +36,20 @@ const AnswersCheckTeacher = () => {
             </svg>
             <span className="back-link__text">Экзамены</span>
           </a>
-          <div className='answers-check__student answers-check__student--no-checking'>4</div>
+          <div className='answers-check__student answers-check__student--no-checking'>{studentData.studentId}</div>
         </div>
         <div className="answers-check__body">
-          <h1 className='answers-check__title title'>Дополнительные главы математического анализа</h1>
+          <h1 className='answers-check__title title'>{studentData.examen.discipline}</h1>
           <div className="answers-check__data data">
-            <span className='data__stage'>1 курс 3 группа</span>
-            <span className='data__department'>Фундаментальная физика</span>
+            <span className='data__stage'>{`${studentData.examen.course} курс ${studentData.examen.nGroup} группа`}</span>
+            <span className='data__department'>{studentData.deptName}</span>
           </div>
-          <AnswerList />
+          <AnswerList questions={studentData.answerBlank.examTicket.questions} answers={studentData.answerBlank.answers} />
 
           <div className='answers-check__bottom'>
             <div className='answers-check__score'>
               <p className='answers-check__score-label'>Выставить баллы</p>
-              <Input className='answers-check__score-input' />
+              <Input className='answers-check__score-input' onChange={(evt) => setTotalScore(+evt.target.value)} />
             </div>
             <Button className='answers-check__btn' onClick={() => setModalActive(true)}>Закончить проверку</Button>
           </div>
@@ -40,7 +59,7 @@ const AnswersCheckTeacher = () => {
       <Popup active={modalActive} setActive={setModalActive}>
         <h2 className="popup__title title">Вы действительно хотите закончить проверку?</h2>
         <div className="confirm-buttons">
-          <Button className="confirm-button confirm-button--yes"><span>Да</span></Button>
+          <Button onClick={() => onSubmit()} className={`confirm-button confirm-button--yes${isUpdateLoading ? ' loading' : ''}`}><span>Да</span></Button>
           <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
         </div>
       </Popup>
