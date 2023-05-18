@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { useFetching } from '../../hooks/useFetching'
 import DsuService from '../../api/DsuService'
 import { Controller, useForm } from 'react-hook-form';
+import { parsingDate } from '../../utils/date'
 
 const EditExamenForm = () => {
     const data = useLocation()
@@ -107,9 +108,8 @@ const EditExamenForm = () => {
     const redirect = useNavigate()
 
     const onSubmit = (data) => {
-        if (!data.examDate) {
-            data.examDate = new Date()
-        }
+        let dateInput = document.querySelector(".datepicker")
+        data.examDate = parsingDate(dateInput.value)
 
         data.id = examData.examenId
         data.isDeleted = false

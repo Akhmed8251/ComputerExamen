@@ -9,6 +9,7 @@ const App = () => {
   const [isAuthStudent, setIsAuthStudent] = useState(false);
   const [isAuthTeacher, setIsAuthTeacher] = useState(false);
   const [userName, setUserName] = useState('');
+  const [studentId, setStudentId] = useState(null)
   const [employeeId, setEmployeeId] = useState(null)
   const [isLoading, setLoading] = useState(true)
 
@@ -17,6 +18,7 @@ const App = () => {
     if (localStorage.getItem('isAuthStudent')) {
       setIsAuthStudent(true)
       setUserName(localStorage.getItem('userName'))
+      setStudentId(localStorage.getItem('studentId'))
       
     } else if (localStorage.getItem('isAuthTeacher')) {
       setIsAuthTeacher(true)
@@ -36,6 +38,8 @@ const App = () => {
       userName,
       setUserName,
       isLoading,
+      studentId,
+      setStudentId,
       employeeId,
       setEmployeeId
     }}>

@@ -9,7 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 const LoginStudent = () => {
-    const { setIsAuthStudent, setUserName } = useContext(AuthContext);
+    const { setIsAuthStudent, setUserName, setStudentId } = useContext(AuthContext);
 
     const [faculties, setFaculties] = useState([])
     const [facultyId, setFacultyId] = useState(null)
@@ -91,7 +91,7 @@ const LoginStudent = () => {
     }, [course])
 
     const [students, setStudents] = useState([])
-    const [studentId, setStudentId] = useState(null)
+
     const [getStudents, isStudentsLoading, studentsError] = useFetching(async (id, nCourse, nGroup) => {
         const response = await DsuService.getStudentsByCourseAndGroup(id, nCourse, nGroup)
         const dataArr = []
@@ -128,6 +128,9 @@ const LoginStudent = () => {
             let studentFio = students.find(s => s.value === studentId).label
             setUserName(studentFio)
             localStorage.setItem("userName", studentFio)
+
+            setStudentId(studentId)
+            localStorage.setItem("studentId", studentId)
 
             redirect(`/examens/${studentId}`)
         }
@@ -252,7 +255,7 @@ const LoginStudent = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setStudentId(newValue.value); onChange(newValue.value) }}
+                                            onChange={(newValue) => onChange(newValue.value)}
                                             options={students}
                                             isLoading={isStudentsLoading}
                                             isDisabled={isStudentsLoading}
