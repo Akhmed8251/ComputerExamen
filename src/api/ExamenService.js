@@ -20,6 +20,15 @@ export default class ExamenService {
         return response;
     }
 
+    static async getStudentsByExamenId(id) {
+        const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenId`, {
+            params: {
+                examenId: id,
+            }
+        })
+        return response;
+    }
+
     static async startExamen(id, examenId) {
         const response = await axios.get(`${API_URL}/Examen/StartExamen`, {
             params: {

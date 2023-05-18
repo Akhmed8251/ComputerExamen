@@ -1,14 +1,30 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Popup from '../../components/ui/Popup'
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import StudentScoreList from '../../components/teacher/StudentScoreList'
 import { AuthContext } from '../../context'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useFetching } from '../../hooks/useFetching'
+import ExamenService from '../../api/ExamenService'
 
 const ExamenResults = () => {
   const { employeeId } = useContext(AuthContext)
+  const { id } = useParams()
   const [modalActive, setModalActive] = useState(false)
+
+  const [studentsScore, setStudentsScore] = useState([])
+  const [getStudentsScore, isScoreLoading, scoreError] = useFetching(async (examenId) => {
+    const response = await ExamenService.getStudentsByExamenId(examenId)
+
+    if (response.status == 200) {
+      setStudentsScore(response.data)
+    }
+  })
+
+  useEffect(() => {
+    getStudentsScore(id)
+  }, [])
 
   return (
     <section className='examen-results'>
@@ -27,7 +43,7 @@ const ExamenResults = () => {
             <span className='data__stage'>1 курс 3 группа</span>
             <span className='data__department'>Фундаментальная физика</span>
           </div>
-          <StudentScoreList />
+          {isScoreLoading ? <div className='loader'>Идет загрузка результатов...</div> : <StudentScoreList scores={studentsScore} />}
         </div>
       </div>
     </section>
