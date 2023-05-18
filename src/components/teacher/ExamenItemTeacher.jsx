@@ -15,7 +15,7 @@ const ExamenItemTeacher = ({ examen, onDelete, isEditable }) => {
   }
 
   return (
-    <li className={`examens__item examens-item${dateExamen == 'Сегодня' ? '' : isEditable ? ' examens__item--disable' : ' examens__item--active'}`}>
+    <li className={`examens__item examens-item${dateExamen == 'Сегодня' ? '' : isEditable ? ' examens__item--disable' : ' examens__item--passed'}`}>
       <span className='examens-item__date'>{dateExamen}</span>
       <div className='examens-item__data data'>
         <span className='data__stage'>{`${examen.course} курс ${examen.group} группа`}</span>
