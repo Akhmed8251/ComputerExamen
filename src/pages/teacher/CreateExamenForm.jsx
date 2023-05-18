@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { useFetching } from '../../hooks/useFetching'
 import DsuService from '../../api/DsuService'
 import { Controller, useForm } from 'react-hook-form';
+import { parsingDate } from '../../utils/date'
 
 const CreateExamenForm = () => {
 
@@ -92,15 +93,14 @@ const CreateExamenForm = () => {
     const [disciplineName, setDisciplineName] = useState(null)
 
     const { control, handleSubmit } = useForm({
-        mode: "onSubmit"
+        mode: "onSubmit",
     })
 
     const redirect = useNavigate()
 
     const onSubmit = (data) => {
-        if (!data.examDate) {
-            data.examDate = new Date()
-        }
+        let dateInput = document.querySelector(".datepicker")
+        data.examDate = parsingDate(dateInput.value)
         data.isDeleted = false
 
         redirect(`/teacher/create-tickets`, {
@@ -224,7 +224,7 @@ const CreateExamenForm = () => {
                                 )}
                             />
                         </label>
-                        <label className='form__label' onClick={(evt) => evt.preventDefault()}>
+                        <label className='form__label'>
                             <span className='form__text'>Длительность в минутах</span>
 
                             <Controller

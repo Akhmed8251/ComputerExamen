@@ -195,7 +195,7 @@ body {
 }
 
 .datepicker {
-    max-width: 222px;
+    max-width: 300px;
     cursor: pointer;
 }
 
@@ -456,7 +456,7 @@ main {
     position: absolute;
     top: 49%;
     transform: translateY(-50%);
-    left: 181px;
+    left: 245px;
 }
 
 .custom-select__control--menu-is-open .custom-select__dropdown-indicator::after {
