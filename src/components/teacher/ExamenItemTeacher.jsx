@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { diffBetweenDatesInDays, formatDate } from '../../utils/date'
 import Button from '../ui/Button'
 
-const ExamenItemTeacher = ({ examen, onDelete, isEditable }) => {
+const ExamenItemTeacher = ({ examen, onDelete, onCopyExamen, isEditable }) => {
 
   let dateExamen = ''
   const diffInDays = diffBetweenDatesInDays(new Date(examen.examDate), new Date)
@@ -29,6 +29,7 @@ const ExamenItemTeacher = ({ examen, onDelete, isEditable }) => {
         }
         {isEditable && <Link to={`/teacher/edit-examen`} state={examen} className='edit-examen btn'></Link>}
         <Button onClick={() => onDelete()} className='delete-examen'></Button>   
+        <Button onClick={() => onCopyExamen()}>Создать пересдачу</Button>
       </div>
     </li>
   )
