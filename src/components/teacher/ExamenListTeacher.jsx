@@ -10,14 +10,14 @@ import { parsingDate } from '../../utils/date'
 import { Controller, useForm } from 'react-hook-form'
 
 
-const ExamenListTeacher = ({ examens, setExams }) => {
+const ExamenListTeacher = ({ examens, setExams, update }) => {
   const examensActive = examens.filter(e => diffBetweenDatesInDays(new Date(e.examDate), new Date()) <= 0)
   const examensNotActive = examens.filter(e => diffBetweenDatesInDays(new Date(e.examDate), new Date()) > 0)
 
   const [modalDeleteActive, setModalDeleteActive] = useState(false)
   const [modalCopyActive, setModalCopyActive] = useState(false)
   const [examenId, setExamenId] = useState(null)
-  const [copyExamenDate, setCopyExamenDate] = useState(null)
+  const [copyExamenDate, setCopyExamenDate] = useState(new Date())
 
   const [deleteExamen, isDeleteLoading, deleteError] = useFetching(async (examenId) => {
     const response = await ExamenService.deleteExamen(examenId)
@@ -30,14 +30,26 @@ const ExamenListTeacher = ({ examens, setExams }) => {
     }
   })
 
-  const { handleSubmit, control } = useForm({
+  const [copyExamen, isCopyLoading, copyError] = useFetching(async (examenId, newDateExamen) => {
+    const response = await ExamenService.copyExamen(examenId, newDateExamen)
+
+    if (response.status == 200) {
+      alert("Пересдача успешно создана!")
+      setCopyExamenDate(new Date())
+      setModalCopyActive(false)
+      update()
+    }
+  })
+
+  const { control } = useForm({
     mode: "onSubmit"
   })
 
-  const copyExamen = (data) => {
+  const onCopyExamen = () => {
     let dateInput = document.querySelector(".datepicker")
-    data.examDate = parsingDate(dateInput.value)
-    data.isDeleted = false
+    const examDate = parsingDate(dateInput.value)
+    console.log(examenId, examDate)
+    copyExamen(examenId, examDate)
 }
 
   return (
@@ -46,7 +58,7 @@ const ExamenListTeacher = ({ examens, setExams }) => {
       <ul className='examens-teacher__list'>
         {
           examensNotActive.map(examen =>
-            <ExamenItemTeacher isEditable={true} onDelete={() => { setExamenId(examen.examenId); setModalDeleteActive(true) }} key={examen.examenId} examen={examen} />
+            <ExamenItemTeacher isEditable={true} onCopyExamen={() => { setExamenId(examen.examenId); setCopyExamenDate(examen.examDate); setModalCopyActive(true) }} onDelete={() => { setExamenId(examen.examenId); setModalDeleteActive(true) }} key={examen.examenId} examen={examen} />
           )
         }
       </ul>
@@ -55,7 +67,7 @@ const ExamenListTeacher = ({ examens, setExams }) => {
         <ul className='examens-teacher__list'>
           {
             examensActive.map(examen =>
-              <ExamenItemTeacher isEditable={false} onCopyExamen={() => { setExamenId(examen.examenId); setCopyExamenDate(examen.examDate) }} onDelete={() => { setExamenId(examen.examenId); setModalDeleteActive(true) }} key={examen.examenId} examen={examen} />
+              <ExamenItemTeacher isEditable={false} onCopyExamen={() => { setExamenId(examen.examenId); setCopyExamenDate(examen.examDate); setModalCopyActive(true) }} onDelete={() => { setExamenId(examen.examenId); setModalDeleteActive(true) }} key={examen.examenId} examen={examen} />
             )
           }
         </ul>
@@ -69,30 +81,28 @@ const ExamenListTeacher = ({ examens, setExams }) => {
       </Popup>
       <Popup active={modalCopyActive} setActive={setModalCopyActive}>
         <h2 className="popup__title title">Создание пересдачи экзамена</h2>
-        <form className='form' onSubmit={handleSubmit(copyExamen)}>
+        <form className='form' style={{marginBottom: 20}}>
           <label className='form__label' onClick={(evt) => evt.preventDefault()}>
             <span className='form__text'>Дата</span>
 
             <Controller
               control={control}
-              name='examDate'
-              render={({ field: { onChange } }) => (
-                <div>
+              name='copyExamDate'
+              render={({ field: { onChange }, formState: { errors } }) => (
+                <div className={errors?.root?.message ? ' error': ''}>
                   <DatePicker
-                    selected={new Date()}
+                    selected={copyExamenDate}
                     onChange={(newDate) => onChange(newDate)}
                   />
+                  <div>{errors ? errors.root?.message : ""}</div>
                 </div>
+               
               )}
             />
           </label>
-          <div className='form__btns'>
-            {/* <Button>Создать экзамен</Button>
-                            <Link to='/teacher/examens' className='cancel__btn btn'>Отмена</Link> */}
-          </div>
         </form>
         <div className="confirm-buttons">
-          <Button onClick={() => copyExamen(examenId)} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
+          <Button onClick={() => onCopyExamen()} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
           <Button className="confirm-button confirm-button--no" onClick={() => setModalDeleteActive(false)}>Нет</Button>
         </div>
       </Popup>

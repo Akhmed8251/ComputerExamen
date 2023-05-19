@@ -58,6 +58,19 @@ export default class ExamenService {
         return response;
     }
 
+    static async copyExamen(examenId, newDateExamen) {
+        const response = await axios.post(`${API_URL}/Examen/CopyExamen`, {
+            examenId: examenId,
+            newExamDate: newDateExamen
+        }, {
+            params: {
+                examenId: examenId,
+                newExamDate: newDateExamen
+            }
+        })
+        return response;
+    }
+
     static async getStudentsByExamenIdForChecking(examenId) {
         const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenIdForChecking`, {
             params: {
