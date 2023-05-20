@@ -1158,3 +1158,27 @@ main {
     gap: 20px;
     margin-top: 10px;
 }
+
+.ticket-item__question > div:not(:last-child) {
+    margin-bottom: 26px;
+}
+
+.ticket-item:not(:last-child) {
+    margin-bottom: 60px;
+}
+
+.ticket-item__add {
+    background-color: #259812;
+}
+
+.ticket-item__add:hover {
+    background-color: #248d13;
+}
+
+.ticket-item__remove {
+    background-color: #ec071e;
+}
+
+.ticket-item__remove:hover {
+    background-color: #e70a20;
+}

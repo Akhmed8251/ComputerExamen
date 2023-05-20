@@ -65,7 +65,7 @@ const Examen = () => {
         </section>
         <Popup active={modalActive} setActive={setModalActive}>
             <Countdown seconds={convertMinutesToSeconds(examenData.examenDuration) - diffBetweenDatesInSeconds(new Date(examenData.answerBlank.createDateTime), new Date())}  />
-            <h2 className="popup__title title">Вы действительно хотите Завершить экзамен?</h2>
+            <h2 className="popup__title title">Вы действительно хотите завершить экзамен?</h2>
             <div className="confirm-buttons">
                 <Button onClick={() => onEndExamen() } className={`confirm-button confirm-button--yes${isEndLoading ? ' loading' : ''}`}><span>Да</span></Button>
                 <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
