@@ -3,7 +3,7 @@ import Popup from '../../components/ui/Popup'
 import Button from '../../components/ui/Button'
 import AnswerList from '../../components/teacher/AnswerList'
 import Input from '../../components/ui/Input'
-import { redirect, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import AnswerBlankService from '../../api/AnswerBlankService'
 
@@ -12,12 +12,14 @@ const AnswersCheckTeacher = () => {
   const [modalActive, setModalActive] = useState(false)
   const data = useLocation()
   const studentData = data.state
-
+  
+  const redirect = useNavigate()
   const [updateAnswerBlank, isUpdateLoading, updateError] = useFetching(async (answerBlank) => {
     const response = await AnswerBlankService.updateAnswerBlank(answerBlank)
 
     if (response.status == 200) {
       alert("Баллы успешно выставлены!")
+      redirect(-1)
     }
   })
 
@@ -26,16 +28,26 @@ const AnswersCheckTeacher = () => {
     updateAnswerBlank(studentData.answerBlank)
   }
 
+  const totalScroreValidate = () => {
+    if (totalScore != null) {
+      setModalActive(true)
+    } else {
+      alert("Выставите баллы за экзамен!")
+    }
+  }
+
   return (
     <section className='answers-check'>
       <div className="answers-check__container container container--smaller">
         <div className='answer-check__wrapper'>
-          <a href="" className="back-link">
-            <svg width="187" height="55" viewBox="0 0 187 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9.7451 5.9399C11.3153 2.6184 14.6599 0.5 18.3338 0.5H177C182.247 0.5 186.5 4.7533 186.5 10V45C186.5 50.2467 182.247 54.5 177 54.5H18.3338C14.6599 54.5 11.3153 52.3816 9.7451 49.0601L1.47238 31.5601C0.257292 28.9897 0.257292 26.0103 1.47238 23.4399L5.95204 13.9637L9.7451 5.9399Z" stroke="#0050CF" />
-            </svg>
-            <span className="back-link__text">Экзамены</span>
-          </a>
+          <div className="back-link">
+          <Link to={-1}>
+              <svg width="187" height="55" viewBox="0 0 187 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.7451 5.9399C11.3153 2.6184 14.6599 0.5 18.3338 0.5H177C182.247 0.5 186.5 4.7533 186.5 10V45C186.5 50.2467 182.247 54.5 177 54.5H18.3338C14.6599 54.5 11.3153 52.3816 9.7451 49.0601L1.47238 31.5601C0.257292 28.9897 0.257292 26.0103 1.47238 23.4399L5.95204 13.9637L9.7451 5.9399Z" stroke="#0050CF" />
+              </svg>
+              <span className="back-link__text">Назад</span>
+          </Link>
+          </div>
           <div className='answers-check__student answers-check__student--no-checking'>{studentData.studentId}</div>
         </div>
         <div className="answers-check__body">
@@ -49,9 +61,9 @@ const AnswersCheckTeacher = () => {
           <div className='answers-check__bottom'>
             <div className='answers-check__score'>
               <p className='answers-check__score-label'>Выставить баллы</p>
-              <Input className='answers-check__score-input' onChange={(evt) => setTotalScore(+evt.target.value)} />
+              <Input className='answers-check__score-input' onChange={(evt) => setTotalScore(parseInt(evt.target.value))} />
             </div>
-            <Button className='answers-check__btn' onClick={() => setModalActive(true)}>Закончить проверку</Button>
+            <Button className='answers-check__btn' onClick={() => totalScroreValidate()}>Закончить проверку</Button>
           </div>
           
         </div>

@@ -261,7 +261,7 @@ const EditTicketsForm = () => {
             <div className='btns'>
               <Button onClick={() => appendTicket(examData.id, tickets.length)} className='ticket-item__add'>Добавить билет</Button>
               <Button onClick={() => onSubmit()} className={`${isExamenLoading ? 'loading' : ''}`} disabled={isExamenLoading}>
-                <span>Создать экзамен</span>
+                <span>Завершить редактирование</span>
               </Button>
               <Button onClick={() => redirect(`/teacher/examens/${employeeId}`)} className='cancel__btn btn'>Отмена</Button>
             </div>

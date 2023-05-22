@@ -54,7 +54,7 @@ const ExamenListTeacher = ({ examens, setExams, update }) => {
 
   return (
     <>
-      <h1 className='title'>Экзамены</h1>
+      <h1 className='title'>Будущие экзамены</h1>
       <ul className='examens-teacher__list'>
         {
           examensNotActive.map(examen =>
@@ -63,7 +63,7 @@ const ExamenListTeacher = ({ examens, setExams, update }) => {
         }
       </ul>
       <div className="examens-teacher__passed">
-        <h2 className='title'>Пройденные</h2>
+        <h2 className='title'>Текущие и пройденные экзамены</h2>
         <ul className='examens-teacher__list'>
           {
             examensActive.map(examen =>
