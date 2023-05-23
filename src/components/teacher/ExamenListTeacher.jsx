@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ExamenItemTeacher from './ExamenItemTeacher'
 import Popup from '../ui/Popup'
 import Button from '../ui/Button'
-import { diffBetweenDatesInDays } from '../../utils/date'
+import { diffBetweenDatesInDays, isStartExamen } from '../../utils/date'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import DatePicker from '../ui/DatePicker'
@@ -11,8 +11,8 @@ import { Controller, useForm } from 'react-hook-form'
 
 
 const ExamenListTeacher = ({ examens, setExams, update }) => {
-  const examensActive = examens.filter(e => diffBetweenDatesInDays(new Date(e.examDate), new Date()) <= 0)
-  const examensNotActive = examens.filter(e => diffBetweenDatesInDays(new Date(e.examDate), new Date()) > 0)
+  const examensActive = examens.filter(e => isStartExamen(new Date(e.examDate)))
+  const examensNotActive = examens.filter(e => !isStartExamen(new Date(e.examDate)))
 
   const [modalDeleteActive, setModalDeleteActive] = useState(false)
   const [modalCopyActive, setModalCopyActive] = useState(false)

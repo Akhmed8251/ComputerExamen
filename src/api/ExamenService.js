@@ -79,4 +79,13 @@ export default class ExamenService {
         })
         return response;
     }
+
+    static async endExamenForEmployee(examenId) {
+        const response = await axios.get(`${API_URL}/Examen/EndExamenForEmployee`, {
+            params: {
+                examId: examenId
+            }
+        })
+        return response;
+    }
 }

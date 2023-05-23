@@ -44,6 +44,6 @@ export const diffBetweenDatesInDays = (date1, date2) => {
 }
 
 export const isStartExamen = (dateExamen) => {
-    console.log(dateExamen.getTime() === new Date().getTime())
-    return dateExamen.getTime() >= new Date().getTime()
+    console.log(dateExamen.getTime() <= new Date().getTime())
+    return dateExamen.getTime() <= new Date().getTime()
 }

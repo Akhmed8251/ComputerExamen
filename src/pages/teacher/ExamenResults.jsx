@@ -4,7 +4,7 @@ import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import StudentScoreList from '../../components/teacher/StudentScoreList'
 import { AuthContext } from '../../context'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 
@@ -12,6 +12,8 @@ const ExamenResults = () => {
   const { employeeId } = useContext(AuthContext)
   const { id } = useParams()
   const [modalActive, setModalActive] = useState(false)
+  const data = useLocation()
+  const { course, group, deptName, examenName } = data.state
 
   const [studentsScore, setStudentsScore] = useState([])
   const [getStudentsScore, isScoreLoading, scoreError] = useFetching(async (examenId) => {
@@ -38,10 +40,10 @@ const ExamenResults = () => {
           </Link>
         </div>
         <div className="examen-results__body">
-          <h1 className='examen-results__title title'>Дополнительные главы математического анализа</h1>
+          <h1 className='examen-results__title title'>{examenName}</h1>
           <div className="examen-results__data data">
-            <span className='data__stage'>1 курс 3 группа</span>
-            <span className='data__department'>Фундаментальная физика</span>
+            <span className='data__stage'>{`${course} курс ${group} группа`}</span>
+            <span className='data__department'>{deptName}</span>
           </div>
           {isScoreLoading ? <div className='loader'>Идет загрузка результатов...</div> : <StudentScoreList scores={studentsScore} />}
         </div>

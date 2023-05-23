@@ -24,9 +24,9 @@ const ExamenItemTeacher = ({ examen, onDelete, onCopyExamen, isEditable }) => {
       </div>
       <div className="examens-item__btns">
         {
-          dateExamen == 'Сегодня'
+          (isStartExamen(new Date(examen.examDate)) && examen.endExamDate == null)
             ? <Link to={`/teacher/examen/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
-            : <Link to={`/teacher/examen-results/${examen.examenId}`} className='discipline-btn'>{examen.discipline}</Link>
+            : <Link to={`/teacher/examen-results/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
         }
         {isEditable && <Link to={`/teacher/edit-examen`} state={examen} className='edit-examen btn'></Link>}
         <Button onClick={() => onDelete()} className='delete-examen'></Button>   

@@ -63,7 +63,7 @@ const CreateTicketsForm = () => {
               <Button className={`${isExamenLoading ? 'loading' : ''}`} disabled={isExamenLoading}>
                 <span>Создать экзамен</span>
               </Button>
-              <Button onClick={() => redirect('/teacher/examens/ca38f6e6-e893-4151-9d7c-ea21ab532047')} className='cancel__btn btn'>Отмена</Button>
+              <Button onClick={() => redirect(`/teacher/examens/${employeeId}`)} className='cancel__btn btn'>Отмена</Button>
             </div>
           </form>
         </div>

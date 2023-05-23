@@ -30,9 +30,4 @@ export default class AnswerBlankService {
         const response = await axios.put(`${API_URL}/AnswerBlank/EndExamenForStudent`, examen)
         return response;
     }
-
-    static async endExamenForTeacher(answerBlank) {
-        const response = await axios.put(`${API_URL}/AnswerBlank/UpdateAnswerBlank`, answerBlank)
-        return response;
-    }
 }

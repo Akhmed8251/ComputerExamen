@@ -6,7 +6,7 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import { AuthContext } from '../../context'
-import AnswerBlankService from '../../api/AnswerBlankService'
+import { useNavigate } from 'react-router-dom'
 
 const ExamenTeacher = () => {
     const { employeeId } = useContext(AuthContext)
@@ -28,17 +28,18 @@ const ExamenTeacher = () => {
         getStudents(id)
     }, [])
 
-    const [endExamenForTeacher, isEndLoading, endExamenError] = useFetching(async (answerBlank) => {
-        const response = await AnswerBlankService.endExamenForTeacher(answerBlank)
+    const redirect = useNavigate()
+
+    const [endExamenForTeacher, isEndLoading, endExamenError] = useFetching(async (examenId) => {
+        const response = await ExamenService.endExamenForEmployee(examenId)
 
         if (response.status == 200) {
             alert("Экзамен успешно завершен")
+            redirect(`/teacher/examen-results/${id}`, {
+                state: { course: course, group: group, deptName: deptName, examenName: examenName  }
+            })
         }
     })
-
-    const EndExamen = () => {
-        
-    }
 
     return (
         <section className='examen-teacher'>
@@ -62,7 +63,7 @@ const ExamenTeacher = () => {
                     <Popup active={modalActive} setActive={setModalActive}>
                         <h2 className="popup__title title">Вы действительно хотите завершить экзамен?</h2>
                         <div className="confirm-buttons">
-                            <Button className="confirm-button confirm-button--yes"><span>Да</span></Button>
+                            <Button onClick={() => endExamenForTeacher(id)} className={`confirm-button confirm-button--yes${isEndLoading ? ' loading' : ''}`}><span>Да</span></Button>
                             <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
                         </div>
                     </Popup>
