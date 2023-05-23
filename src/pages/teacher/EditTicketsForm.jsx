@@ -1,13 +1,13 @@
 import TextArea from '../../components/ui/TextArea'
 import Input from '../../components/ui/Input'
 import Button from '../../components/ui/Button'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import TicketService from '../../api/TicketService'
 import QuestionService from '../../api/QuestionService'
 import { editTextQuestions, editTickets, getTicketsForInput, parsingExamTicket } from '../../utils/tickets'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context'
 
 const EditTicketsForm = () => {
@@ -18,7 +18,7 @@ const EditTicketsForm = () => {
 
   const { employeeId } = useContext(AuthContext)
 
-  const [tickets, setTickets] = useState(examData.examTickets)
+  const [tickets, setTickets] = useState([])
   const [questionIdLoading, setQuestionLoadingId] = useState(null)
   const [ticketIdLoading, setTicketIdLoading] = useState(null)
 
@@ -30,6 +30,19 @@ const EditTicketsForm = () => {
       redirect(`/teacher/examens/${employeeId}`)
     }
   })
+
+  const [getTickets, isTicketsLoading, ticketsErr] = useFetching(async (examenId) => {
+    const response = await TicketService.getTicketsByExamenId(examenId)
+
+    if (response.status == 200) {
+      setTickets(response.data)
+    }
+  })
+
+  useEffect(() => {
+      getTickets(examData.id)
+    }, []
+  )
 
   const [deleteQuestion, isDeleteQuestionLoading, questionErr] = useFetching(async (id) => {
     const response = await QuestionService.deleteQuestion(id)
@@ -216,56 +229,68 @@ const EditTicketsForm = () => {
     <section className='create-tickets'>
       <div className="container container--smaller">
         <div className="create-tickets__inner">
+          <div className='back-link'>
+            <Link to={-1}>
+                <svg width="187" height="55" viewBox="0 0 187 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.7451 5.9399C11.3153 2.6184 14.6599 0.5 18.3338 0.5H177C182.247 0.5 186.5 4.7533 186.5 10V45C186.5 50.2467 182.247 54.5 177 54.5H18.3338C14.6599 54.5 11.3153 52.3816 9.7451 49.0601L1.47238 31.5601C0.257292 28.9897 0.257292 26.0103 1.47238 23.4399L5.95204 13.9637L9.7451 5.9399Z" stroke="#0050CF" />
+                </svg>
+                <span className="back-link__text">Назад</span>
+            </Link>
+          </div>
           <h1 className='create-tickets__title title'>Редактирование билетов</h1>
-          <ul className='create-tickets__list'>            
-            {
-              tickets.map((ticket, index) =>
-                <li key={index} className='create-tickets__item ticket-item'>
-                  <div className="ticket-item__body">
-                    <div className='ticket-item__number'>
-                      <span style={{ fontSize: "24px" }} >Билет №</span>
-                      <Input style={{ width: "100px" }} disabled={true} value={index + 1} />
-                    </div>
-                    <div className='ticket-item__question'>
-                      {
-                        ticket.questions.map((question, idx) =>
-                          <div style={{ display: "flex"}} key={idx}>
-                            <div style={{ display: "flex" }}>
-                              <span style={{ fontSize: "24px" }}>№</span>
-                              <Input style={{ width: "122px", height: "40px" }} disabled={true} value={idx + 1} />
-                            </div>
-                            <div style={{ width: "100%" }}>
-                              <TextArea onChange={(evt) => changeQuestionText(ticket.id, question.number, evt.target.value)} style={{ height: "200px" }} placeholder='Введите вопросы' value={question.text} />
-                              <div style={{ display: "flex", gap: "20px" }}>
-                                {
-                                  ticket.questions.length !== 1 && <Button type="button" className={`ticket-item__remove${(isDeleteQuestionLoading && questionIdLoading == question.id) ? ' loading': ''}`} onClick={() => { setQuestionLoadingId(question.id); removeQuestion(question.id, ticket.number, question.number)  }}>Удалить вопрос</Button>
-                                }
-                                {
-                                  ticket.questions.length - 1 == idx && <Button type="button" className='ticket-item__add' onClick={() => appendQuestion(ticket.id, ticket.questions.length)}>Добавить вопрос</Button>
-                                }
+          {
+            isTicketsLoading ? <div className='loader'>Идет загрузка билетов экзамена...</div>
+            :
+            <ul className='create-tickets__list'>            
+              {
+                tickets.map((ticket, index) =>
+                  <li key={index} className='create-tickets__item ticket-item'>
+                    <div className="ticket-item__body">
+                      <div className='ticket-item__number'>
+                        <span style={{ fontSize: "24px" }} >Билет №</span>
+                        <Input style={{ width: "100px" }} disabled={true} value={index + 1} />
+                      </div>
+                      <div className='ticket-item__question'>
+                        {
+                          ticket.questions.map((question, idx) =>
+                            <div style={{ display: "flex"}} key={idx}>
+                              <div style={{ display: "flex" }}>
+                                <span style={{ fontSize: "24px" }}>№</span>
+                                <Input style={{ width: "122px", height: "40px" }} disabled={true} value={idx + 1} />
+                              </div>
+                              <div style={{ width: "100%" }}>
+                                <TextArea onChange={(evt) => changeQuestionText(ticket.id, question.number, evt.target.value)} style={{ height: "200px" }} placeholder='Введите вопросы' value={question.text} />
+                                <div style={{ display: "flex", gap: "20px" }}>
+                                  {
+                                    ticket.questions.length !== 1 && <Button type="button" className={`ticket-item__remove${(isDeleteQuestionLoading && questionIdLoading == question.id) ? ' loading': ''}`} onClick={() => { setQuestionLoadingId(question.id); removeQuestion(question.id, ticket.number, question.number)  }}>Удалить вопрос</Button>
+                                  }
+                                  {
+                                    ticket.questions.length - 1 == idx && <Button type="button" className='ticket-item__add' onClick={() => appendQuestion(ticket.id, ticket.questions.length)}>Добавить вопрос</Button>
+                                  }
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
+                          )
+                        }
+                      </div>
+                    </div>
+                    <div className='btns'>
+                      {
+                        tickets.length !== 1 && <Button type="button" className={`ticket-item__remove${(isDeleteTicketLoading && ticketIdLoading == ticket.id) ? ' loading' : ''}`} onClick={() => { setTicketIdLoading(ticket.id); removeTicket(ticket.id, ticket.number) }}>Удалить билет</Button>
                       }
                     </div>
-                  </div>
-                  <div className='btns'>
-                    {
-                      tickets.length !== 1 && <Button type="button" className={`ticket-item__remove${(isDeleteTicketLoading && ticketIdLoading == ticket.id) ? ' loading' : ''}`} onClick={() => { setTicketIdLoading(ticket.id); removeTicket(ticket.id, ticket.number) }}>Удалить билет</Button>
-                    }
-                  </div>
-                </li>
-              )
-            }
-            <div className='btns'>
-              <Button onClick={() => appendTicket(examData.id, tickets.length)} className='ticket-item__add'>Добавить билет</Button>
-              <Button onClick={() => onSubmit()} className={`${isExamenLoading ? 'loading' : ''}`} disabled={isExamenLoading}>
-                <span>Завершить редактирование</span>
-              </Button>
-              <Button onClick={() => redirect(`/teacher/examens/${employeeId}`)} className='cancel__btn btn'>Отмена</Button>
-            </div>
-          </ul>
+                  </li>
+                )
+              }
+              <div className='btns'>
+                <Button onClick={() => appendTicket(examData.id, tickets.length)} className='ticket-item__add'>Добавить билет</Button>
+                <Button onClick={() => onSubmit()} className={`${isExamenLoading ? 'loading' : ''}`} disabled={isExamenLoading}>
+                  <span>Завершить редактирование</span>
+                </Button>
+                <Button onClick={() => redirect(`/teacher/examens/${employeeId}`)} className='cancel__btn btn'>Отмена</Button>
+              </div>
+            </ul>
+          }
         </div>
       </div>
     </section>
