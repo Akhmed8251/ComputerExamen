@@ -6,7 +6,8 @@ export default class TicketService {
         const response = await axios.get(`${API_URL}/Ticket/GetTicketsByExamenId`, {
             params: {
                 examenId: id
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -15,7 +16,8 @@ export default class TicketService {
         const response = await axios.delete(`${API_URL}/Ticket/DeleteTicket`, {
             params: {
                 id: id
-            }
+            },
+            withCredentials: true
         })
         return response;
     }

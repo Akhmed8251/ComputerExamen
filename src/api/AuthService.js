@@ -6,12 +6,16 @@ export default class AuthService {
         const response = await axios.post(`${API_URL}/Account/Login`, {
             login: loginUser,
             password: passwordUser
+        }, {
+            withCredentials: true
         })
         return response;
     }
 
     static async logout() {
-        const response = await axios.get(`${API_URL}/Account/Logout`)
+        const response = await axios.get(`${API_URL}/Account/Logout`, {
+            withCredentials: true
+        })
         return response;
     }
 }

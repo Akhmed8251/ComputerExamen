@@ -3,7 +3,9 @@ import { API_URL } from "./config";
 
 export default class DsuService {
     static async getFaculties() {
-        const response = await axios.get(`${API_URL}/Dsu/GetFaculties`)
+        const response = await axios.get(`${API_URL}/Dsu/GetFaculties`, {
+            withCredentials: true
+        })
         return response;
     }
 
@@ -11,7 +13,8 @@ export default class DsuService {
         const response = await axios.get(`${API_URL}/Dsu/GetCaseSDepartmentByFacultyId`, {
             params: {
                 facultyId: id
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -20,7 +23,8 @@ export default class DsuService {
         const response = await axios.get(`${API_URL}/Dsu/GetCourseByDepartmentId`, {
             params: {
                 departmentId: id
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -30,7 +34,8 @@ export default class DsuService {
             params: {
                 departmentId: id,
                 course: nCourse
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -41,7 +46,8 @@ export default class DsuService {
                 departmentId: departmentId,
                 course: nCourse,
                 ngroup: nGroup
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -54,7 +60,8 @@ export default class DsuService {
             params: {
                 studentId: studentId,
                 nzachkn: nzachkn
-            }
+            },
+            withCredentials: true
         })
 
         return response;

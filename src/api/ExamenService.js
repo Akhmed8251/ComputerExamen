@@ -6,7 +6,8 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/GetExamensByStudentId`, {
             params: {
                 studentId: id
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -15,7 +16,8 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/GetExamensByEmployeeId`, {
             params: {
                 employeeId: id,
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -24,7 +26,8 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenId`, {
             params: {
                 examenId: id,
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -34,18 +37,23 @@ export default class ExamenService {
             params: {
                 studentId: id,
                 examId: examenId
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
 
     static async createExamen(examenData) {
-        const response = await axios.post(`${API_URL}/Examen/CreateExamen`, examenData)
+        const response = await axios.post(`${API_URL}/Examen/CreateExamen`, examenData, {
+            withCredentials: true
+        })
         return response;
     }
 
     static async editExamen(examenData) {
-        const response = await axios.put(`${API_URL}/Examen/UpdateExamen`, examenData)
+        const response = await axios.put(`${API_URL}/Examen/UpdateExamen`, examenData, {
+            withCredentials: true
+        })
         return response;
     }
 
@@ -53,7 +61,8 @@ export default class ExamenService {
         const response = await axios.delete(`${API_URL}/Examen/DeleteExamen`, {
             params: {
                 id: examenId
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -66,7 +75,8 @@ export default class ExamenService {
             params: {
                 examenId: examenId,
                 newExamDate: newDateExamen
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -75,7 +85,8 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenIdForChecking`, {
             params: {
                 examenId: examenId
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
@@ -84,7 +95,8 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/EndExamenForEmployee`, {
             params: {
                 examId: examenId
-            }
+            },
+            withCredentials: true
         })
         return response;
     }

@@ -6,7 +6,8 @@ export default class QuestionService {
         const response = await axios.delete(`${API_URL}/Question/DeleteQuestion`, {
             params: {
                 id: id
-            }
+            },
+            withCredentials: true
         })
         return response;
     }
