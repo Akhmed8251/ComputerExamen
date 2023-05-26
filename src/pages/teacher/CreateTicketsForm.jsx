@@ -34,7 +34,6 @@ const CreateTicketsForm = () => {
     examData.employeeId = employeeId
 
     examData.tickets = parsingExamTicket(data.tickets)
-
     createExamen(examData)
   }
 
@@ -59,7 +58,7 @@ const CreateTicketsForm = () => {
                 required: true,
                 pattern: {
                   value: /(Билет №\d\n(№\d - .+\n?){1,}\n?){1,}/gmi,
-                  message: "12321332"
+                  message: "1"
                 }
               }}
               render={({ field: { onChange }, fieldState: { error } }) => (

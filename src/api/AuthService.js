@@ -7,6 +7,9 @@ export default class AuthService {
             login: loginUser,
             password: passwordUser
         }, {
+            headers: {
+                "Content-Type": "application/json"
+            },
             withCredentials: true
         })
         return response;

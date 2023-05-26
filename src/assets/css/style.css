@@ -1182,3 +1182,7 @@ main {
 .ticket-item__remove:hover {
     background-color: #e70a20;
 }
+
+.update-btn {
+    margin-bottom: 40px;
+}

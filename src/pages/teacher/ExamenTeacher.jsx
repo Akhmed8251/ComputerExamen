@@ -58,6 +58,7 @@ const ExamenTeacher = () => {
                         <span className='data__stage'>{`${course} курс ${group} группа`}</span>
                         <span className='data__department'>{deptName}</span>
                     </div>
+                    <Button className={`update-btn${isStudentLoading ? ' loading' : ''}`} onClick={() => getStudents(id)}><span>Обновить</span></Button>
                     {isStudentLoading ? <div>Загрузка студентов...</div> : <ExamenStudentListTeacher deptName={deptName} students={students} />}
                     <Button onClick={() => setModalActive(true)}>Закончить экзамен</Button>
                     <Popup active={modalActive} setActive={setModalActive}>

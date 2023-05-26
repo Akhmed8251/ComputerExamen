@@ -3,6 +3,7 @@ import ExamenList from '../../components/student/ExamenList'
 import { useFetching } from '../../hooks/useFetching'
 import { useParams } from 'react-router-dom'
 import ExamenService from '../../api/ExamenService'
+import Button from '../../components/ui/Button'
 
 const Examens = () => {
   const [examens, setExamens] = useState([])
@@ -37,6 +38,7 @@ const Examens = () => {
   return (
    <section className='examens'>
       <div className='container container--smaller'>
+        <Button className={`update-btn${isExamensLoading ? ' loading' : ''}`} onClick={() => getExamensByStudentId(urlParams.id)}><span>Обновить</span></Button>
         <h1 className='examens__title title'>Эказмены</h1>
         {
           isExamensLoading ? <div>Идет загрузка экзаменов...</div> : <ExamenList examens={examens} studentId={urlParams.id} />

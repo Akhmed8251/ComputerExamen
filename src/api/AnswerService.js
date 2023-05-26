@@ -10,7 +10,7 @@ export default class AnswerService {
     }
 
     static async editAnswer(answer) {
-        const response = await axios.put(`${API_URL}/Answer/UpdateAnswer`, answer, {
+        const response = await axios.post(`${API_URL}/Answer/UpdateAnswer`, answer, {
             withCredentials: true
         })
         return response;
