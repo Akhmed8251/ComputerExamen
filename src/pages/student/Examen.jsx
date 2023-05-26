@@ -39,7 +39,6 @@ const Examen = () => {
     useEffect(() => {
         getAnswers(examenData.answerBlank.id)    
     }, [])
-    console.log(examenData)
 
     const onEndExamen = () => {
         examenData.answerBlank.answers = examenAnswers; 

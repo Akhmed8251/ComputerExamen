@@ -48,7 +48,6 @@ const ExamenListTeacher = ({ examens, setExams, update }) => {
   const onCopyExamen = () => {
     let dateInput = document.querySelector(".datepicker")
     const examDate = parsingDate(dateInput.value)
-    console.log(examenId, examDate)
     copyExamen(examenId, examDate)
 }
 
