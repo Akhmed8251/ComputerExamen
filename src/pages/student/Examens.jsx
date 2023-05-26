@@ -38,7 +38,7 @@ const Examens = () => {
   return (
    <section className='examens'>
       <div className='container container--smaller'>
-        <Button className={`update-btn${isExamensLoading ? ' loading' : ''}`} onClick={() => getExamensByStudentId(urlParams.id)}><span>Обновить</span></Button>
+        {/* <Button className={`update-btn${isExamensLoading ? ' loading' : ''}`} onClick={() => getExamensByStudentId(urlParams.id)}><span>Обновить</span></Button> */}
         <h1 className='examens__title title'>Эказмены</h1>
         {
           isExamensLoading ? <div>Идет загрузка экзаменов...</div> : <ExamenList examens={examens} studentId={urlParams.id} />

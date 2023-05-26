@@ -15,6 +15,19 @@ export default class AuthService {
         return response;
     }
 
+    // static async login(loginUser, passwordUser) {
+    //     const response = await axios.post(`${API_URL}/Account/Login`, {
+    //         login: loginUser,
+    //         password: passwordUser
+    //     }, {
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         withCredentials: true
+    //     })
+    //     return response;
+    // }
+
     static async logout() {
         const response = await axios.get(`${API_URL}/Account/Logout`, {
             withCredentials: true
