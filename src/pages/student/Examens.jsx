@@ -39,7 +39,7 @@ const Examens = () => {
    <section className='examens'>
       <div className='container container--smaller'>
         {/* <Button className={`update-btn${isExamensLoading ? ' loading' : ''}`} onClick={() => getExamensByStudentId(urlParams.id)}><span>Обновить</span></Button> */}
-        <h1 className='examens__title title'>Эказмены</h1>
+        <h1 className='examens__title title'>Экзамены</h1>
         {
           isExamensLoading ? <div>Идет загрузка экзаменов...</div> : <ExamenList examens={examens} studentId={urlParams.id} />
         }

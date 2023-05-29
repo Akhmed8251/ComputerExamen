@@ -13,7 +13,7 @@ export default class TicketService {
     }
 
     static async deleteTicket(id) {
-        const response = await axios.post(`${API_URL}/Ticket/DeleteTicket`, {
+        const response = await axios.post(`${API_URL}/Ticket/DeleteTicket?id=${id}`, {
             params: {
                 id: id
             },
