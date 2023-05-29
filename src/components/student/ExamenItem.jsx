@@ -5,9 +5,11 @@ const ExamenItem = ({ examen, onClick }) => {
   const diffInDays = diffBetweenDatesInDays(new Date(examen.examDate), new Date())
 
   if (diffInDays == 0) {
-    dateExamen = `Сегодня в ${new Date(examen.examDate).getHours()}:${new Date(examen.examDate).getMinutes()}` 
+    let minutes = new Date(examen.examDate).getMinutes()
+    dateExamen = `Сегодня в ${new Date(examen.examDate).getHours()}:${minutes > 9 ? minutes : "0" + minutes}` 
   } else if (diffInDays == 1) {
-    dateExamen = `Завтра в ${new Date(examen.examDate).getHours()}:${new Date(examen.examDate).getMinutes()}` 
+    let minutes = new Date(examen.examDate).getMinutes()
+    dateExamen = `Завтра в ${new Date(examen.examDate).getHours()}:${minutes > 9 ? minutes : "0" + minutes}` 
   } else {
     dateExamen = formatDate(new Date(examen.examDate))
   }

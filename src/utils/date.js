@@ -1,5 +1,3 @@
-import { ar } from "date-fns/locale";
-
 export const formatDate = (date) => {
 
     let dd = date.getDate();
@@ -10,8 +8,10 @@ export const formatDate = (date) => {
   
     let yy = date.getFullYear() % 100;
     if (yy < 10) yy = '0' + yy;
+
+    let minutes = date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()
   
-    return `${dd}.${mm}.${yy} ${date.getHours()}:${date.getMinutes()}`
+    return `${dd}.${mm}.${yy} ${date.getHours()}:${minutes}`
 }
 
 export const parsingDate = (str) => {
