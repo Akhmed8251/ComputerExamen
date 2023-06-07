@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import Button from '../ui/Button'
 import TextArea from '../ui/TextArea'
 import Input from '../ui/Input'
@@ -15,11 +15,11 @@ const QuestionItem = ({ question, answer, onSave, onEdit, isLoading, isDisabledB
                     {question.text}
                 </p>
                 <TextArea onChange={(evt) => setTextAnswer(evt.target.value)} className='questions-item__answer-text' value={textAnswer} />
-                {  
+                {/* {  
                   answer == ''
-                    ? <Button onClick={() => { onSave(textAnswer) }} className={`questions-item__btn questions-item__btn--save${isLoading ? ' loading' : ''}${isDisabledButtons ? ' disabled' : ''}`}><span>Сохранить</span></Button>
+                    ? <Button onClick={() => { onSave(textAnswer) }} className={`questions-item__btn  questions-item__btn--save${isLoading ? ' loading' : ''}${isDisabledButtons ? ' disabled' : ''}`}><span>Сохранить</span></Button>
                     : <Button onClick={() => { onEdit(textAnswer) }} className={`questions-item__btn questions-item__btn--edit${isLoading ? ' loading' : ''}${isDisabledButtons ? ' disabled' : ''}`}><span>Редактировать</span></Button>
-                }
+                } */}
             </div>
         </div>
     </li>
