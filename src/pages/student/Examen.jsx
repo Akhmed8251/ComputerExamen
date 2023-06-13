@@ -18,8 +18,6 @@ const Examen = () => {
   const startExamenData = useLocation()
   const examenData = startExamenData.state
 
-
-
   const redirect = useNavigate()
 
   const [getAnswers, isAnswersLoading, answersError] = useFetching(async (answerBlankId) => {
@@ -28,7 +26,6 @@ const Examen = () => {
     if (response.status == 200) {
       setExamenAnswers(response.data.answerBlank.answers)
       setTimeToEnd(response.data.timeToEndInSeconds)
-      console.log(response.data.timeToEndInSeconds)
     }
   })
 
@@ -40,6 +37,8 @@ const Examen = () => {
       //   onUpdate()
       if (!isEndExamen) {
         getAnswers(examenData.id)
+      } else {
+        endExamen(examenData)
       }
     }
   })
@@ -56,11 +55,6 @@ const Examen = () => {
     getAnswers(examenData.id)
     console.log(examenData)
   }, [])
-
-  const onEndExamen = () => {
-    examenData.answers = examenAnswers;
-    endExamen(examenData)
-  }
 
   const saveAnswers = (isEndExamen = false) => {
     let questionItems = document.querySelectorAll(".questions-item")
@@ -98,7 +92,7 @@ const Examen = () => {
         <div className='container container--smaller'>
           <div className="examen__head">
             <h1 className="examen__title title">{examenData.discipline}</h1>
-            {!isAnswersLoading && <Countdown onTimeOver={async () => { alert('Время экзамена истекло!'); await saveAnswers(true); await onEndExamen() }} seconds={timeToEnd} />}
+            {!isAnswersLoading && <Countdown onTimeOver={() => { alert('Время экзамена истекло!'); saveAnswers(true)}} seconds={timeToEnd} />}
           </div>
           <div className="examen__questions questions">
             {!isAnswersLoading && <QuestionList isStop={isEndLoading} onUpdate={() => getAnswers(examenData.id)} studentId={examenData.studentId} answerBlank={examenData} examenAnswers={examenAnswers} questions={examenData.examTicket.questions} />}
@@ -114,7 +108,7 @@ const Examen = () => {
         {!isAnswersLoading && <Countdown seconds={timeToEnd} />}
         <h2 className="popup__title title">Вы действительно хотите завершить экзамен?</h2>
         <div className="confirm-buttons">
-          <Button onClick={async () => { await saveAnswers(true); await onEndExamen() }} className={`confirm-button confirm-button--yes${isEndLoading ? ' loading' : ''}`}><span>Да</span></Button>
+          <Button onClick={() => saveAnswers(true)} className={`confirm-button confirm-button--yes${isEndLoading ? ' loading' : ''}`}><span>Да</span></Button>
           <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
         </div>
       </Popup>
