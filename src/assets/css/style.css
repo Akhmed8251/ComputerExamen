@@ -634,6 +634,12 @@ main {
     color: #000;
 }
 
+.data__student {
+    display: block;
+    font-size: 20px;
+    margin-top: 16px;
+}
+
 .examens-item__btns {
     display: flex;
     gap: 20px;
@@ -1012,9 +1018,9 @@ main {
 }
 
 .result-item__score {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
+    width: 65px;
+    height: 65px;
+    font-size: 24px;
 }
 
 .examen-teacher__item--success .examen-teacher__item-link,
@@ -1077,6 +1083,11 @@ main {
     margin-bottom: 16px;
 }
 
+.examen-results__body {
+    width: 100%;
+    max-width: 1000px;
+}
+
 .examen-results__data {
     margin-bottom: 62px;
 }
@@ -1091,6 +1102,7 @@ main {
 }
 
 .result-item__fio {
+    flex-basis: 50%;
     font-weight: 500;
     font-size: 24px;    
 }

@@ -9,7 +9,8 @@ import CreateTicketsForm from "../pages/teacher/CreateTicketsForm";
 import ExamenResults from '../pages/teacher/ExamenResults'
 import EditExamenForm from "../pages/teacher/EditExamenForm";
 import EditTicketsForm from "../pages/teacher/EditTicketsForm";
-import AnswersCheckTeacher from "../pages/teacher/AnswersCheckTeacher"
+import AnswersCheckTeacher from "../pages/teacher/AnswersCheckTeacher";
+import StudentAnswers from "../pages/teacher/StudentAnswers"
 
 export const privateStudentRoutes = [
     {path: '/examens/:id', element: <Examens />, exact: true},
@@ -25,7 +26,8 @@ export const privateTeacherRoutes = [
     {path: '/teacher/edit-tickets', element: <EditTicketsForm />, exact: true},
     {path: '/teacher/examen/:id', element: <ExamenTeacher />, exact: true},
     {path: '/teacher/answers-check', element: <AnswersCheckTeacher />, exact: true},
-    {path: '/teacher/examen-results/:id', element: <ExamenResults />, exact: true}
+    {path: '/teacher/examen-results/:id', element: <ExamenResults />, exact: true},
+    {path: '/teacher/student-answers', element: <StudentAnswers />, exact: true}
 ]
 
 export const publicRoutes = [

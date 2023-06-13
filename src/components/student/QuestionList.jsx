@@ -74,7 +74,7 @@ const QuestionList = ({onUpdate, examenAnswers, questions, studentId, answerBlan
         {
           questions.map(question =>
             <QuestionItem 
-              ref={(element) => questionItems.current.push(element)}
+              // ref={(element) => questionItems.current.push(element)}
               // onSave={(textAnswer) => {
               //   setQuestionLoadingId(question.id)
               //   onSaveAnswer(question.id, textAnswer)

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { diffBetweenDatesInDays, formatDate, isStartExamen } from '../../utils/date'
+import { formatDate, isStartExamen } from '../../utils/date'
 import Button from '../ui/Button'
 
 const ExamenItemTeacher = ({ examen, onDelete, onCopyExamen, isEditable }) => {

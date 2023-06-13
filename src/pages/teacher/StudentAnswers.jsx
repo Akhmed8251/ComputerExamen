@@ -7,34 +7,11 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import AnswerBlankService from '../../api/AnswerBlankService'
 
-const AnswersCheckTeacher = () => {
-  const [totalScore, setTotalScore] = useState(null)
-  const [modalActive, setModalActive] = useState(false)
+const StudentAnswers = () => {
   const data = useLocation()
   const studentData = data.state
   
   const redirect = useNavigate()
-  const [updateAnswerBlank, isUpdateLoading, updateError] = useFetching(async (answerBlank) => {
-    const response = await AnswerBlankService.updateAnswerBlank(answerBlank)
-
-    if (response.status == 200) {
-      alert("Баллы успешно выставлены!")
-      redirect(-1)
-    }
-  })
-
-  const onSubmit = () => {
-    studentData.answerBlank.totalScore = totalScore
-    updateAnswerBlank(studentData.answerBlank)
-  }
-
-  const totalScroreValidate = () => {
-    if (totalScore != null) {
-      setModalActive(true)
-    } else {
-      alert("Выставите баллы за экзамен!")
-    }
-  }
 
   return (
     <section className='answers-check'>
@@ -48,35 +25,27 @@ const AnswersCheckTeacher = () => {
               <span className="back-link__text">Назад</span>
           </Link>
           </div>
-          <div className='answers-check__student answers-check__student--no-checking'>{studentData.studentId}</div>
         </div>
         <div className="answers-check__body">
           <h1 className='answers-check__title title'>{studentData.answerBlank.examTicket.examen.discipline}</h1>
           <div className="answers-check__data data">
             <span className='data__stage'>{`${studentData.answerBlank.examTicket.examen.course} курс ${studentData.answerBlank.examTicket.examen.nGroup} группа`}</span>
             <span className='data__department'>{studentData.deptName}</span>
+            <span className='data__student'>{`Студент: ${studentData.firstName} ${studentData.lastName} ${studentData.patr}`}</span>
           </div>
           <AnswerList questions={studentData.answerBlank.examTicket.questions} answers={studentData.answerBlank.answers} />
 
           <div className='answers-check__bottom'>
             <div className='answers-check__score'>
-              <p className='answers-check__score-label'>Выставить баллы</p>
-              <Input className='answers-check__score-input' onChange={(evt) => setTotalScore(parseInt(evt.target.value))} />
-            </div>
-            <Button className='answers-check__btn' onClick={() => totalScroreValidate()}>Закончить проверку</Button>
+              <p className='answers-check__score-label'>Выставленные баллы</p>
+              <Input className='answers-check__score-input' disabled={true} value={studentData.answerBlank.totalScore} />
+            </div>         
           </div>
           
         </div>
       </div>
-      <Popup active={modalActive} setActive={setModalActive}>
-        <h2 className="popup__title title">Вы действительно хотите закончить проверку?</h2>
-        <div className="confirm-buttons">
-          <Button onClick={() => onSubmit()} className={`confirm-button confirm-button--yes${isUpdateLoading ? ' loading' : ''}`}><span>Да</span></Button>
-          <Button className="confirm-button confirm-button--no" onClick={() => setModalActive(false)}>Нет</Button>
-        </div>
-      </Popup>
     </section>
   )
 }
 
-export default AnswersCheckTeacher
+export default StudentAnswers

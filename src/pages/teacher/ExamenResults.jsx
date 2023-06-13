@@ -45,7 +45,7 @@ const ExamenResults = () => {
             <span className='data__stage'>{`${course} курс ${group} группа`}</span>
             <span className='data__department'>{deptName}</span>
           </div>
-          {isScoreLoading ? <div className='loader'>Идет загрузка результатов...</div> : <StudentScoreList scores={studentsScore} />}
+          {isScoreLoading ? <div className='loader'>Идет загрузка результатов...</div> : <StudentScoreList deptName={deptName} scores={studentsScore} />}
         </div>
       </div>
     </section>

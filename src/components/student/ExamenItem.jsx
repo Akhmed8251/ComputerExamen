@@ -31,7 +31,7 @@ const ExamenItem = ({ examen, onClick }) => {
   }
 
   return (
-    <li className={`examens__item examens-item${!isStartExamen(new Date(examen.examDate)) ? ' examens__item--disable' : (isStartExamen(new Date(examen.examDate)) && examen.answerBlank?.endExamenDateTime != null) ? ' examens__item--passed' : ''}`}>
+    <li className={`examens__item examens-item${!examen.isActiveNow ? ' examens__item--disable' : (examen.isActiveNow && examen.answerBlank?.endExamenDateTime != null) ? ' examens__item--passed' : ''}`}>
       <span className='examens-item__date'>{dateExamen}</span>
       <button onClick={() => onClick()} className='discipline-btn'>{examen.discipline}</button>
     </li>

@@ -3,8 +3,9 @@ import { Link } from "react-router-dom"
 
 const ExamenStudentListTeacher = ({ students, deptName }) => {
   const getStudentExamenStatusClass = (student) => {
-    if (student.totalScore) {
-      if (student.totalScore > 50) {
+    console.log(student)
+    if (student.answerBlank?.totalScore) {
+      if (student.answerBlank?.totalScore > 50) {
         return 'examen-teacher__item--success'
       } else {
         return 'examen-teacher__item--failed'
@@ -20,7 +21,7 @@ const ExamenStudentListTeacher = ({ students, deptName }) => {
     const statusClass = getStudentExamenStatusClass(student)
     
     if (statusClass == "examen-teacher__item--failed" || statusClass == "examen-teacher__item--success") {
-      return student.totalScore
+      return student.answerBlank.totalScore
     } else {
       return student.studentId
     }
