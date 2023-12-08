@@ -70,10 +70,7 @@ export default class ExamenService {
     }
 
     static async deleteExamen(examenId) {
-        const response = await axios.post(`${API_URL}/Examen/DeleteExamen?id=${examenId}`, {
-            params: {
-                id: examenId
-            },
+        const response = await axios.post(`${API_URL}/Examen/DeleteExamen?id=${examenId}`, {}, {
             headers: {
                 "Authorization": `Bearer ${getToken()}`
             },
