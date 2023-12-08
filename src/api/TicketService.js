@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "./config";
+import { API_URL, getToken } from "./config";
 
 export default class TicketService {
     static async getTicketsByExamenId(id) {
@@ -16,6 +16,9 @@ export default class TicketService {
         const response = await axios.post(`${API_URL}/Ticket/DeleteTicket?id=${id}`, {
             params: {
                 id: id
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
             },
             withCredentials: true
         })

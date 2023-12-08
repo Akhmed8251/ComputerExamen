@@ -10,8 +10,6 @@ import AnswerBlankService from '../../api/AnswerBlankService'
 const StudentAnswers = () => {
   const data = useLocation()
   const studentData = data.state
-  
-  const redirect = useNavigate()
 
   return (
     <section className='answers-check'>

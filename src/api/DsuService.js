@@ -52,6 +52,11 @@ export default class DsuService {
         return response;
     }
 
+    static async getTeachers() {
+        const response = await axios.get(`${API_URL}/Dsu/GetTeachers`)
+        return response;
+    }
+
     static async signInStudent(studentId, nzachkn) {
         const response = await axios.post(`${API_URL}/Dsu/SignInStudent`, {
             studentId: studentId,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "./config";
+import { API_URL, getToken } from "./config";
 
 export default class ExamenService {
     static async getExamensByStudentId(id) {
@@ -17,6 +17,9 @@ export default class ExamenService {
             params: {
                 employeeId: id,
             },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
@@ -26,6 +29,9 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenId`, {
             params: {
                 examenId: id,
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
             },
             withCredentials: true
         })
@@ -45,6 +51,9 @@ export default class ExamenService {
 
     static async createExamen(examenData) {
         const response = await axios.post(`${API_URL}/Examen/CreateExamen`, examenData, {
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
@@ -52,6 +61,9 @@ export default class ExamenService {
 
     static async editExamen(examenData) {
         const response = await axios.post(`${API_URL}/Examen/UpdateExamen`, examenData, {
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
@@ -61,6 +73,9 @@ export default class ExamenService {
         const response = await axios.post(`${API_URL}/Examen/DeleteExamen?id=${examenId}`, {
             params: {
                 id: examenId
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
             },
             withCredentials: true
         })
@@ -76,6 +91,9 @@ export default class ExamenService {
                 examenId: examenId,
                 newExamDate: newDateExamen
             },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
@@ -86,6 +104,9 @@ export default class ExamenService {
             params: {
                 examenId: examenId
             },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
@@ -95,6 +116,9 @@ export default class ExamenService {
         const response = await axios.get(`${API_URL}/Examen/EndExamenForEmployee`, {
             params: {
                 examId: examenId
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
             },
             withCredentials: true
         })

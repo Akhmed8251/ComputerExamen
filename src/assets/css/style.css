@@ -645,6 +645,13 @@ main {
     gap: 20px;
 }
 
+.examen-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
 .discipline-btn {
     font-size: 20px;
     background-color: #f1f1ff;
@@ -653,17 +660,16 @@ main {
     padding: 16px 34px;
 }
 
-.examens-item__btns .edit-examen {
+.edit-examen {
     background-color: #10cf50;
-    width: 60px;
     height: 60px;
-    padding: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.examens-item__btns .edit-examen::before {
+.edit-examen::before {
     content: '';
     background: url('../img/edit.svg') no-repeat center/cover;
     background-size: 28px;
@@ -672,21 +678,20 @@ main {
     display: block;
 }
 
-.examens-item__btns .edit-examen:hover {
+.edit-examen:hover {
     background-color: #0ebe49;
 }
 
-.examens-item__btns .delete-examen {
+.delete-examen {
     background-color: #ec071e;
-    width: 60px;
     height: 60px;
-    padding: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.examens-item__btns .delete-examen::before {
+.delete-examen::before {
     content: '';
     background: url('../img/delete.svg') no-repeat center/cover;
     background-size: 28px;
@@ -695,7 +700,7 @@ main {
     display: block;
 }
 
-.examens-item__btns .delete-examen:hover {
+.delete-examen:hover {
     background-color: #e70a20;
 }
 
@@ -895,7 +900,6 @@ main {
 .examens-teacher__btn {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 57px;
     padding: 20px 28px;
 }
 

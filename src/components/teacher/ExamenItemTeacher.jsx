@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom'
 import { formatDate, isStartExamen } from '../../utils/date'
-import Button from '../ui/Button'
 
-const ExamenItemTeacher = ({ examen, onDelete, onCopyExamen, isEditable }) => {
-
+const ExamenItemAdmin = ({ examen }) => {
   let dateExamen = ''
   let dateNow = new Date()
   let dateTimeExamen = new Date(examen.examDate)
@@ -20,17 +18,6 @@ const ExamenItemTeacher = ({ examen, onDelete, onCopyExamen, isEditable }) => {
       dateExamen = formatDate(new Date(examen.examDate))
     }
   }
-  // const diffInDays = diffBetweenDatesInDays(new Date(examen.examDate), new Date())
-
-  // if (diffInDays == 0) {
-  //   let minutes = new Date(examen.examDate).getMinutes()
-  //   dateExamen = `Сегодня в ${new Date(examen.examDate).getHours()}:${minutes > 9 ? minutes : "0" + minutes}` 
-  // } else if (diffInDays == 1) {
-  //   let minutes = new Date(examen.examDate).getMinutes()
-  //   dateExamen = `Завтра в ${new Date(examen.examDate).getHours()}:${minutes > 9 ? minutes : "0" + minutes}` 
-  // } else {
-  //   dateExamen = formatDate(new Date(examen.examDate))
-  // }
 
   return (
     <li className={`examens__item examens-item${!isStartExamen(new Date(examen.examDate)) ? ' examens__item--disable' : (isStartExamen(new Date(examen.examDate)) && examen.endExamDate != null) ? ' examens__item--passed' : ''}`}>
@@ -42,15 +29,12 @@ const ExamenItemTeacher = ({ examen, onDelete, onCopyExamen, isEditable }) => {
       <div className="examens-item__btns">
         {
           (isStartExamen(new Date(examen.examDate)) && examen.endExamDate == null)
-            ? <Link to={`/teacher/examen/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
-            : <Link to={`/teacher/examen-results/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
+          ? <Link to={`/teacher/examen/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
+          : <Link to={`/teacher/examen-results/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
         }
-        {isEditable && <Link to={`/teacher/edit-examen`} state={examen} className='edit-examen btn'></Link>}
-        <Button onClick={() => onDelete()} className='delete-examen'></Button>   
-        <Button onClick={() => onCopyExamen()}>Создать пересдачу</Button>
       </div>
     </li>
   )
 }
 
-export default ExamenItemTeacher
+export default ExamenItemAdmin

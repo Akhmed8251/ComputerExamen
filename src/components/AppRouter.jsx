@@ -1,15 +1,10 @@
 import {useContext} from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import {privateStudentRoutes, privateTeacherRoutes, publicRoutes} from '../router';
+import {privateStudentRoutes, privateAdminRoutes, privateUkoRoutes , publicRoutes} from '../router';
 import {AuthContext} from '../context';
 
 const AppRouter = () => {
-    const {isAuthStudent, isAuthTeacher, isLoading, studentId, employeeId } = useContext(AuthContext);
-
-    if (isLoading) {
-        return <div className='loading'>13233</div>
-    }
-
+    const {isAuthStudent, isAuthAdmin, studentId, employeeId, roleName } = useContext(AuthContext);
     return (
         isAuthStudent
             ?
@@ -29,10 +24,10 @@ const AppRouter = () => {
                 />
             </Routes>
             :
-        isAuthTeacher
+        (isAuthAdmin && roleName == "admin")
             ?
             <Routes>
-                {privateTeacherRoutes.map(route =>
+                {privateAdminRoutes.map(route =>
                     <Route  
                         element={route.element}
                         path={route.path}
@@ -44,7 +39,25 @@ const AppRouter = () => {
                     element={<Navigate to={`/teacher/examens/${employeeId}`} />}
                     path='*'
                     exact={true}
-                />
+                /> 
+            </Routes>
+            :
+        (isAuthAdmin && roleName == "uko")
+            ?
+            <Routes>
+                {privateUkoRoutes.map(route =>
+                    <Route  
+                        element={route.element}
+                        path={route.path}
+                        exact={route.exact}
+                        key={route.path}
+                    />
+                )}
+                <Route
+                    element={<Navigate to={`/uko/${employeeId}`} />}
+                    path='*'
+                    exact={true}
+                /> 
             </Routes>
             :
             <Routes>
