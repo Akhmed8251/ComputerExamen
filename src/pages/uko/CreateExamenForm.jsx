@@ -166,6 +166,9 @@ const CreateExamenForm = () => {
                             <Controller
                                 control={control}
                                 name='teacherId'
+                                rules={{
+                                    required: true
+                                }}
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
@@ -184,6 +187,9 @@ const CreateExamenForm = () => {
                             <Controller
                                 control={control}
                                 name='auditoriumId'
+                                rules={{
+                                    required: true
+                                }}
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
