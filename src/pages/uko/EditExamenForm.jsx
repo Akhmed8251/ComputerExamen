@@ -8,10 +8,46 @@ import { useFetching } from '../../hooks/useFetching'
 import DsuService from '../../api/DsuService'
 import { Controller, useForm } from 'react-hook-form';
 import { parsingDate } from '../../utils/date'
+import EmployeeService from '../../api/EmployeeService'
 
 const EditExamenForm = () => {
     const data = useLocation()
     const examData = data.state
+
+    const [teachers, setTeachers] = useState([])
+    const [teacherId, setTeacherId] = useState(null)
+    const [getTeachers, isTeachersLoading, teachersError] = useFetching(async () => {
+        const response = await DsuService.getTeachers()
+        const dataArr = []
+        response.data.forEach(dataItem => {
+            dataArr.push({
+                value: dataItem.teachId,
+                label: `${dataItem.lastname} ${dataItem.firstname} ${dataItem.patr}`
+            })
+        })
+        setTeachers(dataArr)
+    })
+    useEffect(() => {
+        getTeachers()
+    }, [])
+
+    const [auditoriums, setAuditoriums] = useState([])
+    const [auditoriumId, setAuditoriumId] = useState(null)
+    const [getEmployees, isAuditoriumLoading, auditoriumError] = useFetching(async () => {
+        const response = await EmployeeService.getEmployees()
+        const dataArr = []
+        response.data.forEach(dataItem => {
+            dataArr.push({
+                value: dataItem.id,
+                label: dataItem.name
+            })
+        })
+
+        setAuditoriums(dataArr)
+    })
+    useEffect(() => {
+        getEmployees()
+    }, [])
 
     const [faculties, setFaculties] = useState([])
     const [facultyId, setFacultyId] = useState(examData.department.facId)
@@ -95,6 +131,8 @@ const EditExamenForm = () => {
     const { control, handleSubmit } = useForm({
         mode: "onSubmit",
         defaultValues: {
+            teacherId: examData.teacherId,
+            auditoriumId: examData.auditoriumId,
             facultyId: examData.department.facId,
             departmentId: examData.department.departmentId,
             course: examData.course,
@@ -134,6 +172,54 @@ const EditExamenForm = () => {
                     </div>
                     <h1 className="create-examen__title title">Редактирование экзамена</h1>
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                    <label className='form__label'>
+                            <span className='form__text'>Преподаватель</span>
+                            <Controller
+                                control={control}
+                                name='teacherId'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: {value, onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            value={
+                                                teachers.find(t => t.value == value)
+                                            }
+                                            onChange={(newValue) => { setTeacherId(newValue.value); onChange(newValue.value) }}
+                                            placeholder='Выберите преподавателя'
+                                            options={teachers}
+                                            isLoading={isTeachersLoading}
+                                            isDisabled={isTeachersLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
+                        <label className='form__label'>
+                            <span className='form__text'>Аудитория</span>
+                            <Controller
+                                control={control}
+                                name='auditoriumId'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: {value, onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            value={
+                                                auditoriums.find(a => a.value == value)
+                                            }
+                                            onChange={(newValue) => { setAuditoriumId(newValue.value); onChange(newValue.value) }}
+                                            placeholder='Выберите аудиторию'
+                                            options={auditoriums}
+                                            isLoading={isAuditoriumLoading}
+                                            isDisabled={isAuditoriumLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
                         <label className='form__label'>
                             <span className='form__text'>Факультет</span>
                             <Controller
@@ -166,14 +252,11 @@ const EditExamenForm = () => {
                                 rules={{
                                     required: true
                                 }}
-                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                render={({ field: {value, onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
                                             value={
-                                                {
-                                                    label: examData.department.deptName,
-                                                    value: departmentId
-                                                }
+                                                departments.find(t => t.value == value)
                                             }
                                             onChange={(newValue) => { setDepartmentId(newValue.value); onChange(newValue.value) }}
                                             placeholder='Выберите направление'

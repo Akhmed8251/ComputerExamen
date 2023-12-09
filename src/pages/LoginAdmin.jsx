@@ -38,7 +38,7 @@ const LoginAdmin = () => {
             localStorage.setItem("roleName", userData.employee.role.name)
             setRoleName(userData.employee.role.name)
 
-            if (roleName == "admin") {
+            if (roleName == "auditorium") {
                 redirect(`/teacher/examens/${userData.employee.id}`)
             } else if (roleName == "uko") {
                 redirect(`/uko/${userData.employee.id}`)

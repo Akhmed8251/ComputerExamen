@@ -7,13 +7,16 @@ export default class TicketService {
             params: {
                 examenId: id
             },         
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
     }
 
     static async deleteTicket(id) {
-        const response = await axios.post(`${API_URL}/Ticket/DeleteTicket?id=${id}`, {
+        const response = await axios.post(`${API_URL}/Ticket/DeleteTicket?id=${id}`, {}, {
             params: {
                 id: id
             },

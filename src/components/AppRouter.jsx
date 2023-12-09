@@ -24,7 +24,7 @@ const AppRouter = () => {
                 />
             </Routes>
             :
-        (isAuthAdmin && roleName == "admin")
+        (isAuthAdmin && roleName == "auditorium")
             ?
             <Routes>
                 {privateAdminRoutes.map(route =>

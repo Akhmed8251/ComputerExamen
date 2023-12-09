@@ -4,7 +4,7 @@ import Button from '../../components/ui/Button'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import Select from '../../components/ui/Select'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { parsingDate } from '../../utils/date'
 import { Controller, useForm } from 'react-hook-form';
 import DatePicker from '../../components/ui/DatePicker'
@@ -14,7 +14,11 @@ const UkoPage = () => {
   const urlParans = useParams()
   const userId = urlParans.id
 
+  const redirect = useNavigate()
+
   const [examens, setExamens] = useState([])
+  const [examensForSelect, setExamensForSelect] = useState([])
+  const [modalEditActive, setModalEditActive] = useState(false)
   const [modalDeleteActive, setModalDeleteActive] = useState(false)
   const [modalDeleteConfirmActive, setModalDeleteConfirmActive] = useState(false)
   const [modalCopyActive, setModalCopyActive] = useState(false)
@@ -25,6 +29,8 @@ const UkoPage = () => {
     const response = await ExamenService.getExamensByEmployeeId(userId)
 
     if (response.status == 200) {
+      setExamens(response.data)
+
       const dataArr = []
       response.data.forEach(dataItem => {
         dataArr.push({
@@ -32,7 +38,7 @@ const UkoPage = () => {
           label: dataItem.discipline
         })
       })
-      setExamens(dataArr)
+      setExamensForSelect(dataArr)
     }
   })
 
@@ -62,6 +68,12 @@ const UkoPage = () => {
     }
   })
 
+  const handleEditExamen = () => {
+    redirect('/uko/edit-examen', {
+      state: examens.find(e => e.examenId == examenId)
+    })
+  }
+
   const handleDeleteExamen = () => {
     setModalDeleteActive(false)
     setModalDeleteConfirmActive(true)
@@ -82,11 +94,38 @@ const UkoPage = () => {
       <div className="container">
         <div className="examen-actions">
           <Link to={'/uko/create-examen'} className='examens-teacher__btn btn'>Создать экзамен</Link>
-          <Link to={`/uko/edit-examen`} className='edit-examen btn'>Изменить экзамен</Link>
+          <Button onClick={() => setModalEditActive(true)} className='edit-examen btn'>Изменить экзамен</Button>
           <Button onClick={() => setModalDeleteActive(true)} className='delete-examen'>Удалить экзамен</Button>
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
         </div>
       </div>
+      <Popup active={modalEditActive} setActive={setModalEditActive}>
+        <h2 className="popup__title title">Изменение экзамена</h2>
+        <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmit(handleEditExamen)}>
+          <label className='form__label' onClick={(evt) => evt.preventDefault()}>
+            <span className='form__text'>Экзамен</span>
+            <Controller
+              control={control}
+              name='examenId'
+              rules={{
+                required: true
+              }}
+              render={({ field: { onChange }, fieldState: { error } }) => (
+                  <div className={error ? 'error' : ''}>
+                      <Select 
+                        onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
+                        placeholder='Выберите экзамен'
+                        options={examensForSelect}
+                        isLoading={isExamensLoading}
+                        isDisabled={isExamensLoading}
+                      />
+                  </div>
+              )}
+            />
+          </label>
+          <Button><span>Далее</span></Button>
+        </form>
+      </Popup>
       <Popup active={modalDeleteActive} setActive={setModalDeleteActive}>
         <h2 className="popup__title title">Удаление экзамена</h2>
         <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmit(handleDeleteExamen)}>
@@ -103,7 +142,7 @@ const UkoPage = () => {
                       <Select 
                         onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
                         placeholder='Выберите экзамен'
-                        options={examens}
+                        options={examensForSelect}
                         isLoading={isExamensLoading}
                         isDisabled={isExamensLoading}
                       />
@@ -137,7 +176,7 @@ const UkoPage = () => {
                       <Select 
                         onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
                         placeholder='Выберите экзамен'
-                        options={examens}
+                        options={examensForSelect}
                         isLoading={isExamensLoading}
                         isDisabled={isExamensLoading}
                       />
