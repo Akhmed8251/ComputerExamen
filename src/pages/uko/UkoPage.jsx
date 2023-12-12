@@ -69,6 +69,7 @@ const UkoPage = () => {
   })
 
   const handleEditExamen = () => {
+    console.log("handle edit ", examenId)
     redirect('/uko/edit-examen', {
       state: examens.find(e => e.examenId == examenId)
     })
@@ -89,6 +90,13 @@ const UkoPage = () => {
     mode: "onSubmit"
   })
 
+  const { control: controlDelete, handleSubmit: handleSubmitDelete } = useForm({
+    mode: "onSubmit"
+  })
+  const { control: controlCopy, handleSubmit: handleSubmitCopy } = useForm({
+    mode: "onSubmit"
+  })
+
   return (
     <>
       <div className="container">
@@ -99,14 +107,14 @@ const UkoPage = () => {
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
         </div>
       </div>
-      <Popup active={modalEditActive} setActive={setModalEditActive}>
+      <Popup active={modalEditActive} setActive={() => {setExamenId(null); setModalEditActive(false)}}>
         <h2 className="popup__title title">Изменение экзамена</h2>
         <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmit(handleEditExamen)}>
           <label className='form__label' onClick={(evt) => evt.preventDefault()}>
             <span className='form__text'>Экзамен</span>
             <Controller
               control={control}
-              name='examenId'
+              name='examenEditId'
               rules={{
                 required: true
               }}
@@ -128,12 +136,12 @@ const UkoPage = () => {
       </Popup>
       <Popup active={modalDeleteActive} setActive={setModalDeleteActive}>
         <h2 className="popup__title title">Удаление экзамена</h2>
-        <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmit(handleDeleteExamen)}>
+        <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmitDelete(handleDeleteExamen)}>
           <label className='form__label' onClick={(evt) => evt.preventDefault()}>
             <span className='form__text'>Экзамен</span>
             <Controller
-              control={control}
-              name='examenId'
+              control={controlDelete}
+              name='examenDeleteId'
               rules={{
                 required: true
               }}
@@ -162,12 +170,12 @@ const UkoPage = () => {
       </Popup>
       <Popup active={modalCopyActive} setActive={setModalCopyActive}>
         <h2 className="popup__title title">Создание пересдачи экзамена</h2>
-        <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmit(onCopyExamen)}>
+        <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmitCopy(onCopyExamen)}>
           <label className='form__label' onClick={(evt) => evt.preventDefault()}>
             <span className='form__text'>Экзамен</span>
             <Controller
-              control={control}
-              name='examenId'
+              control={controlCopy}
+              name='examenCopyId'
               rules={{
                 required: true
               }}
