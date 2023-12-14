@@ -11,8 +11,8 @@ const ListExamensTeacher = () => {
     const userId = urlParams.id
 
     const [examens, setExamens] = useState([])
-    const [getExamensByEmployeeId, isExamensLoading, examError] = useFetching(async (userId) => {
-      const response = await ExamenService.getExamensByEmployeeId(userId)
+    const [getExamensByAuditoriumId, isExamensLoading, examError] = useFetching(async (userId) => {
+      const response = await ExamenService.getExamensByAuditoriumId(userId)
 
       if (response.status == 200) {
         setExamens(response.data)
@@ -20,14 +20,14 @@ const ListExamensTeacher = () => {
     })
 
     useEffect(() => {
-      getExamensByEmployeeId(userId)
+      getExamensByAuditoriumId(userId)
     }, [])
 
   return (
     <section className='examens examens-teacher'>
         <div className="container container--smaller">
           {
-            isExamensLoading ? <div className='loader'>Идет загрузка экзаменов...</div> : <ExamenListTeacher update={() => getExamensByEmployeeId(userId)} setExams={setExamens} examens={examens} />
+            isExamensLoading ? <div className='loader'>Идет загрузка экзаменов...</div> : <ExamenListTeacher update={() => getExamensByAuditoriumId(userId)} setExams={setExamens} examens={examens} />
           }
         </div>
     </section>

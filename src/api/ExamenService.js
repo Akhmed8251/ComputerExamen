@@ -25,6 +25,19 @@ export default class ExamenService {
         return response;
     }
 
+    static async getExamensByAuditoriumId(id) {
+        const response = await axios.get(`${API_URL}/Examen/GetExamensByAuditoriumId`, {
+            params: {
+                auditoriumId: id,
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
+            withCredentials: true
+        })
+        return response;
+    }
+
     static async getStudentsByExamenId(id) {
         const response = await axios.get(`${API_URL}/Examen/GetStudentsByExamenId`, {
             params: {

@@ -53,6 +53,7 @@ const AnswersCheckTeacher = () => {
         <div className="answers-check__body">
           <h1 className='answers-check__title title'>{studentData.answerBlank.examTicket.examen.discipline}</h1>
           <div className="answers-check__data data">
+            <span className='data__teacher'>{`Преподаватель: ${studentData.fioTeacher}`}</span>
             <span className='data__stage'>{`${studentData.answerBlank.examTicket.examen.course} курс ${studentData.answerBlank.examTicket.examen.nGroup} группа`}</span>
             <span className='data__department'>{studentData.deptName}</span>
           </div>

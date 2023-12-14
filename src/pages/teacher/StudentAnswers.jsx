@@ -29,6 +29,7 @@ const StudentAnswers = () => {
           <div className="answers-check__data data">
             <span className='data__stage'>{`${studentData.answerBlank.examTicket.examen.course} курс ${studentData.answerBlank.examTicket.examen.nGroup} группа`}</span>
             <span className='data__department'>{studentData.deptName}</span>
+            <span className='data__teacher'>{`Преподаватель: ${studentData.fioTeacher}`}</span>
             <span className='data__student'>{`Студент: ${studentData.firstName} ${studentData.lastName} ${studentData.patr}`}</span>
           </div>
           <AnswerList questions={studentData.answerBlank.examTicket.questions} answers={studentData.answerBlank.answers} />

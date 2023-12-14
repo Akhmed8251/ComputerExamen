@@ -634,10 +634,11 @@ main {
     color: #000;
 }
 
+.data__teacher,
 .data__student {
     display: block;
     font-size: 20px;
-    margin-top: 16px;
+    margin: 16px 0;
 }
 
 .examens-item__btns {

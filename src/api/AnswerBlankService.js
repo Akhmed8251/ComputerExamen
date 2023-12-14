@@ -30,10 +30,8 @@ export default class AnswerBlankService {
         return response;
     }
 
-    static async endExamenForStudent(examen) {
-        const response = await axios.post(`${API_URL}/AnswerBlank/EndExamenForStudent`, examen, {
-            withCredentials: true
-        })
+    static async endExamenForStudent(answerBlankId) {
+        const response = await axios.post(`${API_URL}/AnswerBlank/EndExamenForStudent?answerBlankId=${answerBlankId}`)
         return response;
     }
 }

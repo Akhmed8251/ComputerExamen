@@ -17,6 +17,7 @@ const Examen = () => {
 
   const startExamenData = useLocation()
   const examenData = startExamenData.state
+  console.log(examenData)
 
   const redirect = useNavigate()
 
@@ -38,13 +39,13 @@ const Examen = () => {
       if (!isEndExamen) {
         getAnswers(examenData.id)
       } else {
-        endExamen(examenData)
+        endExamen(examenData.id)
       }
     }
   })
 
-  const [endExamen, isEndLoading, endError] = useFetching(async (answerBlank) => {
-    const response = await AnswerBlankService.endExamenForStudent(answerBlank)
+  const [endExamen, isEndLoading, endError] = useFetching(async (answerBlankId) => {
+    const response = await AnswerBlankService.endExamenForStudent(answerBlankId)
 
     if (response.status == 200) {
       redirect(`/examens/${examenData.studentId}`)
@@ -53,7 +54,6 @@ const Examen = () => {
 
   useEffect(() => {
     getAnswers(examenData.id)
-    console.log(examenData)
   }, [])
 
   const saveAnswers = (isEndExamen = false) => {
