@@ -29,7 +29,7 @@ const LoginAdmin = () => {
             setUserName(loginUser)
 
             localStorage.setItem("employeeId", userData.employee.id)
-            setEmployeeId(userData.id)
+            setEmployeeId(userData.employee.id)
 
             localStorage.setItem("access_token", userData.access_token)
             setAccessToken(userData.access_token)
