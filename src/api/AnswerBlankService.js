@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "./config";
+import { API_URL, getToken } from "./config";
 
 export default class AnswerBlankService {
     static async getAnswerBlankById(id) {
@@ -32,6 +32,23 @@ export default class AnswerBlankService {
 
     static async endExamenForStudent(answerBlankId) {
         const response = await axios.post(`${API_URL}/AnswerBlank/EndExamenForStudent?answerBlankId=${answerBlankId}`)
+        return response;
+    }
+
+    static async resetExamenForStudent(answerBlankId, isRemoveAnswerBlank) {
+        const response = await axios.post(`${API_URL}/AnswerBlank/ResetAnswerBlank`, {
+            answerBlankId: answerBlankId,
+            isRemoveAnswerBlank: isRemoveAnswerBlank
+        }, {
+            params: {
+                answerBlankId: answerBlankId,
+                isRemoveAnswerBlank: isRemoveAnswerBlank
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
+            withCredentials: true
+        })
         return response;
     }
 }

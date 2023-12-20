@@ -2,6 +2,11 @@ import axios from "axios";
 import { API_URL, getToken } from "./config";
 
 export default class ExamenService {
+    static async getExamens() {
+        const response = await axios.get(`${API_URL}/Examen/GetExamens`)
+        return response;
+    }
+
     static async getExamensByStudentId(id) {
         const response = await axios.get(`${API_URL}/Examen/GetExamensByStudentId`, {
             params: {

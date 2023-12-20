@@ -21,11 +21,11 @@ const Header = () => {
     }
 
     const isAdminPage = () => {
-       return hrefPage.includes("admin") || hrefPage.includes("uko") || hrefPage.includes("teacher")
+       return hrefPage.includes("login")
     }
 
     const isLoginPage = () => {
-        return ["/", "/admin"].includes(hrefPage)
+        return ["/", "/login"].includes(hrefPage)
     }
 
     return (
@@ -39,7 +39,7 @@ const Header = () => {
                         
                             <div className='nav'>
                         <Link to='/' className={`nav-link btn${!isAdminPage() ? ' active' : ''}`}>Студентам</Link>
-                        <Link to='/admin' className={`nav-link btn${isAdminPage() ? ' active' : ''}`}>Администратор</Link>
+                        <Link to='/login' className={`nav-link btn${isAdminPage() ? ' active' : ''}`}>Администратор</Link>
                     </div>
                 }
                 {

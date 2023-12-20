@@ -17,7 +17,6 @@ const Examen = () => {
 
   const startExamenData = useLocation()
   const examenData = startExamenData.state
-  console.log(examenData)
 
   const redirect = useNavigate()
 
@@ -82,8 +81,11 @@ const Examen = () => {
         }
       }
     }
-    examenData.answers = newAnswers
-    saveAnswerBlank(examenData, isEndExamen)
+
+    const newExamData = {...examenData}
+    newExamData.answers = newAnswers
+    newExamData.examTicket = null
+    saveAnswerBlank(newExamData, isEndExamen)
   }
 
   return (

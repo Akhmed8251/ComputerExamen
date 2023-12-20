@@ -538,6 +538,16 @@ main {
     align-items: center;
 }
 
+.form__label_checkbox {
+    justify-content: flex-start;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.form__label_checkbox .form__input {
+    width: auto;
+}
+
 .form__text {
     display: block;
     color: #4b4b4b;

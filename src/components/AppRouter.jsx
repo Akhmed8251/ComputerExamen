@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import {privateStudentRoutes, privateAdminRoutes, privateUkoRoutes , publicRoutes} from '../router';
+import {privateStudentRoutes, privateTeacherRoutes, privateAdminRoutes, privateUkoRoutes , publicRoutes} from '../router';
 import {AuthContext} from '../context';
 
 const AppRouter = () => {
@@ -27,7 +27,7 @@ const AppRouter = () => {
         (isAuthAdmin && roleName == "auditorium")
             ?
             <Routes>
-                {privateAdminRoutes.map(route =>
+                {privateTeacherRoutes.map(route =>
                     <Route  
                         element={route.element}
                         path={route.path}
@@ -55,6 +55,24 @@ const AppRouter = () => {
                 )}
                 <Route
                     element={<Navigate to={`/uko/${employeeId}`} />}
+                    path='*'
+                    exact={true}
+                /> 
+            </Routes>
+            :
+        (isAuthAdmin && roleName == "admin")
+            ?
+            <Routes>
+                {privateAdminRoutes.map(route =>
+                    <Route  
+                        element={route.element}
+                        path={route.path}
+                        exact={route.exact}
+                        key={route.path}
+                    />
+                )}
+                <Route
+                    element={<Navigate to={`/admin`} />}
                     path='*'
                     exact={true}
                 /> 

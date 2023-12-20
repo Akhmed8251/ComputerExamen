@@ -12,6 +12,7 @@ import EditTicketsForm from "../pages/uko/EditTicketsForm";
 import AnswersCheckTeacher from "../pages/teacher/AnswersCheckTeacher";
 import StudentAnswers from "../pages/teacher/StudentAnswers"
 import UkoPage from "../pages/uko/UkoPage";
+import AdminPage from "../pages/admin/AdminPage";
 
 export const privateStudentRoutes = [
     {path: '/examens/:id', element: <Examens />, exact: true},
@@ -19,7 +20,7 @@ export const privateStudentRoutes = [
     
 ]
 
-export const privateAdminRoutes = [
+export const privateTeacherRoutes = [
     {path: '/teacher/examens/:id', element: <ListExamensTeacher />, exact: true},
     {path: '/teacher/examen/:id', element: <ExamenTeacher />, exact: true},
     {path: '/teacher/answers-check', element: <AnswersCheckTeacher />, exact: true},
@@ -35,7 +36,15 @@ export const privateUkoRoutes = [
     {path: '/uko/edit-tickets', element: <EditTicketsForm />, exact: true}
 ]
 
+export const privateAdminRoutes = [
+    {path: '/admin', element: <AdminPage />, exact: true},
+    {path: '/admin/create-examen', element: <CreateExamenForm />, exact: true},
+    {path: '/admin/create-tickets', element: <CreateTicketsForm />, exact: true},
+    {path: '/admin/edit-examen', element: <EditExamenForm />, exact: true},
+    {path: '/admin/edit-tickets', element: <EditTicketsForm />, exact: true}
+]
+
 export const publicRoutes = [
     {path: '/', element: <LoginStudent />, exact: true},
-    {path: '/admin', element: <LoginAdmin />, exact: true}
+    {path: '/login', element: <LoginAdmin />, exact: true}
 ]

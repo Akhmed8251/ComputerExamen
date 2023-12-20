@@ -42,7 +42,9 @@ const LoginAdmin = () => {
                 redirect(`/teacher/examens/${userData.employee.id}`)
             } else if (roleName == "uko") {
                 redirect(`/uko/${userData.employee.id}`)
-            }   
+            } else if (roleName == "admin") {
+                redirect('/admin')
+            }  
         }
     })
 
