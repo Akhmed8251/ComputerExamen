@@ -12,7 +12,7 @@ const AnswersCheckTeacher = () => {
   const [modalActive, setModalActive] = useState(false)
   const data = useLocation()
   const studentData = data.state
-  
+
   const redirect = useNavigate()
   const [updateAnswerBlank, isUpdateLoading, updateError] = useFetching(async (answerBlank) => {
     const response = await AnswerBlankService.updateAnswerBlank(answerBlank)
@@ -24,8 +24,19 @@ const AnswersCheckTeacher = () => {
   })
 
   const onSubmit = () => {
-    studentData.answerBlank.totalScore = totalScore
-    updateAnswerBlank(studentData.answerBlank)
+    const newAnswerBlank = {
+      id: studentData.answerBlank.id,
+      studentId: studentData.answerBlank.studentId,
+      examTicketId: studentData.answerBlank.examTicketId,
+      examTicket: null,
+      totalScore: totalScore,
+      answers: studentData.answerBlank.answers,
+      createDateTime: studentData.answerBlank.createDateTime,
+      endExamenDateTime: studentData.answerBlank.endExamenDateTime,
+      isDeleted: studentData.answerBlank.isDeleted
+    }
+
+    updateAnswerBlank(newAnswerBlank)
   }
 
   const totalScroreValidate = () => {

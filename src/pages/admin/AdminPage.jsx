@@ -104,6 +104,15 @@ const AdminPage = () => {
     }
   })
 
+  const [resetExamenForTacher, isResetTeacherLoading, resetTeacherErr] = useFetching(async (examenId) => {
+    const response = await ExamenService.resetExamenForTeacher(examenId)
+    if (response.status == 200) {
+        alert("Сброс экзамена преподавателю успешно завершен")
+        setModalResetTeacherConfirmActive(false)
+        setExamenId(null)
+    }
+  })
+
   const handleEditExamen = () => {
     redirect('/uko/edit-examen', {
       state: examens.find(e => e.examenId == examenId)
@@ -126,10 +135,19 @@ const AdminPage = () => {
     setModalResetStudentConfirmActive(true)
   }
 
+  const handleResetExamenForTeacher = () => {
+    setModalResetForTeacherActive(false)
+    setModalResetTeacherConfirmActive(true)
+  }
+
   const onResetExamenForStudent = () => {
     const student = students.find(s => s.studentId == studentId)
     const studentAnswerBlankId = student.answerBlank.id
     resetExamenForStudent(studentAnswerBlankId, isRemoveAnswerBlank)
+  }
+
+  const onResetExamenForTeacher = () => {
+    resetExamenForTacher(examenId)
   }
 
   const { control, handleSubmit } = useForm({
@@ -161,7 +179,7 @@ const AdminPage = () => {
           <Button onClick={() => setModalDeleteActive(true)} className='delete-examen'>Удалить экзамен</Button>
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
           <Button onClick={() => setModalResetForStudentActive(true)}>Сбросить экзамен студенту</Button>
-          <Button onClick={() => setModalCopyActive(true)}>Сбросить экзамен</Button>
+          <Button onClick={() => setModalResetForTeacherActive(true)}>Сбросить экзамен преподавателю</Button>
         </div>
       </div>
       <Popup active={modalEditActive} setActive={() => {setExamenId(null); setModalEditActive(false)}}>
@@ -217,6 +235,13 @@ const AdminPage = () => {
           </label>
           <Button className="delete-examen"><span>Удалить</span></Button>
         </form>
+      </Popup>
+      <Popup active={modalDeleteConfirmActive} setActive={setModalDeleteConfirmActive}>
+        <h2 className="popup__title title">Вы действительно хотите удалить экзамен?</h2>
+        <div className="confirm-buttons">
+          <Button onClick={() => deleteExamen(examenId)} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
+          <Button className="confirm-button confirm-button--no" onClick={() => setModalDeleteConfirmActive(false)}>Нет</Button>
+        </div>
       </Popup>
       <Popup active={modalResetForStudentActive} setActive={() => { setExamenId(null); setModalResetForStudentActive(false)}}>
         <h2 className="popup__title title">Сброс экзамена студенту</h2>
@@ -288,11 +313,38 @@ const AdminPage = () => {
           <Button className="confirm-button confirm-button--no" onClick={() => setModalResetStudentConfirmActive(false)}>Нет</Button>
         </div>
       </Popup>
-      <Popup active={modalDeleteConfirmActive} setActive={setModalDeleteConfirmActive}>
-        <h2 className="popup__title title">Вы действительно хотите удалить экзамен?</h2>
+      <Popup active={modalResetForTeacherActive} setActive={() => { setExamenId(null); setModalResetForTeacherActive(false)}}>
+        <h2 className="popup__title title">Сброс экзамена преподавателю</h2>
+        <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmitResetExamen(handleResetExamenForTeacher)}>
+          <label className='form__label' onClick={(evt) => evt.preventDefault()}>
+            <span className='form__text'>Экзамен</span>
+            <Controller
+              control={controlResetExamen}
+              name='examenResetTeacherId'
+              rules={{
+                required: true
+              }}
+              render={({ field: { onChange }, fieldState: { error } }) => (
+                  <div className={error ? 'error' : ''}>
+                      <Select 
+                        onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
+                        placeholder='Выберите экзамен'
+                        options={examensForSelect}
+                        isLoading={isExamensLoading}
+                        isDisabled={isExamensLoading}
+                      />
+                  </div>
+              )}
+            />
+          </label>
+          <Button><span>Сбросить</span></Button>
+        </form>
+      </Popup>
+      <Popup active={modalResetTeacherConfirmActive} setActive={setModalResetTeacherConfirmActive}>
+        <h2 className="popup__title title">Вы действительно хотите сбросить экзамен преподавателю?</h2>
         <div className="confirm-buttons">
-          <Button onClick={() => deleteExamen(examenId)} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
-          <Button className="confirm-button confirm-button--no" onClick={() => setModalDeleteConfirmActive(false)}>Нет</Button>
+          <Button onClick={onResetExamenForTeacher} className={`confirm-button confirm-button--yes${isResetTeacherLoading ? ' loading' : ''}`} disabled={isResetTeacherLoading} ><span>Да</span></Button>
+          <Button className="confirm-button confirm-button--no" onClick={() => setModalResetTeacherConfirmActive(false)}>Нет</Button>
         </div>
       </Popup>
       <Popup active={modalCopyActive} setActive={setModalCopyActive}>

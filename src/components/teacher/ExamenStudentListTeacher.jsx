@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 
 const ExamenStudentListTeacher = ({ students, deptName }) => {
   const getStudentExamenStatusClass = (student) => {
-    console.log(student)
     if (student.answerBlank?.totalScore) {
       if (student.answerBlank?.totalScore > 50) {
         return 'examen-teacher__item--success'
