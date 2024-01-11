@@ -1210,6 +1210,6 @@ main {
     background-color: #e70a20;
 }
 
-/* .update-btn {
-    margin-bottom: 40px;
-} */
+.archive__form {
+    max-width: 600px;
+}

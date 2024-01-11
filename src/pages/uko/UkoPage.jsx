@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { parsingDate } from '../../utils/date'
 import { Controller, useForm } from 'react-hook-form';
 import DatePicker from '../../components/ui/DatePicker'
+import { tr } from 'date-fns/locale'
 
 
 const UkoPage = () => {
@@ -105,6 +106,7 @@ const UkoPage = () => {
           <Button onClick={() => setModalEditActive(true)} className='edit-examen btn'>Изменить экзамен</Button>
           <Button onClick={() => setModalDeleteActive(true)} className='delete-examen'>Удалить экзамен</Button>
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
+          <Link to={'/uko/archive'} className='btn'>Просмотр архива</Link>
         </div>
       </div>
       <Popup active={modalEditActive} setActive={() => {setExamenId(null); setModalEditActive(false)}}>
@@ -210,7 +212,6 @@ const UkoPage = () => {
           </label>
           <Button className={`${isCopyLoading ? ' loading' : ''}`} disabled={isCopyLoading}><span>Создать</span></Button>
         </form>
-
       </Popup>
     </>
   )
