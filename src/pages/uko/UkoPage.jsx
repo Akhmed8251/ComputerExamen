@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { parsingDate } from '../../utils/date'
 import { Controller, useForm } from 'react-hook-form';
 import DatePicker from '../../components/ui/DatePicker'
+import ExamensListUko from '../../components/uko/ExamensListUko'
 
 
 const UkoPage = () => {
@@ -69,7 +70,6 @@ const UkoPage = () => {
   })
 
   const handleEditExamen = () => {
-    console.log("handle edit ", examenId)
     redirect('/uko/edit-examen', {
       state: examens.find(e => e.examenId == examenId)
     })
@@ -106,8 +106,13 @@ const UkoPage = () => {
           <Button onClick={() => setModalDeleteActive(true)} className='delete-examen'>Удалить экзамен</Button>
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
         </div>
+        <div className='examens-uko'>
+          {
+            isExamensLoading ? <div className='loader'>Идет загрузка экзаменов...</div> : <ExamensListUko examens={examens} />
+          }
+        </div>
       </div>
-      <Popup active={modalEditActive} setActive={() => {setExamenId(null); setModalEditActive(false)}}>
+      <Popup active={modalEditActive} setActive={() => { setExamenId(null); setModalEditActive(false) }}>
         <h2 className="popup__title title">Изменение экзамена</h2>
         <form className='form' style={{ marginBottom: 20 }} onSubmit={handleSubmit(handleEditExamen)}>
           <label className='form__label' onClick={(evt) => evt.preventDefault()}>
@@ -119,15 +124,15 @@ const UkoPage = () => {
                 required: true
               }}
               render={({ field: { onChange }, fieldState: { error } }) => (
-                  <div className={error ? 'error' : ''}>
-                      <Select 
-                        onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
-                        placeholder='Выберите экзамен'
-                        options={examensForSelect}
-                        isLoading={isExamensLoading}
-                        isDisabled={isExamensLoading}
-                      />
-                  </div>
+                <div className={error ? 'error' : ''}>
+                  <Select
+                    onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
+                    placeholder='Выберите экзамен'
+                    options={examensForSelect}
+                    isLoading={isExamensLoading}
+                    isDisabled={isExamensLoading}
+                  />
+                </div>
               )}
             />
           </label>
@@ -146,15 +151,15 @@ const UkoPage = () => {
                 required: true
               }}
               render={({ field: { onChange }, fieldState: { error } }) => (
-                  <div className={error ? 'error' : ''}>
-                      <Select 
-                        onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
-                        placeholder='Выберите экзамен'
-                        options={examensForSelect}
-                        isLoading={isExamensLoading}
-                        isDisabled={isExamensLoading}
-                      />
-                  </div>
+                <div className={error ? 'error' : ''}>
+                  <Select
+                    onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
+                    placeholder='Выберите экзамен'
+                    options={examensForSelect}
+                    isLoading={isExamensLoading}
+                    isDisabled={isExamensLoading}
+                  />
+                </div>
               )}
             />
           </label>
@@ -180,15 +185,15 @@ const UkoPage = () => {
                 required: true
               }}
               render={({ field: { onChange }, fieldState: { error } }) => (
-                  <div className={error ? 'error' : ''}>
-                      <Select 
-                        onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
-                        placeholder='Выберите экзамен'
-                        options={examensForSelect}
-                        isLoading={isExamensLoading}
-                        isDisabled={isExamensLoading}
-                      />
-                  </div>
+                <div className={error ? 'error' : ''}>
+                  <Select
+                    onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
+                    placeholder='Выберите экзамен'
+                    options={examensForSelect}
+                    isLoading={isExamensLoading}
+                    isDisabled={isExamensLoading}
+                  />
+                </div>
               )}
             />
           </label>

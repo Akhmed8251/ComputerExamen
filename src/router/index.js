@@ -13,6 +13,8 @@ import AnswersCheckTeacher from "../pages/teacher/AnswersCheckTeacher";
 import StudentAnswers from "../pages/teacher/StudentAnswers"
 import UkoPage from "../pages/uko/UkoPage";
 import AdminPage from "../pages/admin/AdminPage";
+import ExamenResultsUko from "../pages/uko/ExamenResultsUko";
+import StudentAnswersUko from "../pages/uko/StudentAnswersUko";
 
 export const privateStudentRoutes = [
     {path: '/examens/:id', element: <Examens />, exact: true},
@@ -33,7 +35,9 @@ export const privateUkoRoutes = [
     {path: '/uko/create-examen', element: <CreateExamenForm />, exact: true},
     {path: '/uko/create-tickets', element: <CreateTicketsForm />, exact: true},
     {path: '/uko/edit-examen', element: <EditExamenForm />, exact: true},
-    {path: '/uko/edit-tickets', element: <EditTicketsForm />, exact: true}
+    {path: '/uko/edit-tickets', element: <EditTicketsForm />, exact: true},
+    {path: '/uko/examen-results/:id', element: <ExamenResultsUko/>, exact: true},
+    {path: '/uko/student-answers', element: <StudentAnswersUko />, exact: true}
 ]
 
 export const privateAdminRoutes = [

@@ -614,7 +614,8 @@ main {
     pointer-events: none;
 }
 
-.examens-teacher .examens__item--passed .discipline-btn {
+.examens-teacher .examens__item--passed .discipline-btn,
+.examens-uko .examens__item--passed .discipline-btn {
     pointer-events: all;
 }
 
@@ -661,7 +662,10 @@ main {
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
+    margin-bottom: 30px;
 }
+
+
 
 .discipline-btn {
     font-size: 20px;
@@ -904,7 +908,8 @@ main {
 }
 
 .examens-teacher .title,
-.examens-teacher__passed .title {
+.examens-teacher__passed .title,
+.examens-uko > .title {
     margin-bottom: 44px;
 }
 
