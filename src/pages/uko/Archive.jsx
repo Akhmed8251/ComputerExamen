@@ -69,7 +69,7 @@ const Archive = () => {
         const endDateInput = document.querySelector(".form__label--end-date .datepicker")
         data.endDate = parsingDate(endDateInput.value)
 
-        getExamensFromArchive()
+        getExamensFromArchive(data)
     }
 
     return (
@@ -149,17 +149,19 @@ const Archive = () => {
                     {
                         isArchiveLoading ? <div>Загрузка данных...</div>
                             :
-                            <ul className="examens__list">
-                                {
-                                    archivedExamens?.map((examen, idx) => (
-                                        <li key={idx} className='examens__item examens__item--passed'>
-                                            <div className="examens-item__btns">
-                                                <Link to={`/teacher/examen-results/${examen.examenId}`} state={{ course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline }} className='discipline-btn'>{examen.discipline}</Link>
-                                            </div>
-                                        </li>
-                                    ))
-                                }
-                            </ul>
+                            archivedExamens?.length > 0 
+                            &&
+                                <ul className="examens__list">
+                                    {
+                                        archivedExamens?.map((examen, idx) => (
+                                            <li key={idx} className='examens__item examens__item--passed'>
+                                                <div className="examens-item__btns">
+                                                    <Link to={`/teacher/examen-results/${examen.examenId}`} state={{ course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline }} className='discipline-btn'>{examen.discipline}</Link>
+                                                </div>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
                     }
                 </div>
             </div>

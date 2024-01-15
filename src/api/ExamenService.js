@@ -122,6 +122,9 @@ export default class ExamenService {
                 startDate: filter.startDate,
                 endDate: filter.endDate
             },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
             withCredentials: true
         })
         return response;
