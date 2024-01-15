@@ -136,8 +136,14 @@ const LoginStudent = () => {
         }
     })
 
+    const isAccessAllowed = () => {
+        return !(/Mac|laptop|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Linux/i.test(
+          navigator.userAgent
+        ));
+      };
+
     const login = (data) => {
-        loginStudent(data.studentId, data.nzachkn)
+        isAccessAllowed() ? loginStudent(data.studentId, data.nzachkn) : alert("Вход с данного устройства запрещен!")
     }
 
     return (
