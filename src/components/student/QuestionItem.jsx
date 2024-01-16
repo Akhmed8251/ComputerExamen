@@ -14,7 +14,7 @@ const QuestionItem = ({ question, answer, onSave, onEdit, isLoading, isDisabledB
                 <p className="questions-item__text">
                     {question.text}
                 </p>
-                <TextArea onChange={(evt) => setTextAnswer(evt.target.value)} className='questions-item__answer-text' value={textAnswer} />
+                <TextArea onPaste={(evt) => evt.preventDefault() } onChange={(evt) => setTextAnswer(evt.target.value)} className='questions-item__answer-text' value={textAnswer} />
                 {/* {  
                   answer == ''
                     ? <Button onClick={() => { onSave(textAnswer) }} className={`questions-item__btn  questions-item__btn--save${isLoading ? ' loading' : ''}${isDisabledButtons ? ' disabled' : ''}`}><span>Сохранить</span></Button>
