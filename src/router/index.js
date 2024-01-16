@@ -14,6 +14,7 @@ import StudentAnswers from "../pages/teacher/StudentAnswers"
 import UkoPage from "../pages/uko/UkoPage";
 import AdminPage from "../pages/admin/AdminPage";
 import Archive from "../pages/uko/Archive";
+import ArchiveTeacher from "../pages/teacher/ArchiveTeacher";
 
 export const privateStudentRoutes = [
     {path: '/examens/:id', element: <Examens />, exact: true},
@@ -26,7 +27,8 @@ export const privateTeacherRoutes = [
     {path: '/teacher/examen/:id', element: <ExamenTeacher />, exact: true},
     {path: '/teacher/answers-check', element: <AnswersCheckTeacher />, exact: true},
     {path: '/teacher/examen-results/:id', element: <ExamenResults />, exact: true},
-    {path: '/teacher/student-answers', element: <StudentAnswers />, exact: true}
+    {path: '/teacher/student-answers', element: <StudentAnswers />, exact: true},
+    {path: '/teacher/archive', element: <ArchiveTeacher />, exact: true}
 ]
 
 export const privateUkoRoutes = [

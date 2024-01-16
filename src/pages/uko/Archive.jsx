@@ -156,7 +156,7 @@ const Archive = () => {
                                         archivedExamens?.map((examen, idx) => (
                                             <li key={idx} className='examens__item examens__item--passed'>
                                                 <div className="examens-item__btns">
-                                                    <Link to={`/teacher/examen-results/${examen.examenId}`} state={{ course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline }} className='discipline-btn'>{examen.discipline}</Link>
+                                                    <Link to={`/uko/examen-results/${examen.examenId}`} state={{ course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline }} className='discipline-btn'>{examen.discipline}</Link>
                                                 </div>
                                             </li>
                                         ))

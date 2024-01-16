@@ -130,6 +130,19 @@ export default class ExamenService {
         return response;
     }
 
+    static async getExamensFromArchiveByAuditoriumId(auditoriumId) {
+        const response = await axios.get(`${API_URL}/Examen/GetExamensFromArchiveByAuditoriumId`, {
+            params: {
+                auditoriumId: auditoriumId
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
+            withCredentials: true
+        })
+        return response;
+    }
+
     static async resetExamenForTeacher(examenId) {
         const response = await axios.post(`${API_URL}/Examen/ResetExamen`, {
             examenId: examenId,
