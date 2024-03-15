@@ -2,6 +2,13 @@ import axios from "axios";
 import { API_URL } from "./config";
 
 export default class DsuService {
+    static async getEdukinds() {
+        const response = await axios.get(`${API_URL}/Dsu/GetEdukinds`, {
+            withCredentials: true
+        })
+        return response;
+    }
+
     static async getFaculties() {
         const response = await axios.get(`${API_URL}/Dsu/GetFaculties`, {
             withCredentials: true

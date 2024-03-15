@@ -1,9 +1,8 @@
 import {useContext, useState} from 'react';
 import {AuthContext} from "../../context";
-import Select from '../../components/ui/Select'
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
-import { useFetcher, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useFetching } from '../../hooks/useFetching';
 import AuthService from '../../api/AuthService';
 import { Controller, useForm } from 'react-hook-form';

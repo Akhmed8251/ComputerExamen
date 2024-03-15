@@ -10,4 +10,13 @@ export default class EmployeeService {
         })
         return response;
     }
+
+    static async getAuditories() {
+        const response = await axios.get(`${API_URL}/Employee/GetAuditories`, {
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            }
+        })
+        return response;
+    }
 }

@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
-import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../../context'
+import { useEffect, useState } from 'react'
 import ExamenListTeacher from '../../components/teacher/ExamenListTeacher'
 
 

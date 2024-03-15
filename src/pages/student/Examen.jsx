@@ -5,10 +5,7 @@ import Button from '../../components/ui/Button'
 import Popup from '../../components/ui/Popup'
 import { useFetching } from '../../hooks/useFetching'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import ExamenService from '../../api/ExamenService'
 import AnswerBlankService from '../../api/AnswerBlankService'
-import { convertMinutesToSeconds } from '../../utils/time'
-import { diffBetweenDatesInSeconds } from '../../utils/date'
 
 const Examen = () => {
   const [modalActive, setModalActive] = useState(false)

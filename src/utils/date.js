@@ -10,7 +10,6 @@ export const formatDate = (date) => {
     if (yy < 10) yy = '0' + yy;
 
     let minutes = date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()
-  
     return `${dd}.${mm}.${yy} ${date.getHours()}:${minutes}`
 }
 

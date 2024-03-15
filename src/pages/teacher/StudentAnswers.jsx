@@ -1,11 +1,6 @@
-import { useState } from 'react'
-import Popup from '../../components/ui/Popup'
-import Button from '../../components/ui/Button'
 import AnswerList from '../../components/teacher/AnswerList'
 import Input from '../../components/ui/Input'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useFetching } from '../../hooks/useFetching'
-import AnswerBlankService from '../../api/AnswerBlankService'
+import { Link, useLocation } from 'react-router-dom'
 
 const StudentAnswers = () => {
   const data = useLocation()

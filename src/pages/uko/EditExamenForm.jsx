@@ -15,7 +15,6 @@ const EditExamenForm = () => {
     const examData = data.state
 
     const [teachers, setTeachers] = useState([])
-    const [teacherId, setTeacherId] = useState(null)
     const [getTeachers, isTeachersLoading, teachersError] = useFetching(async () => {
         const response = await DsuService.getTeachers()
         const dataArr = []
@@ -32,9 +31,8 @@ const EditExamenForm = () => {
     }, [])
 
     const [auditoriums, setAuditoriums] = useState([])
-    const [auditoriumId, setAuditoriumId] = useState(null)
     const [getEmployees, isAuditoriumLoading, auditoriumError] = useFetching(async () => {
-        const response = await EmployeeService.getEmployees()
+        const response = await EmployeeService.getAuditories()
         const dataArr = []
         response.data.forEach(dataItem => {
             dataArr.push({
@@ -128,6 +126,23 @@ const EditExamenForm = () => {
         }
     }, [departmentId, course])
 
+    const [edukinds, setEdukinds] = useState([])
+    const [getEdukinds, isEdukindsLoading, edukindsErr] = useFetching(async () => {
+        const response = await DsuService.getEdukinds()
+        const dataArr = []
+        response.data.forEach(dataItem => {
+            dataArr.push({
+                value: dataItem.edukindId,
+                label: dataItem.edukind
+            })
+        })
+        console.log(examData)
+        setEdukinds(dataArr)
+    })
+    useEffect(() => {
+        getEdukinds()
+    }, [])
+
     const { control, handleSubmit } = useForm({
         mode: "onSubmit",
         defaultValues: {
@@ -137,6 +152,7 @@ const EditExamenForm = () => {
             departmentId: examData.department.departmentId,
             course: examData.course,
             nGroup: examData.group,
+            edukindId: examData.edukind.edukindId,
             discipline: examData.discipline,
             examDate: examData.examDate,
             examDurationInMitutes: examData.examDurationInMitutes
@@ -152,7 +168,7 @@ const EditExamenForm = () => {
         data.id = examData.examenId
         data.isDeleted = false
         data.examTickets = examData.examTickets
-
+        
         redirect(`/uko/edit-tickets`, {
             state: data
         })
@@ -186,7 +202,7 @@ const EditExamenForm = () => {
                                             value={
                                                 teachers.find(t => t.value == value)
                                             }
-                                            onChange={(newValue) => { setTeacherId(newValue.value); onChange(newValue.value) }}
+                                            onChange={(newValue) => { onChange(newValue.value) }}
                                             placeholder='Выберите преподавателя'
                                             options={teachers}
                                             isLoading={isTeachersLoading}
@@ -210,7 +226,7 @@ const EditExamenForm = () => {
                                             value={
                                                 auditoriums.find(a => a.value == value)
                                             }
-                                            onChange={(newValue) => { setAuditoriumId(newValue.value); onChange(newValue.value) }}
+                                            onChange={(newValue) => { onChange(newValue.value) }}
                                             placeholder='Выберите аудиторию'
                                             options={auditoriums}
                                             isLoading={isAuditoriumLoading}
@@ -315,6 +331,29 @@ const EditExamenForm = () => {
                                             options={groups}
                                             isLoading={isGroupsLoading}
                                             isDisabled={isGroupsLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
+                        <label className='form__label'>
+                            <span className='form__text'>Форма обучения</span>
+                            <Controller
+                                control={control}
+                                name='edukindId'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { value, onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            value={
+                                                edukinds.find(e => e.value == value)
+                                            }
+                                            onChange={(newValue) => { onChange(newValue.value) }}
+                                            options={edukinds}
+                                            isLoading={isEdukindsLoading}
+                                            isDisabled={isEdukindsLoading}
                                         />
                                     </div>
                                 )}

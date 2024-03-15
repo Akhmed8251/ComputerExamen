@@ -3,16 +3,14 @@ import Input from '../../components/ui/Input'
 import Button from '../../components/ui/Button'
 import DatePicker from '../../components/ui/DatePicker'
 import { useNavigate, Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useFetching } from '../../hooks/useFetching'
 import DsuService from '../../api/DsuService'
 import { Controller, useForm } from 'react-hook-form';
-import { parsingDate } from '../../utils/date'
 import EmployeeService from '../../api/EmployeeService'
 
 const CreateExamenForm = () => {
     const [teachers, setTeachers] = useState([])
-    const [teacherId, setTeacherId] = useState(null)
     const [getTeachers, isTeachersLoading, teachersError] = useFetching(async () => {
         const response = await DsuService.getTeachers()
         const dataArr = []
@@ -30,9 +28,8 @@ const CreateExamenForm = () => {
     }, [])
 
     const [auditoriums, setAuditoriums] = useState([])
-    const [auditoriumId, setAuditoriumId] = useState(null)
     const [getEmployees, isAuditoriumLoading, auditoriumError] = useFetching(async () => {
-        const response = await EmployeeService.getEmployees()
+        const response = await EmployeeService.getAuditories()
         const dataArr = []
         response.data.forEach(dataItem => {
             dataArr.push({
@@ -108,7 +105,6 @@ const CreateExamenForm = () => {
     }, [departmentId])
 
     const [groups, setGroups] = useState([])
-    const [group, setGroup] = useState(null)
     const [getGroups, isGroupsLoading, groupsError] = useFetching(async (id, nCourse) => {
         const response = await DsuService.getGroupsByDepartmentIdAndCourse(id, nCourse)
         const dataArr = []
@@ -127,7 +123,22 @@ const CreateExamenForm = () => {
         }
     }, [departmentId, course])
 
-    const [disciplineName, setDisciplineName] = useState(null)
+    const [edukinds, setEdukinds] = useState([])
+    const [getEdukinds, isEdukindsLoading, edukindsErr] = useFetching(async () => {
+        const response = await DsuService.getEdukinds()
+        const dataArr = []
+        response.data.forEach(dataItem => {
+            dataArr.push({
+                value: dataItem.edukindId,
+                label: dataItem.edukind
+            })
+        })
+
+        setEdukinds(dataArr)
+    })
+    useEffect(() => {
+        getEdukinds()
+    }, [])
 
     const { control, handleSubmit } = useForm({
         mode: "onSubmit",
@@ -135,13 +146,13 @@ const CreateExamenForm = () => {
 
     const redirect = useNavigate()
 
-    
+    const datePickerRef = useRef(null)
 
     const onSubmit = (data) => {
-        let dateInput = document.querySelector(".datepicker")
-        data.examDate = parsingDate(dateInput.value)
+        data.examDate = datePickerRef.current.props.selected
         data.isDeleted = false
 
+        console.log(data)
         redirect(`/uko/create-tickets`, {
             state: data
         })
@@ -172,7 +183,7 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setTeacherId(newValue.value); onChange(newValue.value) }}
+                                            onChange={(newValue) => { onChange(newValue.value) }}
                                             placeholder='Выберите преподавателя'
                                             options={teachers}
                                             isLoading={isTeachersLoading}
@@ -193,7 +204,7 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setAuditoriumId(newValue.value); onChange(newValue.value) }}
+                                            onChange={(newValue) => { onChange(newValue.value) }}
                                             placeholder='Выберите аудиторию'
                                             options={auditoriums}
                                             isLoading={isAuditoriumLoading}
@@ -273,10 +284,30 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setGroup(newValue.value); onChange(newValue.value) }}
+                                            onChange={(newValue) => { onChange(newValue.value) }}
                                             options={groups}
                                             isLoading={isGroupsLoading}
                                             isDisabled={isGroupsLoading}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </label>
+                        <label className='form__label'>
+                            <span className='form__text'>Форма обучения</span>
+                            <Controller
+                                control={control}
+                                name='edukindId'
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field: { onChange }, fieldState: { error } }) => (
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            onChange={(newValue) => { onChange(newValue.value) }}
+                                            options={edukinds}
+                                            isLoading={isEdukindsLoading}
+                                            isDisabled={isEdukindsLoading}
                                         />
                                     </div>
                                 )}
@@ -293,12 +324,12 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <Input
                                         className={`form__input${error ? ' error' : ''}`}
-                                        onChange={(newValue) => { setDisciplineName(newValue); onChange(newValue) }}
+                                        onChange={(newValue) => { onChange(newValue) }}
                                     />
                                 )}
                             />
                         </label>
-                        <label className='form__label' onClick={(evt) => evt.preventDefault()}>
+                        <label className='form__label'>
                             <span className='form__text'>Дата</span>
 
                             <Controller
@@ -307,6 +338,7 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange } }) => (
                                     <div>
                                         <DatePicker
+                                            ref={datePickerRef}
                                             onChange={(newDate) => onChange(newDate)}
                                         />
                                     </div>

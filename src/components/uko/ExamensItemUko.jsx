@@ -30,7 +30,7 @@ const ExamenItemUko = ({ examen }) => {
         {
           (isStartExamen(new Date(examen.examDate)) && examen.endExamDate == null)
           ? <div className='discipline-btn'>{examen.discipline}</div>
-          : <Link to={`/uko/examen-results/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline } } className='discipline-btn'>{examen.discipline}</Link>
+          : <Link to={`/uko/examen-results/${examen.examenId}`} state={ { course: examen.course, group: examen.group, deptName: examen.department.deptName, examenName: examen.discipline, examDate: examen.examDate } } className='discipline-btn'>{examen.discipline}</Link>
         }
       </div>
     </li>

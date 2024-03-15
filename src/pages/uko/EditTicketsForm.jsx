@@ -6,7 +6,6 @@ import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import TicketService from '../../api/TicketService'
 import QuestionService from '../../api/QuestionService'
-import { editTextQuestions, editTickets, getTicketsForInput, parsingExamTicket } from '../../utils/tickets'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context'
 

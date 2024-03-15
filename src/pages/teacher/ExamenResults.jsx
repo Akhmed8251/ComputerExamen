@@ -1,7 +1,4 @@
 import { useContext, useEffect, useState } from 'react'
-import Popup from '../../components/ui/Popup'
-import Button from '../../components/ui/Button'
-import Input from '../../components/ui/Input'
 import StudentScoreList from '../../components/teacher/StudentScoreList'
 import { AuthContext } from '../../context'
 import { Link, useLocation, useParams } from 'react-router-dom'
@@ -11,7 +8,6 @@ import ExamenService from '../../api/ExamenService'
 const ExamenResults = () => {
   const { employeeId } = useContext(AuthContext)
   const { id } = useParams()
-  const [modalActive, setModalActive] = useState(false)
   const data = useLocation()
   const { course, group, deptName, examenName } = data.state
 

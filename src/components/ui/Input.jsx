@@ -1,5 +1,3 @@
-import { forwardRef } from 'react';
-
 const Input = ({ className , ...props}) => {
     const defaultClassName = 'input'
     const classNames = className ? className + ` ${defaultClassName}` : defaultClassName

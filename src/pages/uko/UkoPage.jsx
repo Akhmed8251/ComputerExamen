@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer, useRef } from 'react'
 import Popup from '../../components/ui/Popup'
 import Button from '../../components/ui/Button'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
 import Select from '../../components/ui/Select'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { parsingDate } from '../../utils/date'
+import { formatDate } from '../../utils/date'
 import { Controller, useForm } from 'react-hook-form';
 import DatePicker from '../../components/ui/DatePicker'
 import ExamensListUko from '../../components/uko/ExamensListUko'
+import DsuService from '../../api/DsuService'
 
 
 const UkoPage = () => {
@@ -18,6 +19,7 @@ const UkoPage = () => {
   const redirect = useNavigate()
 
   const [examens, setExamens] = useState([])
+  const [examensWithFilter, setExamensWithFilter] = useState([])
   const [examensForSelect, setExamensForSelect] = useState([])
   const [modalEditActive, setModalEditActive] = useState(false)
   const [modalDeleteActive, setModalDeleteActive] = useState(false)
@@ -31,6 +33,7 @@ const UkoPage = () => {
 
     if (response.status == 200) {
       setExamens(response.data)
+      setExamensWithFilter(response.data)
 
       const dataArr = []
       response.data.forEach(dataItem => {
@@ -80,9 +83,10 @@ const UkoPage = () => {
     setModalDeleteConfirmActive(true)
   }
 
+  const datePickerCopyRef = useRef(null)
+
   const onCopyExamen = () => {
-    let dateInput = document.querySelector(".datepicker")
-    const examDate = parsingDate(dateInput.value)
+    const examDate = datePickerCopyRef.current.props.selected
     copyExamen(examenId, examDate)
   }
 
@@ -93,9 +97,48 @@ const UkoPage = () => {
   const { control: controlDelete, handleSubmit: handleSubmitDelete } = useForm({
     mode: "onSubmit"
   })
+
   const { control: controlCopy, handleSubmit: handleSubmitCopy } = useForm({
     mode: "onSubmit"
   })
+
+  const [faculties, setFaculties] = useState([])
+  const [getFaculties, isFacultiesLoading, facError] = useFetching(async () => {
+    const response = await DsuService.getFaculties()
+    const dataArr = []
+    response.data.forEach(dataItem => {
+      dataArr.push({
+        value: dataItem.facId,
+        label: dataItem.facName
+      })
+    })
+
+    setFaculties(dataArr)
+  })
+  useEffect(() => {
+    getFaculties()
+  }, [])
+
+  const facultySelectForFilterRef = useRef(null)
+  const datePickerForFilterRef = useRef(null)
+
+  const { control: controlFilter, handleSubmit: handleSubmitFilter, reset: resetFilterForm} = useForm({
+    mode: "onSubmit",
+  })
+  
+  const onExamenFilter = (data) => {
+    data.examDate = formatDate(datePickerForFilterRef.current.props.selected).split(" ")[0] 
+    setExamensWithFilter(examens.filter(e => e.department.facId == data.facultyId && formatDate(new Date(e.examDate)).includes(data.examDate)))
+  }
+
+  const resetFilter = (evt) => {
+    resetFilterForm(); //Для сброса ошибок
+    
+    evt.preventDefault()
+    facultySelectForFilterRef.current.clearValue()
+    datePickerForFilterRef.current.setSelected(new Date())
+    setExamensWithFilter(examens)
+  }
 
   return (
     <>
@@ -106,9 +149,60 @@ const UkoPage = () => {
           <Button onClick={() => setModalDeleteActive(true)} className='delete-examen'>Удалить экзамен</Button>
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
         </div>
+        <div className='examen__filter filter-examen'>
+          <h2 className="filter-examen__title title">Фильтр</h2>
+          <form className='filter-examen__form form' onSubmit={handleSubmitFilter(onExamenFilter)}>
+            <label className='form__label'>
+              <span className='form__text'>Факультет</span>
+              <Controller
+                control={controlFilter}
+                name='facultyId'
+                rules={{
+                  required: true
+                }}
+                render={({ field: { onChange }, fieldState: { error } }) => (
+                  <div className={error ? 'error' : ''}>
+                    <Select
+                      ref={facultySelectForFilterRef}
+                      onChange={newValue => onChange(newValue?.value)}
+                      placeholder='Выберите факультет'
+                      options={faculties}
+                      isLoading={isFacultiesLoading}
+                      isDisabled={isFacultiesLoading}
+                    />
+                  </div>
+                )}
+              />
+            </label>
+            <label className='form__label'>
+              <span className='form__text'>Дата</span>
+              <Controller
+                control={controlFilter}
+                name='examDate'
+                render={({ field: { onChange } }) => (
+                  <div>
+                    <DatePicker
+                      ref={datePickerForFilterRef}
+                      showTimeSelect={false}
+                      onChange={(newDate) => onChange(newDate)}
+                    />
+                  </div>
+                )}
+              />
+            </label>
+            <div className='form__btns'>
+              <Button className='form__btn'>
+                <span>Применить</span>
+              </Button>
+              <Button className='form__btn form__btn--reset' onClick={(evt) => {resetFilter(evt)}}>
+                <span>Сбросить</span>
+              </Button>
+            </div>
+          </form>
+        </div>
         <div className='examens-uko'>
           {
-            isExamensLoading ? <div className='loader'>Идет загрузка экзаменов...</div> : <ExamensListUko examens={examens} />
+            isExamensLoading ? <div className='loader'>Идет загрузка экзаменов...</div> : <ExamensListUko examens={examensWithFilter} />
           }
         </div>
       </div>
@@ -205,6 +299,7 @@ const UkoPage = () => {
               render={({ field: { onChange }, fieldState: { errors } }) => (
                 <div className={errors?.root?.message ? ' error' : ''}>
                   <DatePicker
+                    ref={datePickerCopyRef}
                     selected={copyExamenDate}
                     onChange={(newDate) => onChange(newDate)}
                   />

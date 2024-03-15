@@ -1,6 +1,6 @@
 import TextArea from '../../components/ui/TextArea'
 import Button from '../../components/ui/Button'
-import { useFieldArray, useForm, Controller } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'

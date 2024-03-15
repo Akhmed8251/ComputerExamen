@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import ReactDatePicker from 'react-datepicker' 
 import 'react-datepicker/dist/react-datepicker.css'
 import ru from 'date-fns/locale/ru';
 
-const DatePicker = ({ onChange, selected = new Date() }) => {
+const DatePicker = forwardRef(({ onChange, selected = new Date(), showTimeSelect = true }, ref) => {
   const [date, setDate] = useState(selected)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -21,14 +21,14 @@ const DatePicker = ({ onChange, selected = new Date() }) => {
         <ReactDatePicker 
             locale={ru}
             showIcon
-            showTimeSelect
+            ref={ref}
+            showTimeSelect={showTimeSelect}
             selected={date}
             className='datepicker'
-            dateFormat='dd.MM.yyyy HH:mm'
+            dateFormat={showTimeSelect ? 'dd.MM.yyyy HH:mm' :'dd.MM.yyyy'}
             timeCaption='Время'
             timeIntervals={15}
             onChange={onChange1}
-            //onSelect={(newDate) => setDate(newDate)}
             onSelect={(date) => onSelect(date)}
             
             onCalendarOpen={() => setIsOpen(true)}
@@ -36,6 +36,6 @@ const DatePicker = ({ onChange, selected = new Date() }) => {
         />
     </div>
   )
-}
+})
 
 export default DatePicker

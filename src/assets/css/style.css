@@ -199,6 +199,10 @@ body {
     cursor: pointer;
 }
 
+.datepicker-wrapper {
+    width: max-content;
+}
+
 .textarea {
     resize: vertical;
 }
@@ -913,6 +917,24 @@ main {
     margin-bottom: 44px;
 }
 
+.examen__filter {
+    margin-bottom: 60px;
+}
+
+.filter-examen {
+    max-width: 600px;
+}
+
+.filter-examen .form__btn--reset {
+    background-color: #ededed;
+    color: #47515a;
+    transition: background-color .3s;
+}
+
+.filter-examen .form__btn--reset:hover {
+    background-color: #e3e3e3;
+}
+
 .examens-teacher__btn {
     display: inline-flex;
     align-items: center;
@@ -1132,6 +1154,57 @@ main {
     color: #074ab4;
 }
 
+.statement {
+    display: none;
+    margin-top: 20px;
+}
+
+.statement-header {
+    display: flex;
+    text-align: center;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.statement-header__title {
+    margin-bottom: 14px;
+}
+
+.statement-header__data {
+    border: 1px solid #000;
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+.statement-header__data-item {
+    display: block;
+}
+
+.statement-body {
+    margin-bottom: 24px;
+}
+
+.statement-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.statement-info:not(:last-child) {
+    margin-bottom: 6px;
+}
+
+table, 
+tr, 
+th, 
+td {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    padding: 10px;
+    text-align: center;
+}
+
 .not-found__container {
     display: flex;
     max-width: 1250px;
@@ -1215,6 +1288,18 @@ main {
     background-color: #e70a20;
 }
 
-/* .update-btn {
-    margin-bottom: 40px;
-} */
+@media print {
+    .header,
+    .footer,
+    .examen-results__container {
+        display: none;
+    }
+    .print {
+        display: block;
+    }
+    body {
+        font-family: 'Times New Roman', Times, serif;
+        display: block;
+    }
+    
+}
