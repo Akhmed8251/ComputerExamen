@@ -142,6 +142,35 @@ export default class ExamenService {
         return response;
     }
 
+    static async getExamensFromArchiveByFilter(filter) {
+        const response = await axios.get(`${API_URL}/Examen/GetExamensFromArchiveByFilter`, {
+            params: {
+                facultyId: filter.facultyId,
+                departmentId: filter.departmentId,
+                startDate: filter.startDate,
+                endDate: filter.endDate
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
+            withCredentials: true
+        })
+        return response;
+    }
+
+    static async getExamensFromArchiveByAuditoriumId(auditoriumId) {
+        const response = await axios.get(`${API_URL}/Examen/GetExamensFromArchiveByAuditoriumId`, {
+            params: {
+                auditoriumId: auditoriumId
+            },
+            headers: {
+                "Authorization": `Bearer ${getToken()}`
+            },
+            withCredentials: true
+        })
+        return response;
+    }
+
     static async endExamenForEmployee(examenId) {
         const response = await axios.get(`${API_URL}/Examen/EndExamenForEmployee`, {
             params: {

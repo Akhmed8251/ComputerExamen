@@ -152,6 +152,7 @@ const UkoPage = () => {
           <Button onClick={() => setModalEditActive(true)} className='edit-examen btn'>Изменить экзамен</Button>
           <Button onClick={() => setModalDeleteActive(true)} className='delete-examen'>Удалить экзамен</Button>
           <Button onClick={() => setModalCopyActive(true)}>Создать пересдачу</Button>
+          <Link to={'/uko/archive'} className='btn'>Просмотр архива</Link>
         </div>
         <div className='examen__filter filter-examen'>
           <h2 className="filter-examen__title title">Фильтр</h2>

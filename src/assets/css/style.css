@@ -1288,6 +1288,14 @@ td {
     background-color: #e70a20;
 }
 
+.archive__title {
+    margin-bottom: 20px;
+}
+
+.archive__form {
+    max-width: 600px;
+}
+
 @media print {
     .header,
     .footer,
