@@ -10,6 +10,19 @@ import { Controller, useForm } from 'react-hook-form';
 import EmployeeService from '../../api/EmployeeService'
 
 const CreateExamenForm = () => {
+    const teacherSelectRef = useRef(null)
+    const auditoriumSelectRef = useRef(null)
+    const departmentSelectRef = useRef(null)
+    const courseSelectRef = useRef(null)
+    const groupSelectRef = useRef(null)
+    const edukindSelectRef = useRef(null)
+    const disciplineSelectRef = useRef(null)
+
+    const resetSelectValue = (selectRef, setOptionsState = null) => {
+        selectRef.current.setValue(null, "onChange")
+        setOptionsState && setOptionsState([])
+    }
+
     const [teachers, setTeachers] = useState([])
     const [getTeachers, isTeachersLoading, teachersError] = useFetching(async () => {
         const response = await DsuService.getTeachers()
@@ -79,9 +92,13 @@ const CreateExamenForm = () => {
         setDepartments(dataArr)
     })
     useEffect(() => {
-        if (facultyId) {
-            getDepartments(facultyId)
-        }
+        resetSelectValue(departmentSelectRef, setDepartments)
+        resetSelectValue(courseSelectRef, setCourses)
+        resetSelectValue(groupSelectRef, setGroups)
+        resetSelectValue(edukindSelectRef)
+        resetSelectValue(disciplineSelectRef, setDisciplines)
+
+        getDepartments(facultyId)
     }, [facultyId])
 
     const [courses, setCourses] = useState([])
@@ -98,13 +115,20 @@ const CreateExamenForm = () => {
 
         setCourses(dataArr)
     })
+
     useEffect(() => {
         if (departmentId) {
+            resetSelectValue(courseSelectRef, setCourses)
+            resetSelectValue(groupSelectRef, setGroups)
+            resetSelectValue(edukindSelectRef)
+            resetSelectValue(disciplineSelectRef, setDisciplines)
+            
             getCourses(departmentId)
         }
     }, [departmentId])
 
     const [groups, setGroups] = useState([])
+    const [group, setGroup] = useState(null)
     const [getGroups, isGroupsLoading, groupsError] = useFetching(async (id, nCourse) => {
         const response = await DsuService.getGroupsByDepartmentIdAndCourse(id, nCourse)
         const dataArr = []
@@ -118,12 +142,17 @@ const CreateExamenForm = () => {
         setGroups(dataArr)
     })
     useEffect(() => {
-        if (departmentId && course) {
+       if (course) {
+            resetSelectValue(groupSelectRef, setGroups)
+            resetSelectValue(edukindSelectRef)
+            resetSelectValue(disciplineSelectRef, setDisciplines)
+
             getGroups(departmentId, course)
-        }
-    }, [departmentId, course])
+       }
+    }, [course])
 
     const [edukinds, setEdukinds] = useState([])
+    const [edukind, setEdukind] = useState(null)
     const [getEdukinds, isEdukindsLoading, edukindsErr] = useFetching(async () => {
         const response = await DsuService.getEdukinds()
         const dataArr = []
@@ -140,7 +169,34 @@ const CreateExamenForm = () => {
         getEdukinds()
     }, [])
 
-    const { control, handleSubmit } = useForm({
+    useEffect(() => {
+        resetSelectValue(edukindSelectRef)
+        resetSelectValue(disciplineSelectRef, setDisciplines)
+    }, [group])
+
+    const [disciplines, setDisciplines] = useState([])
+    const [getDisciplines, isDisciplinesLoading, disciplinesErr] = useFetching(async (departmentId, course, group, edukind) => {
+        const response = await DsuService.getDisciplinesWithFilter(departmentId, course, group, edukind)
+        const dataArr = []
+        if (response.data.length > 0) {
+            response.data.forEach(dataItem => {
+                dataArr.push({
+                    value: dataItem.predmet,
+                    label: dataItem.predmet
+                })
+            })
+        }
+        setDisciplines(dataArr)
+    })
+    useEffect(() => {
+        const { departmentId: departmentIdValue, course: courseValue, nGroup: groupValue, edukindId: edukindIdValue } = getValues()
+        if (departmentIdValue && courseValue && groupValue && edukindIdValue) {
+            resetSelectValue(disciplineSelectRef, setDisciplines)
+            getDisciplines(departmentId, course, group, edukind)
+        }
+    }, [departmentId, course, group, edukind])
+
+    const { control, handleSubmit, getValues } = useForm({
         mode: "onSubmit",
     })
 
@@ -152,7 +208,6 @@ const CreateExamenForm = () => {
         data.examDate = datePickerRef.current.props.selected
         data.isDeleted = false
 
-        console.log(data)
         redirect(`/uko/create-tickets`, {
             state: data
         })
@@ -183,6 +238,7 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
+                                            ref={teacherSelectRef}
                                             onChange={(newValue) => { onChange(newValue.value) }}
                                             placeholder='Выберите преподавателя'
                                             options={teachers}
@@ -204,6 +260,7 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
+                                            ref={auditoriumSelectRef}
                                             onChange={(newValue) => { onChange(newValue.value) }}
                                             placeholder='Выберите аудиторию'
                                             options={auditoriums}
@@ -219,6 +276,9 @@ const CreateExamenForm = () => {
                             <Controller
                                 control={control}
                                 name='facultyId'
+                                rules={{
+                                    required: true
+                                }}
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
@@ -243,7 +303,8 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setDepartmentId(newValue.value); onChange(newValue.value) }}
+                                            ref={departmentSelectRef}
+                                            onChange={(newValue) => { setDepartmentId(newValue?.value); onChange(newValue?.value) }}
                                             placeholder='Выберите направление'
                                             options={departments}
                                             isLoading={isDepartmentsLoading}
@@ -264,7 +325,9 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setCourse(newValue.value); onChange(newValue.value) }}
+                                            ref={courseSelectRef}
+                                            placeholder="Выберите курс"
+                                            onChange={(newValue) => { setCourse(newValue?.value); onChange(newValue?.value) }}
                                             options={courses}
                                             isLoading={isCoursesLoading}
                                             isDisabled={isCoursesLoading}
@@ -284,7 +347,9 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { onChange(newValue.value) }}
+                                            ref={groupSelectRef}
+                                            placeholder="Выберите группу"
+                                            onChange={(newValue) => { setGroup(newValue?.value); onChange(newValue?.value) }}
                                             options={groups}
                                             isLoading={isGroupsLoading}
                                             isDisabled={isGroupsLoading}
@@ -304,7 +369,9 @@ const CreateExamenForm = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { onChange(newValue.value) }}
+                                            ref={edukindSelectRef}
+                                            placeholder="Выберите форму обучения"
+                                            onChange={(newValue) => { setEdukind(newValue?.value); onChange(newValue?.value) }}
                                             options={edukinds}
                                             isLoading={isEdukindsLoading}
                                             isDisabled={isEdukindsLoading}
@@ -322,10 +389,16 @@ const CreateExamenForm = () => {
                                     required: true
                                 }}
                                 render={({ field: { onChange }, fieldState: { error } }) => (
-                                    <Input
-                                        className={`form__input${error ? ' error' : ''}`}
-                                        onChange={(newValue) => { onChange(newValue) }}
-                                    />
+                                    <div className={error ? 'error' : ''}>
+                                        <Select
+                                            ref={disciplineSelectRef}
+                                            placeholder="Выберите дисциплину"
+                                            onChange={(newValue) => { onChange(newValue?.value) }}
+                                            options={disciplines}
+                                            isLoading={isDisciplinesLoading}
+                                            isDisabled={isDisciplinesLoading}
+                                        />
+                                    </div>
                                 )}
                             />
                         </label>

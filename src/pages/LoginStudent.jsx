@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import { AuthContext } from "../context";
 import Select from '../components/ui/Select'
 import Input from '../components/ui/Input';
@@ -10,6 +10,16 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginStudent = () => {
     const { setIsAuthStudent, setUserName, setStudentId } = useContext(AuthContext);
+
+    const departmentSelectRef = useRef(null)
+    const courseSelectRef = useRef(null)
+    const groupSelectRef = useRef(null)
+    const studentSelectRef = useRef(null)
+
+    const resetSelectValue = (selectRef, setOptionsState = null) => {
+        selectRef.current.setValue(null, "onChange")
+        setOptionsState && setOptionsState([])
+    }
 
     const [faculties, setFaculties] = useState([])
     const [facultyId, setFacultyId] = useState(null)
@@ -46,6 +56,11 @@ const LoginStudent = () => {
     })
     useEffect(() => {
         if (facultyId) {
+            resetSelectValue(departmentSelectRef, setDepartments)
+            resetSelectValue(courseSelectRef, setCourses)
+            resetSelectValue(groupSelectRef, setGroups)
+            resetSelectValue(studentSelectRef, setStudents)
+
             getDepartments(facultyId)
         }
     }, [facultyId])
@@ -66,6 +81,10 @@ const LoginStudent = () => {
     })
     useEffect(() => {
         if (departmentId) {
+            resetSelectValue(courseSelectRef, setCourses)
+            resetSelectValue(groupSelectRef, setGroups)
+            resetSelectValue(studentSelectRef, setStudents)
+
             getCourses(departmentId)
         }
     }, [departmentId])
@@ -85,7 +104,9 @@ const LoginStudent = () => {
         setGroups(dataArr)
     })
     useEffect(() => {
-        if (departmentId && course) {
+        if (course) {
+            resetSelectValue(groupSelectRef, setGroups)
+            resetSelectValue(studentSelectRef, setStudents)
             getGroups(departmentId, course)
         }
     }, [course])
@@ -105,15 +126,12 @@ const LoginStudent = () => {
         setStudents(dataArr)
     })
     useEffect(() => {
-        if (course && group) {
-            getStudents(departmentId, course, group)
-        }
-    }, [course, group])
-
-    const [nzachkn, setNzachkn] = useState(null)
+        resetSelectValue(studentSelectRef, setStudents)
+        getStudents(departmentId, course, group)
+    }, [group])
 
     const { control, handleSubmit } = useForm({
-        mode: "onSubmit"
+        mode: "onSubmit",
     })
 
     const redirect = useNavigate()
@@ -184,7 +202,8 @@ const LoginStudent = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setDepartmentId(newValue.value); onChange(newValue.value) }}
+                                            ref={departmentSelectRef}
+                                            onChange={(newValue) => { setDepartmentId(newValue?.value); onChange(newValue?.value) }}
                                             placeholder='Выберите направление'
                                             options={departments}
                                             isLoading={isDepartmentsLoading}
@@ -205,7 +224,9 @@ const LoginStudent = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setCourse(newValue.value); onChange(newValue.value) }}
+                                            ref={courseSelectRef}
+                                            placeholder="Выберите курс"
+                                            onChange={(newValue) => { setCourse(newValue?.value); onChange(newValue?.value) }}
                                             options={courses}
                                             isLoading={isCoursesLoading}
                                             isDisabled={isCoursesLoading}
@@ -225,7 +246,9 @@ const LoginStudent = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => { setGroup(newValue.value); onChange(newValue.value) }}
+                                            ref={groupSelectRef}
+                                            placeholder="Выберите группу"
+                                            onChange={(newValue) => { setGroup(newValue?.value); onChange(newValue?.value) }}
                                             options={groups}
                                             isLoading={isGroupsLoading}
                                             isDisabled={isGroupsLoading}
@@ -245,7 +268,7 @@ const LoginStudent = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <Input
                                         className={`form__input form__input--small${error ? ' error' : ''}`}
-                                        onChange={(newValue) => { setNzachkn(newValue); onChange(newValue) }}
+                                        onChange={(newValue) => { onChange(newValue) }}
                                     />
                                 )}
                             />
@@ -261,7 +284,8 @@ const LoginStudent = () => {
                                 render={({ field: { onChange }, fieldState: { error } }) => (
                                     <div className={error ? 'error' : ''}>
                                         <Select
-                                            onChange={(newValue) => onChange(newValue.value)}
+                                            ref={studentSelectRef}
+                                            onChange={(newValue) => onChange(newValue?.value)}
                                             options={students}
                                             isLoading={isStudentsLoading}
                                             isDisabled={isStudentsLoading}

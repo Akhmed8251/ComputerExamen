@@ -28,6 +28,10 @@ const UkoPage = () => {
   const [examenId, setExamenId] = useState(null)
   const [copyExamenDate, setCopyExamenDate] = useState(new Date())
 
+  const facultySelectForFilterRef = useRef(null)
+  const datePickerForFilterRef = useRef(null)
+  const examenDeleteSelectRef = useRef(null)
+
   const [getExamensByEmployeeId, isExamensLoading, examError] = useFetching(async (userId) => {
     const response = await ExamenService.getExamensByEmployeeId(userId)
 
@@ -56,8 +60,11 @@ const UkoPage = () => {
       console.log(deleteError)
       alert("Экзамен успешно удален!")
       setExamens(examens.filter(e => e.examenId != examenId))
-      setModalDeleteConfirmActive(false)
-      setExamenId(null)
+      setModalDeleteConfirmActive(false); 
+      resetDelete(); 
+      setExamenId(null); 
+      setExamensForSelect(examensForSelect.filter(e => e.value != examenId))
+      examenDeleteSelectRef.current.clearValue()
     }
   })
 
@@ -94,7 +101,7 @@ const UkoPage = () => {
     mode: "onSubmit"
   })
 
-  const { control: controlDelete, handleSubmit: handleSubmitDelete } = useForm({
+  const { control: controlDelete, handleSubmit: handleSubmitDelete, reset: resetDelete } = useForm({
     mode: "onSubmit"
   })
 
@@ -118,9 +125,6 @@ const UkoPage = () => {
   useEffect(() => {
     getFaculties()
   }, [])
-
-  const facultySelectForFilterRef = useRef(null)
-  const datePickerForFilterRef = useRef(null)
 
   const { control: controlFilter, handleSubmit: handleSubmitFilter, reset: resetFilterForm} = useForm({
     mode: "onSubmit",
@@ -247,7 +251,8 @@ const UkoPage = () => {
               render={({ field: { onChange }, fieldState: { error } }) => (
                 <div className={error ? 'error' : ''}>
                   <Select
-                    onChange={(newValue) => { setExamenId(newValue.value); onChange(newValue.value) }}
+                    ref={examenDeleteSelectRef}
+                    onChange={(newValue) => { setExamenId(newValue?.value); onChange(newValue?.value) }}
                     placeholder='Выберите экзамен'
                     options={examensForSelect}
                     isLoading={isExamensLoading}
@@ -260,11 +265,11 @@ const UkoPage = () => {
           <Button className="delete-examen"><span>Удалить</span></Button>
         </form>
       </Popup>
-      <Popup active={modalDeleteConfirmActive} setActive={setModalDeleteConfirmActive}>
+      <Popup active={modalDeleteConfirmActive} setActive={() => {setModalDeleteConfirmActive(false); resetDelete(); setExamenId(null); examenDeleteSelectRef.current.clearValue()}}>
         <h2 className="popup__title title">Вы действительно хотите удалить экзамен?</h2>
         <div className="confirm-buttons">
           <Button onClick={() => deleteExamen(examenId)} className={`confirm-button confirm-button--yes${isDeleteLoading ? ' loading' : ''}`} disabled={isDeleteLoading} ><span>Да</span></Button>
-          <Button className="confirm-button confirm-button--no" onClick={() => setModalDeleteConfirmActive(false)}>Нет</Button>
+          <Button className="confirm-button confirm-button--no" onClick={() => {setModalDeleteConfirmActive(false); resetDelete(); setExamenId(null); examenDeleteSelectRef.current.clearValue()}}>Нет</Button>
         </div>
       </Popup>
       <Popup active={modalCopyActive} setActive={setModalCopyActive}>

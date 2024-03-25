@@ -9,7 +9,7 @@ const Footer = () => {
                         <img src={logoFooter} alt="" />
                     </a>
                     <div className="footer__text">
-                        Сведения об образовательной организации
+                        Система компьютерного экзамена
                     </div>
                 </div>
             </div>

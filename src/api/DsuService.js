@@ -59,6 +59,19 @@ export default class DsuService {
         return response;
     }
 
+    static async getDisciplinesWithFilter(departmentId, nCourse, nGroup, edukindId) {
+        const response = await axios.get(`${API_URL}/Dsu/GetDisciplinesWithFilter`, {
+            params: {
+                departmentId: departmentId,
+                course: nCourse,
+                ngroup: nGroup,
+                edukindId: edukindId
+            },
+            withCredentials: true
+        })
+        return response;
+    }
+
     static async getTeachers() {
         const response = await axios.get(`${API_URL}/Dsu/GetTeachers`)
         return response;
