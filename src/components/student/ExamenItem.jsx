@@ -1,4 +1,4 @@
-import { formatDate, diffBetweenDatesInDays, isStartExamen } from '../../utils/date'
+import { formatDate } from '../../utils/date'
 
 const ExamenItem = ({ examen, onClick }) => {
   let dateExamen = ''

@@ -31,7 +31,6 @@ const Examen = () => {
 
     if (response.status == 200) {
       alert("Ответы сохранены!")
-      //   onUpdate()
       if (!isEndExamen) {
         getAnswers(examenData.id)
       } else {

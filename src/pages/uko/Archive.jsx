@@ -157,17 +157,19 @@ const Archive = () => {
                             )}
                         />
                     </label>
-                    <Button><span>Просмотреть экзамены из архива</span></Button>
+                    <Button className={`${isArchiveLoading ? " loading" : ""}`} disabled={isArchiveLoading}><span>Просмотреть экзамены из архива</span></Button>
                 </form>
                 <div className="archive__examens examens">
                     {
                         isArchiveLoading ? <div>Загрузка данных...</div>
                             :
-                            archivedExamens?.length > 0
+                            archivedExamens != null ?
+                                archivedExamens.length > 0
                                 ?
                                 <ExamensListUko examens={archivedExamens} />
                                 :
                                 <div>Нет данных!</div>
+                            : <></>
                     }
                 </div>
             </div>

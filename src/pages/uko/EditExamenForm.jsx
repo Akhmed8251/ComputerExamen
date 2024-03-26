@@ -7,7 +7,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useFetching } from '../../hooks/useFetching'
 import DsuService from '../../api/DsuService'
 import { Controller, useForm } from 'react-hook-form';
-import { parsingDate } from '../../utils/date'
 import EmployeeService from '../../api/EmployeeService'
 
 const EditExamenForm = () => {

@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import StudentScoreListUko from '../../components/uko/StudentScoreListUko'
-import { AuthContext } from '../../context'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { useFetching } from '../../hooks/useFetching'
 import ExamenService from '../../api/ExamenService'
@@ -10,9 +9,7 @@ import Button from '../../components/ui/Button'
 import { printElement } from '../../utils/print'
 
 const ExamenResultsUko = () => {
-  const { employeeId } = useContext(AuthContext)
   const { id } = useParams()
-  const [modalActive, setModalActive] = useState(false)
   const data = useLocation()
   const { course, group, deptName, examenName, examDate } = data.state
 
@@ -24,6 +21,15 @@ const ExamenResultsUko = () => {
       setStudentsScore(response.data)
     }
   })
+
+  const [generateReport, isGenerateLoading, generateErr] = useFetching(async (examenId) => {
+    const response = await ExamenService.generateExcelFile(examenId)
+
+    if (response.status == 200) {
+      window.open(`/Files/${response.data}`, "_blank")
+    }
+  })
+
 
   useEffect(() => {
     getStudentsScore(id)
@@ -121,7 +127,10 @@ const ExamenResultsUko = () => {
             <span className='data__stage'>{`${course} курс ${group} группа`}</span>
             <span className='data__department'>{deptName}</span>
           </div>
-          <Button onClick={() => printElement(".statement")}>Распечатать ведомость</Button>
+          <div style={{ display: "flex", gap: 20, marginBottom: 20 }}>
+            <Button onClick={() => printElement(".statement")}>Распечатать ведомость</Button>
+            <Button onClick={() => generateReport(id)} className={`${isGenerateLoading ? " loading" : ""}`} disabled={isGenerateLoading}>{isGenerateLoading ? "Генерация..." : "Сгенерировать отчет об успеваемости"}</Button>
+          </div>
           {isScoreLoading ? <div className='loader'>Идет загрузка результатов...</div> : <StudentScoreListUko deptName={deptName} scores={studentsScore} />}
         </div>
       </div>

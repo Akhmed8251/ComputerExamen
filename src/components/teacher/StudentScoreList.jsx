@@ -3,10 +3,6 @@ import { Link } from "react-router-dom"
 const StudentScoreList = ({ scores, deptName }) => {
   return (
     <ul className='examen-results__list'>
-        {/* <li className="examen-results__item result-item">
-            <p className="result-item__fio">Носова Елена Андреевна</p>
-            <p className="result-item__score result-item__score--success">93</p>
-        </li> */}
         {
             scores.map(student => 
                 <li key={student.studentId} className="examen-results__item result-item">
@@ -18,14 +14,6 @@ const StudentScoreList = ({ scores, deptName }) => {
                 </li>
             )
         }
-        {/* <li className="examen-results__item result-item">
-            <p className="result-item__fio">Карасева Арина Максимовна</p>
-            <p className="result-item__score result-item__score--failed">21</p>
-        </li>
-        <li className="examen-results__item result-item">
-            <p className="result-item__fio">Зайцева Аврора Артёмовна</p>
-            <p className="result-item__score--missing">Не явился</p>
-        </li> */}
     </ul>
   )
 }

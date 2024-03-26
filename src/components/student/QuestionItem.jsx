@@ -1,9 +1,7 @@
-import { forwardRef, useState } from 'react'
-import Button from '../ui/Button'
+import { useState } from 'react'
 import TextArea from '../ui/TextArea'
-import Input from '../ui/Input'
 
-const QuestionItem = ({ question, answer, onSave, onEdit, isLoading, isDisabledButtons }) => {
+const QuestionItem = ({ question, answer }) => {
   const [textAnswer, setTextAnswer] = useState(answer)
 
   return (
@@ -15,11 +13,6 @@ const QuestionItem = ({ question, answer, onSave, onEdit, isLoading, isDisabledB
                     {question.text}
                 </p>
                 <TextArea onPaste={(evt) => evt.preventDefault() } onChange={(evt) => setTextAnswer(evt.target.value)} className='questions-item__answer-text' value={textAnswer} />
-                {/* {  
-                  answer == ''
-                    ? <Button onClick={() => { onSave(textAnswer) }} className={`questions-item__btn  questions-item__btn--save${isLoading ? ' loading' : ''}${isDisabledButtons ? ' disabled' : ''}`}><span>Сохранить</span></Button>
-                    : <Button onClick={() => { onEdit(textAnswer) }} className={`questions-item__btn questions-item__btn--edit${isLoading ? ' loading' : ''}${isDisabledButtons ? ' disabled' : ''}`}><span>Редактировать</span></Button>
-                } */}
             </div>
         </div>
     </li>

@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import {AuthContext} from "../context";
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
@@ -12,8 +12,6 @@ const LoginAdmin = () => {
 
     const {setIsAuthAdmin, setUserName, setEmployeeId, setAccessToken, setRoleName} = useContext(AuthContext);
 
-    const [loginUser, setLoginUser] = useState(null)
-    const [passwordUser, setPasswordUser] = useState(null)
 
     const redirect = useNavigate()
 
@@ -73,7 +71,7 @@ const LoginAdmin = () => {
                                 render={({field: {onChange}, fieldState: { error }}) => (
                                     <Input 
                                         className={`form__input${error ? ' error' : ''}`}
-                                        onChange={(newValue) => {setLoginUser(newValue); onChange(newValue)}}
+                                        onChange={(newValue) => {onChange(newValue)}}
                                     />
                                 )}
                             />    
@@ -90,7 +88,7 @@ const LoginAdmin = () => {
                                     <Input
                                         type="password" 
                                         className={`form__input${error ? ' error' : ''}`}
-                                        onChange={(newValue) => {setPasswordUser(newValue); onChange(newValue)}}
+                                        onChange={(newValue) => {onChange(newValue)}}
                                     />
                                 )}
                             />    
