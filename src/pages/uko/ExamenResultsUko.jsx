@@ -26,7 +26,7 @@ const ExamenResultsUko = () => {
     const response = await ExamenService.generateExcelFile(examenId)
 
     if (response.status == 200) {
-      window.open(`/Files/${response.data}`, "_blank")
+      window.open(`/files/${response.data}`, "_blank")
     }
   })
 
